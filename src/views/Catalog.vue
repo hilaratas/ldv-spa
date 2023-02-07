@@ -1,0 +1,237 @@
+<template>
+  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Каталог</h1>
+  <div class="catalog">
+    <div class="row row--mt30px">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <a class="catalog__item" href="#">
+          <div class="catalog__img-holder">
+            <div class="catalog__img-inner">
+              <div class="pict">
+                <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                  <picture class="pict__picture">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1366px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1025px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 768px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 576px)">
+                    <source srcset="/example/catalog/catalog_img1.jpg 1x, /example/catalog/full_catalog_img1.jpg 2x" media="(max-width: 575px)">
+                    <img class="pict__img" src="/example/catalog/thumb_catalog_img1.jpg" alt="Флорариум капля">
+                  </picture>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="catalog__text-holder">
+            <div class="catalog__text-inner">
+              <div class="catalog__title">Капля</div>
+              <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                  <div class="catalog__price catalog__price--desk-right">2000 <span class="curr">Р</span></div>
+                </div>
+                <div class="col-auto">
+                  <div class="catalog__old-price catalog__old-price--desk-left">2500 <span class="curr">Р</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="catalog__link-holder">
+              <span class="button button button--blue button--no-radius button--fw">Подробнее</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <a class="catalog__item" href="#">
+          <div class="catalog__img-holder">
+            <div class="catalog__img-inner">
+              <div class="pict">
+                <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                  <picture class="pict__picture">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1366px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1025px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 768px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 576px)">
+                    <source srcset="/example/catalog/catalog_img1.jpg 1x, /example/catalog/full_catalog_img1.jpg 2x" media="(max-width: 575px)">
+                    <img class="pict__img" src="/example/catalog/thumb_catalog_img1.jpg" alt="Флорариум капля">
+                  </picture>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="catalog__label-holder">
+            <div class="catalog__label is-sale">Sale</div>
+            <div class="catalog__label is-for-order">Под заказ</div>
+          </div>
+          <div class="catalog__text-holder">
+            <div class="catalog__text-inner">
+              <div class="catalog__title">Капля</div>
+              <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                  <div class="catalog__price catalog__price--desk-right">2000 <span class="curr">Р</span></div>
+                </div>
+                <div class="col-auto">
+                  <div class="catalog__old-price catalog__old-price--desk-left">2500 <span class="curr">Р</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="catalog__link-holder">
+              <span class="button button button--blue button--no-radius button--fw">Подробнее</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <a class="catalog__item" href="#">
+          <div class="catalog__img-holder">
+            <div class="catalog__img-inner">
+              <div class="pict">
+                <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                  <picture class="pict__picture">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1366px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1025px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 768px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 576px)">
+                    <source srcset="/example/catalog/catalog_img1.jpg 1x, /example/catalog/full_catalog_img1.jpg 2x" media="(max-width: 575px)">
+                    <img class="pict__img" src="/example/catalog/thumb_catalog_img1.jpg" alt="Флорариум капля">
+                  </picture>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="catalog__label-holder">
+            <div class="catalog__label is-new">New</div>
+          </div>
+          <div class="catalog__text-holder">
+            <div class="catalog__text-inner">
+              <div class="catalog__title">4-угольная пирамида с длинным заголовком</div>
+              <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                  <div class="catalog__price catalog__price--desk-right">2000 <span class="curr">Р</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="catalog__link-holder">
+              <span class="button button button--blue button--no-radius button--fw" href="#">Подробнее</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <a class="catalog__item" href="#">
+          <div class="catalog__img-holder">
+            <div class="catalog__img-inner">
+              <div class="pict">
+                <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                  <picture class="pict__picture">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1366px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1025px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 768px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 576px)">
+                    <source srcset="/example/catalog/catalog_img1.jpg 1x, /example/catalog/full_catalog_img1.jpg 2x" media="(max-width: 575px)">
+                    <img class="pict__img" src="/example/catalog/thumb_catalog_img1.jpg" alt="Флорариум капля">
+                  </picture>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="catalog__label-holder">
+            <div class="catalog__label is-new">New</div>
+          </div>
+          <div class="catalog__text-holder">
+            <div class="catalog__text-inner">
+              <div class="catalog__title">4-угольная пирамида</div>
+              <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                  <div class="catalog__price catalog__price--desk-right">2000 <span class="curr">Р</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="catalog__link-holder">
+              <span class="button button button--blue button--no-radius button--fw" href="#">Подробнее</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <a class="catalog__item" href="#">
+          <div class="catalog__img-holder">
+            <div class="catalog__img-inner">
+              <div class="pict">
+                <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                  <picture class="pict__picture">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1366px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1025px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 768px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 576px)">
+                    <source srcset="/example/catalog/catalog_img1.jpg 1x, /example/catalog/full_catalog_img1.jpg 2x" media="(max-width: 575px)">
+                    <img class="pict__img" src="/example/catalog/thumb_catalog_img1.jpg" alt="Флорариум капля">
+                  </picture>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="catalog__label-holder">
+            <div class="catalog__label is-new">New</div>
+          </div>
+          <div class="catalog__text-holder">
+            <div class="catalog__text-inner">
+              <div class="catalog__title">4-угольная пирамида</div>
+              <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                  <div class="catalog__price catalog__price--desk-right">2000 <span class="curr">Р</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="catalog__link-holder">
+              <span class="button button button--blue button--no-radius button--fw" href="#">Подробнее</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <a class="catalog__item" href="#">
+          <div class="catalog__img-holder">
+            <div class="catalog__img-inner">
+              <div class="pict">
+                <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                  <picture class="pict__picture">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1366px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 1025px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 768px)">
+                    <source srcset="/example/catalog/thumb_catalog_img1.jpg 1x, /example/catalog/catalog_img1.jpg 2x" media="(min-width: 576px)">
+                    <source srcset="/example/catalog/catalog_img1.jpg 1x, /example/catalog/full_catalog_img1.jpg 2x" media="(max-width: 575px)">
+                    <img class="pict__img" src="/example/catalog/thumb_catalog_img1.jpg" alt="Флорариум капля">
+                  </picture>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="catalog__label-holder">
+            <div class="catalog__label is-new">New</div>
+          </div>
+          <div class="catalog__text-holder">
+            <div class="catalog__text-inner">
+              <div class="catalog__title">4-угольная пирамида</div>
+              <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                  <div class="catalog__price catalog__price--desk-right">2000 <span class="curr">Р</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="catalog__link-holder">
+              <span class="button button button--blue button--no-radius button--fw" href="#">Подробнее</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Catalog"
+}
+</script>
+
+<style scoped>
+
+</style>
