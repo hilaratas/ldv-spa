@@ -2,7 +2,7 @@
   <article class="text">
     <h1>Ссылки на сверстанные страницы</h1>
     <ul>
-      <li><a href="main.html">Главная</a></li>
+      <li><router-link to="main">Главная</router-link></li>
       <li><router-link to="tech">Технический дизайн</router-link></li>
       <li><router-link to="blocks">Блоки</router-link></li>
       <li><router-link to="news">Новости</router-link>

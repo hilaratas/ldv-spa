@@ -1,8 +1,8 @@
 <template>
   <li class="main-menu__item">
-    <a :href="item.item.link" class="main-menu__link">
+    <router-link :to="item.item.link" class="main-menu__link">
       {{ item.item.text }}
-    </a>
+    </router-link>
     <ul v-if="isFolder">
       <sidebar-left-item
           v-for="(model, index) in item.children"

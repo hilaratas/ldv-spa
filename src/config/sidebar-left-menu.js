@@ -1,23 +1,29 @@
 export default [
   {
-    item: { link: '#', text: "Главная"}
+    item: { link: '/main', text: "Главная"}
   },
   {
-    item: { link: '#', text: "Акции/спецпредложения"},
+    item: { link: '/', text: "Страница с ссылками"}
+  },
+  {
+    item: { link: '/specials_and_actions', text: "Акции/спецпредложения"},
     children: [
-      { item: { link: '#', text: "Акции"} },
-      { item: { link: '#', text: "Спецпредложения"}, }
+      { item: { link: '/specials_and_actions/actions', text: "Акции"} },
+      { item: { link: '/specials_and_actions/specials', text: "Спецпредложения"}, }
     ]
   },
   {
-    item: { link: '#', text: "Каталог"},
+    item: { link: '/catalog', text: "Каталог"},
     children: [
-      { item: { link: '#', text: "Тематические изделия к празднику"} },
-      { item: { link: '#', text: "Еще раздел"} }
+      { item: { link: '/catalog/themed_products', text: "Тематические изделия к празднику"} },
+      { item: { link: '/catalog/others', text: "Еще раздел"} }
     ]
   },
   {
-    item: { link: '#', text: "Контакты"},
-    children: [{ item: { link: '#', text: "Где посмотреть в живую"} }, { item: { link: '#', text: "Еще раздел"} }]
+    item: { link: '/contacts', text: "Контакты"},
+    children: [
+      { item: { link: '/contacts/where to watch', text: "Где посмотреть в живую"} },
+      { item: { link: '/contacts/one_else', text: "Еще раздел"} }
+    ]
   }
 ]

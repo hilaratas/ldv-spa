@@ -11,6 +11,38 @@ const routes = [
     component: Home
   },
   {
+    path: '/main',
+    name: 'Main',
+    component: Home
+  },
+  {
+    path: '/specials_and_actions',
+    name: 'SpecialsAndActions',
+    component: NewsBase,
+    children: [
+      {
+        path: '',
+        component: NewsIndex,
+        name: 'SpecialsAndActionsIndex'
+      },
+      {
+        path: 'actions',
+        component: NewsIndex,
+        name: 'SpecialsAndActionsActions'
+      },
+      {
+        path: 'specials',
+        component: NewsIndex,
+        name: 'SpecialsAndActionsSpecials'
+      },
+      {
+        path: 'add',
+        component: NewsAdd,
+        name: 'SpecialsAndActionsAdd'
+      }
+    ]
+  },
+  {
     path: '/tech',
     name: 'Tech',
     // route level code-splitting
@@ -46,14 +78,38 @@ const routes = [
     component: () => import('../views/Alerts.vue')
   },
   {
-    path: '/contacts',
-    name: 'Contacts',
-    component: () => import('../views/Contacts.vue')
-  },
-  {
     path: '/catalog',
     name: 'Catalog',
-    component: () => import('../views/Catalog.vue')
+    component: () => import('../views/Catalog.vue'),
+    children: [
+      {
+        path: 'themed_products',
+        name: 'Catalog-themed',
+        component: () => import('../views/Contacts.vue')
+      },
+      {
+        path: 'others',
+        name: 'Catalog-others',
+        component: () => import('../views/Contacts.vue')
+      }
+    ]
+  },
+  {
+    path: '/contacts',
+    name: 'Contacts',
+    component: () => import('../views/Contacts.vue'),
+    children: [
+      {
+        path: 'where to watch',
+        name: 'Contacts-where-to-watch',
+        component: () => import('../views/Contacts.vue'),
+      },
+      {
+        path: 'one_else',
+        name: 'Contacts-one-else',
+        component: () => import('../views/Contacts.vue'),
+      }
+    ]
   },
   {
     path: '/product',
@@ -72,7 +128,7 @@ const routes = [
   },
   {
     path: '/cart-dostavka',
-    name: 'CartDostavka',
+    name: 'Cart-Dostavka',
     component: () => import('../views/CartDostavka.vue')
   }
 ]

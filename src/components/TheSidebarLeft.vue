@@ -26,7 +26,7 @@ export default {
   name: "TheSidebarLeft",
   data() {
     return {
-      mainMenu: sidebarLeftMenu
+      mainMenu: {...sidebarLeftMenu}
     }
   },
   components: { SidebarLeftItem }
