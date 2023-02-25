@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import NewsBase from '../views/news/Base'
+import NewsIndex from '../views/news/Index'
+import NewsAdd from '../views/news/Add'
 
 const routes = [
   {
@@ -23,7 +26,19 @@ const routes = [
   {
     path: '/news',
     name: 'News',
-    component: () => import('../views/News.vue')
+    component: NewsBase,
+    children: [
+      {
+        path: '',
+        component: NewsIndex,
+        name: 'news-index'
+      },
+      {
+        path: 'add',
+        component: NewsAdd,
+        name: 'news-add'
+      }
+    ]
   },
   {
     path: '/alerts',

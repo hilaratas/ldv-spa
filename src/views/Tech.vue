@@ -189,7 +189,7 @@
                   </div>
                   <div class="form__row">
                     <div class="select">
-                      <select name="month">
+                      <select name="month" class="select__select">
                         <option value="2016" selected disabled>Выберите месяц</option>
                         <option value="2015">2015</option>
                         <option value="2014">2014</option>
@@ -212,7 +212,7 @@
                   </div>
                   <div class="form__row">
                     <div class="select select--fill">
-                      <select name="month">
+                      <select name="month" class="select__select">
                         <option value="2016" selected disabled>Выберите месяц</option>
                         <option value="2015">2015</option>
                         <option value="2014">2014</option>
@@ -241,7 +241,7 @@
                   </div>
                   <div class="form__row">
                     <div class="select select--small">
-                      <select name="month">
+                      <select name="month" class="select__select--small">
                         <option value="2016" selected disabled>Выберите месяц</option>
                         <option value="2015">2015</option>
                         <option value="2014">2014</option>
@@ -264,7 +264,7 @@
                   </div>
                   <div class="form__row">
                     <div class="select select--small select--fill">
-                      <select name="month">
+                      <select name="month" class="select__select--small">
                         <option value="2016" selected disabled>Выберите месяц</option>
                         <option value="2015">2015</option>
                         <option value="2014">2014</option>

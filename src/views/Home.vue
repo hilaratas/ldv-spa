@@ -5,7 +5,11 @@
       <li><a href="main.html">Главная</a></li>
       <li><router-link to="tech">Технический дизайн</router-link></li>
       <li><router-link to="blocks">Блоки</router-link></li>
-      <li><router-link to="news">Новости</router-link></li>
+      <li><router-link to="news">Новости</router-link>
+        <ul>
+          <li><router-link to="news/add">Добавить новость</router-link></li>
+        </ul>
+      </li>
       <li><router-link to="alerts">Алерты</router-link></li>
       <li><router-link to="contacts">Контакты</router-link></li>
       <li><a href="blocks">Все блоки</a></li>

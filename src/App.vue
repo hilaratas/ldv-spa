@@ -10,6 +10,7 @@
               </button>
             </div>
             <div class="header__middle">
+
               <div class="header__middle-inner">
                 <the-soc></the-soc>
               </div>
@@ -29,6 +30,7 @@
 
       <div class="page__middle">
         <div class="page__middle-inner">
+          <app-alerts></app-alerts>
           <div class="section section--index">
             <div class="pretty-decor">
               <div class="pretty-decor__inner">
@@ -72,6 +74,7 @@ import TheSidebarLeft from '@/components/TheSidebarLeft'
 import TheBreadcrumbs from "@/components/TheBreadcrumbs";
 import TheSoc from '@/components/TheSoc'
 import TheFooter from '@/components/TheFooter'
+import AppAlerts from "@/components/AppAlerts";
 
 export default {
   name: 'Home',
@@ -84,7 +87,7 @@ export default {
       html.classList.toggle('is-main-menu-open')
     }
   },
-  components: {TheSidebarLeft, TheBreadcrumbs, TheFooter, TheSoc}
+  components: {TheSidebarLeft, TheBreadcrumbs, TheFooter, TheSoc, AppAlerts}
 }
 </script>
 
