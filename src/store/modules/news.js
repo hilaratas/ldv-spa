@@ -15,8 +15,7 @@ export default {
   actions: {
     async createNews({commit, dispatch}, payload) {
       try {
-        const response = await http.post('/news.json1', payload)
-        console.log(response)
+        const response = await http.post('/news.json', payload)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
           text: 'Новость успешно добавлена',
@@ -24,6 +23,7 @@ export default {
           closable: true,
           autoClosable: false
         }, {root: true})
+        return true
       } catch (e) {
         dispatch('alerts/alertAdd', {
           id: Date.now(),
@@ -32,7 +32,23 @@ export default {
           closable: true,
           autoClosable: false
         }, {root: true})
-        throw new Error()
+        return false
+        //throw new Error()
+      }
+    },
+    async fetchNews({dispatch}) {
+      try {
+        const {data} = await http.get('/news.json')
+        const news = Object.keys(data).map(id => ({...data[id], id}))
+        return news
+      } catch (e) {
+        dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: 'Ошибка ответа от сервера при получении новостей',
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        }, {root: true})
       }
     }
   },

@@ -56,7 +56,7 @@ const routes = [
     component: () => import('../views/Blocks.vue')
   },
   {
-    path: '/news',
+    path: '/news/',
     name: 'News',
     component: NewsBase,
     children: [
@@ -64,6 +64,11 @@ const routes = [
         path: '',
         component: NewsIndex,
         name: 'news-index'
+      },
+      {
+        path: ':id',
+        component: NewsIndex,
+        name: 'news-index-id'
       },
       {
         path: 'add',

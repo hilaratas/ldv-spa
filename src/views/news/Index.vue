@@ -1,100 +1,34 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</h1>
-  <div class="about">
-    <div class="about__list">
-      <div class="about__item">
-        <div class="about__bl">
-          <div class="about__img-holder">
-            <div class="about__img-wrapper">
-              <div class="about__img-empty"></div>
-              <div class="about__img-wrapper2">
-                <picture class="about__pict">
-                  <!-- <source type="image/webp" srcset="/example/about__ofice.webp"> -->
-                  <img src="/example/about__ofice.jpg" alt="" class="about__img">
-                </picture>
-              </div>
-            </div>
-          </div>
-          <div class="about__text-holder">
-            <div class="about__text-wrapper">
-              <div class="about__title">
-                К празднику 8 марта наш катаог пополнился новыми изделиями.
-              </div>
-              <div class="about__text">
-                Специально для дам мы подготовили аксессуары нежного дизайна
-              </div>
-              <div class="about__link-holder">
-                <a href="#" class="button button--blue button--no-radius">Подробнее</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="about__item">
-        <div class="about__bl">
-          <div class="about__img-holder">
-            <div class="about__img-wrapper">
-              <div class="about__img-empty"></div>
-              <div class="about__img-wrapper2">
-                <picture class="about__pict">
-                  <!-- <source type="image/webp" srcset="/example/about__podarok.webp"> -->
-                  <img src="/example/about__podarok.jpg" alt="" class="about__img">
-                </picture>
-              </div>
-            </div>
-          </div>
-          <div class="about__text-holder">
-            <div class="about__text-wrapper">
-              <div class="about__title">
-                Ко дня всех влюбленых наши творческое ребята создали изделие в фоме сердца.
-
-              </div>
-              <div class="about__text">
-                Работа была кропотливой. Что из этого получилось, читайте далее...
-              </div>
-              <div class="about__link-holder">
-                <a href="#" class="button button--blue button--no-radius">Подробнее</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="about__item">
-        <div class="about__bl">
-          <div class="about__img-holder">
-            <div class="about__img-wrapper">
-              <div class="about__img-empty"></div>
-              <div class="about__img-wrapper2">
-                <picture class="about__pict">
-                  <!-- <source type="image/webp" srcset="/example/about__interer.webp"> -->
-                  <img src="/example/about__interer.jpg" alt="" class="about__img">
-                </picture>
-              </div>
-            </div>
-          </div>
-          <div class="about__text-holder">
-            <div class="about__text-wrapper">
-              <div class="about__title">
-                Для Нового года
-              </div>
-              <div class="about__text">
-                Новый год - очень антуражный праздник. <br>
-                Новогодняя атмосфера замотивировала нас создать что-то новогоднее и стеклянное.
-              </div>
-              <div class="about__link-holder">
-                <a href="#" class="button button--blue button--no-radius">Подробнее</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <template v-if="$route.params.id">
+    <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</h1>
+    <h1>{{$route.params.id}}</h1>
+  </template>
+  <template v-else>
+    <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</h1>
+    <news-list :news="news"></news-list>
+  </template>
 </template>
 
 <script>
+import NewsList from '@/components/News/NewsList'
+import {mapActions} from 'vuex';
+
 export default {
-  name: "News"
+  name: "News",
+  data: function() {
+    return {
+      news: []
+    }
+  },
+  async mounted() {
+    if ( !this.$route.params.id ) {
+      this.news = await this.fetchNews()
+    }
+  },
+  methods: {
+    ...mapActions('news', ['fetchNews'])
+  },
+  components: { NewsList }
 }
 </script>
 
