@@ -1,10 +1,10 @@
 <template>
+  <div class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</div>
   <template v-if="$route.params.id">
-    <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</h1>
     <h1>{{$route.params.id}}</h1>
+    <router-link :to=" '/news/edit/' + $route.params.id" class="button button--blue">Редактировать новость</router-link>
   </template>
   <template v-else>
-    <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</h1>
     <news-list :news="news"></news-list>
   </template>
 </template>

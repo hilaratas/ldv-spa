@@ -8,6 +8,7 @@
       <li><router-link to="news">Новости</router-link>
         <ul>
           <li><router-link to="news/add">Добавить новость</router-link></li>
+          <li><router-link to="news/edit/id">Редактировать новость</router-link></li>
         </ul>
       </li>
       <li><router-link to="alerts">Алерты</router-link></li>
@@ -31,6 +32,5 @@
 
 export default {
   name: 'Home'
-
 }
 </script>

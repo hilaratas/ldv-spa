@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import NewsBase from '../views/news/Base'
 import NewsIndex from '../views/news/Index'
 import NewsAdd from '../views/news/Add'
+import NewsEdit from '../views/news/Edit'
 
 const routes = [
   {
@@ -74,6 +75,11 @@ const routes = [
         path: 'add',
         component: NewsAdd,
         name: 'news-add'
+      },
+      {
+        path: 'edit/:id',
+        component: NewsEdit,
+        name: 'news-edit'
       }
     ]
   },

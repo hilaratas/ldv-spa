@@ -54,3 +54,25 @@
 .control-description {
     font-size: 13px;
 }
+
+.loading {
+    position: absolute;
+    top: 100px;
+    left: calc( 50% - 20px);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #554A46;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    animation: rotate 1s linear 0s infinite normal forwards;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
