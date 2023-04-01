@@ -37,10 +37,8 @@ export default {
       }
     },
     async editOneNewsById({dispatch}, payload) {
-      console.log(payload)
       try {
         const {data} = await http.put(`/news/${payload.id}.json`, payload)
-        console.log(data)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
           text: 'Новость успешно отредактирована',
