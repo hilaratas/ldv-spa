@@ -3,53 +3,25 @@
   <form action="#" id="news" class="form" @submit.prevent="onSubmit">
     <table class="form__table">
       <tbody>
-      <tr>
-        <td class="form__table-cell form__table-cell--pr15px">
-          <label class="nowrap" for="news-img">Ссылка на картинку</label>
-        </td>
-        <td class="form__table-cell form__table-cell--wide">
-          <input
-              class="input"
-              name="news-img"
-              id="news-img" v-model="img" aria-describedby="news-img-disc">
-        </td>
-      </tr>
-      <tr>
-        <td class="form__table-cell"></td>
-        <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-          <small class="control-description" id="news-img-desc">
-            Поле НЕобязательно к заполнению. Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
-            <br>
-            Вес картинки не более 2Мб
-          </small>
-        </td>
-      </tr>
-      <tr>
-        <td class="form__table-cell form__table-cell--pr15px">
-          <label class="nowrap" for="news-title">Заголовок новости *</label>
-        </td>
-        <td class="form__table-cell form__table-cell--wide">
-          <input
-              class="input"
-              name="news-title"
-              id="news-title"
-              v-model="title"
-              aria-describedby="news-title-disc"
-              @input="v$.title.$touch"
-          >
-          <div class="control-error" v-if="v$.title.$errors.length">
-            <div v-for="error of v$.title.$errors">
-              <div>{{ error.$message }}</div>
-            </div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="form__table-cell"></td>
-        <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-          <small class="control-description" id="news-title-desc">Поле обязательно к заполнению</small>
-        </td>
-      </tr>
+      <news-input-row
+        formName="news"
+        inputName="news-img"
+        label="Ссылку на картинку"
+        description="Поле НЕобязательно к заполнению. Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
+        <br> Вес картинки не более 2Мб"
+        v-model:controlValue="img"
+        :errors="[]"
+      >
+      </news-input-row>
+      <news-input-row
+        formName="news"
+        inputName="news-title"
+        label="Заголовок новости *"
+        description="Поле обязательно к заполнению"
+        v-model:controlValue="title"
+        :errors="v$.title.$errors"
+      >
+      </news-input-row>
       <tr>
         <td class="form__table-cell form__table-cell--pr15px">
           <label class="nowrap" for="news-preview">Превью новости *</label>
@@ -118,6 +90,7 @@ import {mapActions} from 'vuex'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import Editor from '@tinymce/tinymce-vue'
+import NewsInputRow from "@/components/News/NewsInputRow";
 
 export default {
   name: "Add",
@@ -151,8 +124,6 @@ export default {
     },
     async onSubmit() {
       this.v$.$touch()
-      console.log(this.text)
-      return
       if (this.v$.$error) {
         return;
       }
@@ -168,7 +139,7 @@ export default {
       }
     }
   },
-  components: { Editor }
+  components: { Editor, NewsInputRow }
 }
 </script>
 
