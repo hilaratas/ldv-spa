@@ -87,16 +87,7 @@
               <label class="nowrap" for="news-text">Текст новости *</label>
             </td>
             <td class="form__table-cell form__table-cell--wide">
-          <textarea
-              class="textarea"
-              name="news-text"
-              id="news-text"
-              aria-describedby="news-text-disc"
-              v-model="article.text"
-              rows="10"
-              @input="v$.article.text.$touch"
-          >
-          </textarea>
+              <editor v-model="article.text" :api-key="tinymceKey"></editor>
               <div class="control-error" v-if="v$.article.text.$errors.length">
                 <div v-for="error of v$.article.text.$errors">
                   <div>{{ error.$message }}</div>
@@ -133,19 +124,19 @@
 import {mapActions} from 'vuex'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import Editor from '@tinymce/tinymce-vue'
 
 export default {
   name: "Edit",
   setup () {
     return { v$: useVuelidate() }
   },
-  data: function () {
-    return {
+  data: () => ({
       id: '',
       loading: true,
-      article: null
-    }
-  },
+      article: null,
+      tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
+  }),
   validations() {
     return {
       article: {
@@ -176,7 +167,8 @@ export default {
         this.resetForm()
       }
     }
-  }
+  },
+  components: { Editor }
 }
 </script>
 
