@@ -54,7 +54,7 @@ export default {
     },
     controlValue: {
       type: String,
-      required: false
+      required: true
     }
   },
   computed: {

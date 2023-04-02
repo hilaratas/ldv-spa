@@ -7,8 +7,9 @@
         formName="news"
         inputName="news-img"
         label="Ссылку на картинку"
-        description="Поле НЕобязательно к заполнению. Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
-        <br> Вес картинки не более 2Мб"
+        description="Поле НЕобязательно к заполнению.
+          Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
+          <br> Вес картинки не более 2Мб"
         v-model:controlValue="img"
         :errors="[]"
       >
@@ -27,16 +28,7 @@
           <label class="nowrap" for="news-preview">Превью новости *</label>
         </td>
         <td class="form__table-cell form__table-cell--wide">
-          <textarea
-              class="textarea"
-              name="news-preview"
-              id="news-preview"
-              aria-describedby="news-preview-disc"
-              v-model="preview"
-              rows="2"
-              @input="v$.preview.$touch"
-          >
-          </textarea>
+          <editor v-model="preview" :api-key="tinymceKey"></editor>
           <div class="control-error" v-if="v$.preview.$errors.length">
             <div v-for="error of v$.preview.$errors">
               <div>{{ error.$message }}</div>

@@ -4,113 +4,79 @@
   <template v-else>
     <div v-if="!article">Новости с id = {{id}} не существует</div>
     <template v-else>
-      <form action="#" id="news" class="form" @submit.prevent="onSubmit">
+      <form action="#" id="news-edit" class="form" @submit.prevent="onSubmit">
         <table class="form__table">
           <tbody>
-          <tr>
-            <td class="form__table-cell form__table-cell--pr15px">
-              <label class="nowrap" for="news-img">Ссылка на картинку</label>
-            </td>
-            <td class="form__table-cell form__table-cell--wide">
-              <input
-                  class="input"
-                  name="news-img"
-                  id="news-img" v-model="article.img" aria-describedby="news-img-disc">
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell"></td>
-            <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-              <small class="control-description" id="news-img-desc">
-                Поле НЕобязательно к заполнению. Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
-                <br>
-                Вес картинки не более 2Мб
-              </small>
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell form__table-cell--pr15px">
-              <label class="nowrap" for="news-title">Заголовок новости *</label>
-            </td>
-            <td class="form__table-cell form__table-cell--wide">
-              <input
-                  class="input"
-                  name="news-title"
-                  id="news-title"
-                  v-model="article.title"
-                  aria-describedby="news-title-disc"
-                  @input="v$.article.title.$touch"
-              >
-              <div class="control-error" v-if="v$.article.title.$errors.length">
-                <div v-for="error of v$.article.title.$errors">
-                  <div>{{ error.$message }}</div>
+            <news-input-row
+                label="Ссылка на картинку"
+                input-name="news-img"
+                form-name="news-edit"
+                description="Поле НЕобязательно к заполнению. Картинка в формате jpg, png, svg, webp.
+                  Размер картинки не более 800*800px.
+                  <br> Вес картинки не более 2Мб"
+                :errors="[]"
+                v-model:controlValue="img"
+            >
+            </news-input-row>
+            <news-input-row
+                label="Заголовок новости *"
+                input-name="news-title"
+                form-name="news-edit"
+                description="Поле НЕобязательно к заполнению. Картинка в формате jpg, png, svg, webp.
+                  Размер картинки не более 800*800px.
+                  <br> Вес картинки не более 2Мб"
+                :errors="v$.article.title.$errors"
+                v-model:controlValue="article.title"
+            >
+            </news-input-row>
+            <tr>
+              <td class="form__table-cell form__table-cell--pr15px">
+                <label class="nowrap" for="news-preview">Превью новости *</label>
+              </td>
+              <td class="form__table-cell form__table-cell--wide">
+                <editor v-model="article.preview" :api-key="tinymceKey"></editor>
+                <div class="control-error" v-if="v$.article.preview.$errors.length">
+                  <div v-for="error of v$.article.preview.$errors">
+                    <div>{{ error.$message }}</div>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell"></td>
-            <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-              <small class="control-description" id="news-title-desc">Поле обязательно к заполнению</small>
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell form__table-cell--pr15px">
-              <label class="nowrap" for="news-preview">Превью новости *</label>
-            </td>
-            <td class="form__table-cell form__table-cell--wide">
-          <textarea
-              class="textarea"
-              name="news-preview"
-              id="news-preview"
-              aria-describedby="news-preview-disc"
-              v-model="article.preview"
-              rows="2"
-              @input="v$.article.preview.$touch"
-          >
-          </textarea>
-              <div class="control-error" v-if="v$.article.preview.$errors.length">
-                <div v-for="error of v$.article.preview.$errors">
-                  <div>{{ error.$message }}</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="form__table-cell"></td>
+              <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
+                <small class="control-description" id="news-preview-disc">Поле обязательно к заполнению</small>
+              </td>
+            </tr>
+            <tr>
+              <td class="form__table-cell form__table-cell--pr15px">
+                <label class="nowrap" for="news-text">Текст новости *</label>
+              </td>
+              <td class="form__table-cell form__table-cell--wide">
+                <editor v-model="article.text" :api-key="tinymceKey"></editor>
+                <div class="control-error" v-if="v$.article.text.$errors.length">
+                  <div v-for="error of v$.article.text.$errors">
+                    <div>{{ error.$message }}</div>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell"></td>
-            <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-              <small class="control-description" id="news-preview-disc">Поле обязательно к заполнению</small>
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell form__table-cell--pr15px">
-              <label class="nowrap" for="news-text">Текст новости *</label>
-            </td>
-            <td class="form__table-cell form__table-cell--wide">
-              <editor v-model="article.text" :api-key="tinymceKey"></editor>
-              <div class="control-error" v-if="v$.article.text.$errors.length">
-                <div v-for="error of v$.article.text.$errors">
-                  <div>{{ error.$message }}</div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell"></td>
-            <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-              <small class="control-description" id="news-text-disc">Поле обязательно к заполнению</small>
-            </td>
-          </tr>
-          <tr>
-            <td class="form__table-cell"><label class="nowrap" for="news-title"></label></td>
-            <td class="form__table-cell form__table-cell--wide"></td>
-          </tr>
-          <tr>
-            <td class="form__table-cell"></td>
-            <td class="form__table-cell form__table-cell--wide">
-              <button type="submit" class="button" >Отправить</button>
-            </td>
-          </tr>
+              </td>
+            </tr>
+            <tr>
+              <td class="form__table-cell"></td>
+              <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
+                <small class="control-description" id="news-text-disc">Поле обязательно к заполнению</small>
+              </td>
+            </tr>
+            <tr>
+              <td class="form__table-cell"><label class="nowrap" for="news-title"></label></td>
+              <td class="form__table-cell form__table-cell--wide"></td>
+            </tr>
+            <tr>
+              <td class="form__table-cell"></td>
+              <td class="form__table-cell form__table-cell--wide">
+                <button type="submit" class="button" >Отправить</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </form>
@@ -125,6 +91,7 @@ import {mapActions} from 'vuex'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import Editor from '@tinymce/tinymce-vue'
+import NewsInputRow from "@/components/News/NewsInputRow";
 
 export default {
   name: "Edit",
@@ -133,6 +100,7 @@ export default {
   },
   data: () => ({
       id: '',
+      img: '',
       loading: true,
       article: null,
       tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
@@ -148,7 +116,14 @@ export default {
   },
   async mounted() {
     this.id = this.$route.params.id
-    this.article = await this.fetchOneNewsById(this.id)
+    //this.article = await this.fetchOneNewsById(this.id)
+    let data = await this.fetchOneNewsById(this.id)
+    this.img = data.img
+    this.article = {
+      title: data.title,
+      preview: data.preview,
+      text: data.text
+    }
     this.loading = false
   },
   methods: {
@@ -162,13 +137,17 @@ export default {
         return;
       }
 
-      const res = await this.editOneNewsById({id: this.id, ...this.article})
+      const res = await this.editOneNewsById({
+        id: this.id,
+        img: this.img,
+        ...this.article}
+      )
       if (res) {
         this.resetForm()
       }
     }
   },
-  components: { Editor }
+  components: { Editor, NewsInputRow }
 }
 </script>
 
