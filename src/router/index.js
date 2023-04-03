@@ -1,10 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import NewsBase from '../views/news/Base'
-import NewsIndex from '../views/news/Index'
-import NewsOne from '../views/news/One'
-import NewsAdd from '../views/news/Add'
-import NewsEdit from '../views/news/Edit'
+import Articles from '../views/Articles'
 
 const routes = [
   {
@@ -20,26 +16,26 @@ const routes = [
   {
     path: '/specials_and_actions',
     name: 'SpecialsAndActions',
-    component: NewsBase,
+    component: Articles,
     children: [
       {
         path: '',
-        component: NewsIndex,
+        component: () => import('../views/article/ArticleList.vue'),
         name: 'SpecialsAndActionsIndex'
       },
       {
         path: 'actions',
-        component: NewsIndex,
+        component: () => import('../views/article/ArticleList.vue'),
         name: 'SpecialsAndActionsActions'
       },
       {
         path: 'specials',
-        component: NewsIndex,
+        component: () => import('../views/article/ArticleList.vue'),
         name: 'SpecialsAndActionsSpecials'
       },
       {
         path: 'add',
-        component: NewsAdd,
+        component: () => import('../views/article/ArticleAdd.vue'),
         name: 'SpecialsAndActionsAdd'
       }
     ]
@@ -60,27 +56,27 @@ const routes = [
   {
     path: '/news/',
     name: 'News',
-    component: NewsBase,
+    component: Articles,
     children: [
       {
         path: '',
-        component: NewsIndex,
-        name: 'news-index'
+        component: () => import('../views/article/ArticleList.vue'),
+        name: 'article-index'
       },
       {
         path: ':id',
-        component: NewsOne,
-        name: 'news-index-id'
+        component: () => import('../views/article/Article.vue'),
+        name: 'article-index-id'
       },
       {
         path: 'add',
-        component: NewsAdd,
-        name: 'news-add'
+        component: () => import('../views/article/ArticleAdd.vue'),
+        name: 'article-add'
       },
       {
         path: 'edit/:id',
-        component: NewsEdit,
-        name: 'news-edit'
+        component: () => import('../views/article/ArticleEdit.vue'),
+        name: 'article-edit'
       }
     ]
   },
