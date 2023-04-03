@@ -1,32 +1,34 @@
 <template>
   <div class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</div>
-  <template v-if="$route.params.id">
-    <h1>{{$route.params.id}}</h1>
-    <router-link :to=" '/news/edit/' + $route.params.id" class="button button--blue">Редактировать новость</router-link>
-  </template>
+  <app-loading :loading="loading" v-if="loading"></app-loading>
   <template v-else>
-    <news-list :news="news"></news-list>
+    <div v-if="!news">
+      На данный момент лента новостей пуста
+    </div>
+    <news-list :news="news" v-else></news-list>
   </template>
+
 </template>
 
 <script>
 import NewsList from '@/components/News/NewsList'
+import AppLoading from "@/components/AppLoading";
 import {mapActions} from 'vuex';
 
 export default {
   name: "News",
   data: () => ({
-      news: []
+      news: [],
+      loading: true
   }),
   async mounted() {
-    if ( !this.$route.params.id ) {
-      this.news = await this.fetchNews()
-    }
+    this.news = await this.fetchNews()
+    this.loading = false
   },
   methods: {
     ...mapActions('news', ['fetchNews'])
   },
-  components: { NewsList }
+  components: { NewsList, AppLoading }
 }
 </script>
 

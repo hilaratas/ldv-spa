@@ -61,8 +61,11 @@ export default {
     async fetchNews({dispatch}) {
       try {
         const {data} = await http.get('/news.json')
-        const news = Object.keys(data).map(id => ({...data[id], id}))
-        return news
+        if (data) {
+          const news = Object.keys(data).map(id => ({...data[id], id}))
+          return news
+        }
+        return false
       } catch (e) {
         dispatch('alerts/alertAdd', {
           id: Date.now(),
