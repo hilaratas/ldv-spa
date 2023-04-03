@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import NewsBase from '../views/news/Base'
 import NewsIndex from '../views/news/Index'
+import NewsOne from '../views/news/One'
 import NewsAdd from '../views/news/Add'
 import NewsEdit from '../views/news/Edit'
 
@@ -68,7 +69,7 @@ const routes = [
       },
       {
         path: ':id',
-        component: NewsIndex,
+        component: NewsOne,
         name: 'news-index-id'
       },
       {

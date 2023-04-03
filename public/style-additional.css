@@ -68,6 +68,14 @@
     animation: rotate 1s linear 0s infinite normal forwards;
 }
 
+.figure {
+    margin-bottom: 20px;
+}
+
+.figure__caption {
+    font-size: 13px;
+}
+
 @keyframes rotate {
     0% {
         transform: rotate(0);

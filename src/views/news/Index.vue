@@ -15,11 +15,9 @@ import {mapActions} from 'vuex';
 
 export default {
   name: "News",
-  data: function() {
-    return {
+  data: () => ({
       news: []
-    }
-  },
+  }),
   async mounted() {
     if ( !this.$route.params.id ) {
       this.news = await this.fetchNews()
