@@ -57,6 +57,9 @@ const routes = [
     path: '/news/',
     name: 'News',
     component: Articles,
+    meta: {
+      tableName: 'news'
+    },
     children: [
       {
         path: '',

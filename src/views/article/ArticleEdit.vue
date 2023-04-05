@@ -116,8 +116,12 @@ export default {
   },
   async mounted() {
     this.id = this.$route.params.id
-    //this.article = await this.fetchOneNewsById(this.id)
-    let data = await this.fetchOneNewsById(this.id)
+    const tableName = this.$route.meta.tableName
+    const payload = {
+      id: this.id,
+      tableName
+    }
+    let data = await this.fetchOneNewsById(payload)
     this.img = data.img
     this.article = {
       title: data.title,
@@ -132,6 +136,7 @@ export default {
       this.v$.$reset();
     },
     async onSubmit() {
+      const tableName = this.$route.meta.tableName
       this.v$.$touch()
       if (this.v$.$error) {
         return;
@@ -140,6 +145,7 @@ export default {
       const res = await this.editOneNewsById({
         id: this.id,
         img: this.img,
+        tableName,
         ...this.article}
       )
       if (res) {

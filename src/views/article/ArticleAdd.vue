@@ -115,6 +115,7 @@ export default {
       this.v$.$reset();
     },
     async onSubmit() {
+      const tableName = this.$route.meta.tableName
       this.v$.$touch()
       if (this.v$.$error) {
         return;
@@ -124,7 +125,8 @@ export default {
         img: this.img,
         title: this.title,
         preview: this.preview,
-        text: this.text
+        text: this.text,
+        tableName
       })
       if (res) {
         this.resetForm()

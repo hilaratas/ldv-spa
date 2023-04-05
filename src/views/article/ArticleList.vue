@@ -22,7 +22,8 @@ export default {
       loading: true
   }),
   async mounted() {
-    this.news = await this.fetchNews()
+    const tableName = this.$route.meta.tableName
+    this.news = await this.fetchNews(tableName)
     this.loading = false
   },
   methods: {

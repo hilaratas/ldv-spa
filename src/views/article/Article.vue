@@ -41,7 +41,11 @@ export default {
     ...mapActions('news', ['fetchOneNewsById'])
   },
   async mounted() {
-    const data = await this.fetchOneNewsById(this.id)
+    const payload = {
+      id: this.id,
+      tableName: this.$route.meta.tableName
+    }
+    const data = await this.fetchOneNewsById(payload)
     this.loading = false
 
     if (!data) {
