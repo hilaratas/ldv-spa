@@ -3,7 +3,7 @@
   <app-loading :loading="loading" v-if="loading"></app-loading>
   <template v-else>
     <div v-if="!news">
-      На данный момент лента новостей пуста
+      На данный момент акций и спецпредложний нет
     </div>
     <news-list :news="news" v-else></news-list>
   </template>

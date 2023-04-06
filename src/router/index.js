@@ -17,10 +17,13 @@ const routes = [
     path: '/specials_and_actions',
     name: 'SpecialsAndActions',
     component: Articles,
+    meta: {
+      tableName: 'specials_and_actions'
+    },
     children: [
       {
         path: '',
-        component: () => import('../views/article/ArticleList.vue'),
+        component: () => import('../views/article/SpecialList.vue'),
         name: 'SpecialsAndActionsIndex'
       },
       {
