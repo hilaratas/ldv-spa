@@ -69,14 +69,15 @@
   </div>
 </template>
 
-<script>
-import TheSidebarLeft from '@/components/TheSidebarLeft'
-import TheBreadcrumbs from "@/components/TheBreadcrumbs";
-import TheSoc from '@/components/TheSoc'
-import TheFooter from '@/components/TheFooter'
-import AppAlerts from "@/components/AppAlerts";
+<script lang="ts">
+import {defineComponent} from "vue";
+import TheSidebarLeft from '@/components/TheSidebarLeft.vue'
+import TheBreadcrumbs from "@/components/TheBreadcrumbs.vue";
+import TheSoc from '@/components/TheSoc.vue'
+import TheFooter from '@/components/TheFooter.vue'
+import AppAlerts from "@/components/AppAlerts.vue";
 
-export default {
+export default defineComponent({
   name: 'Home',
   data:() => ({
     isMainMenuOpen: false
@@ -88,7 +89,7 @@ export default {
     }
   },
   components: {TheSidebarLeft, TheBreadcrumbs, TheFooter, TheSoc, AppAlerts}
-}
+})
 </script>
 
 <style lang="scss">

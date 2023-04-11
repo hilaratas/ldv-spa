@@ -1,6 +1,7 @@
 import http from '@/http'
+import { Module } from "vuex";
 
-export default {
+export const news: Module<any, any> = {
   namespaced: true,
   state: {
     news: []
@@ -17,8 +18,7 @@ export default {
       try {
         const {data} = await http.get(`/${tableName}.json`)
         if (data) {
-          const news = Object.keys(data).map(id => ({...data[id], id}))
-          return news
+          return Object.keys(data).map(id => ({...data[id], id}))
         }
         return false
       } catch (e) {
@@ -39,7 +39,7 @@ export default {
         const tableName = payload.tableName
         const article = {...payload}
         delete article.tableName
-        const response = await http.post(`/${tableName}.json`, article)
+        await http.post(`/${tableName}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
           text: 'Новость успешно добавлена',
@@ -65,7 +65,7 @@ export default {
         const tableName = payload.tableName
         const article = {...payload}
         delete article.tableName
-        const {data} = await http.put(`/${tableName}/${article.id}.json`, article)
+        await http.put(`/${tableName}/${article.id}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
           text: 'Новость успешно отредактирована',
