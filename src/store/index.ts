@@ -1,8 +1,9 @@
-import { createStore } from 'vuex'
+import {createStore, Store} from 'vuex'
+import { RootState } from './types';
 import {news} from './modules/news'
-import alerts from './modules/alerts.js'
+import {alerts} from './modules/alerts'
 
-export default createStore({
+export default createStore ({
   state: {
   },
   mutations: {

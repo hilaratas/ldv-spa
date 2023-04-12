@@ -1,7 +1,8 @@
 import http from '@/http'
 import { Module } from "vuex";
+import {RootState} from '@/store/types'
 
-export const news: Module<any, any> = {
+export const news: Module<any, RootState> = {
   namespaced: true,
   state: {
     news: []
@@ -86,9 +87,9 @@ export const news: Module<any, any> = {
       }
     },
     async fetchOneNewsById({dispatch}, payload) {
+      const tableName = payload.tableName
+      const id = payload.id
       try {
-        const tableName = payload.tableName
-        const id = payload.id
         const {data} = await http.get(`/${tableName}/${id}.json`)
         return data
       } catch (e) {

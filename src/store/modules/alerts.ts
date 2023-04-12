@@ -1,4 +1,6 @@
-export default {
+import { Module } from "vuex";
+
+export const alerts: Module<any, any> = {
   namespaced: true,
   state: {
     alerts: []
@@ -10,23 +12,23 @@ export default {
     // type: Array['none', 'primary', 'success', 'error']
     // closable: Boolean
     // autoClosable: Boolean
-   alerts(state) {
+   alerts(state: any) {
      return state.alerts
    }
   },
   mutations: {
-    alertAdd(state, newAlert) {
+    alertAdd(state: any, newAlert: any) {
       state.alerts.push(newAlert)
     },
-    alertRemove(state, {id}) {
-      state.alerts = state.alerts.filter(alert => +alert.id !== +id)
+    alertRemove(state: any, {id}) {
+      state.alerts = state.alerts.filter((alert: any) => +alert.id !== +id)
     }
   },
   actions: {
-    alertAdd({commit}, newAlert) {
+    alertAdd({commit}, newAlert: any) {
       commit('alertAdd',newAlert)
     },
-    alertRemove({commit}, alert) {
+    alertRemove({commit}, alert: any) {
       commit('alertRemove', alert)
     }
 
