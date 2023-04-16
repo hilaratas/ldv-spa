@@ -1,7 +1,9 @@
-export interface News {
-    id: string,
-    img: string,
-    preview: string,
-    text: string,
-    title: string
+type ArticleTypes = 'id' | 'img' | 'preview' | 'text' | 'title'
+
+export interface Article {
+    [key: ArticleTypes]: 'string'
+}
+
+export interface ArticleTable extends Article {
+    tableName? : string
 }

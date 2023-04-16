@@ -1,21 +1,24 @@
 import http from '@/http'
-import { Module } from "vuex";
+import {Module} from "vuex";
 import {RootState} from '@/store/types'
+import {NewsState} from "@/store/news/types";
+import {getters} from "@/store/news/getters";
+import {Article, ArticleTable} from "@/typings";
 
-export const news: Module<any, RootState> = {
+export const news: Module<NewsState, RootState> = {
   namespaced: true,
   state: {
-    news: []
+    news: [],
+    a_and_s: []
   },
-  getters: {
-  },
+  getters,
   mutations: {
     setNews(state, news) {
       state.news = news
     }
   },
   actions: {
-    async fetchNews({dispatch}, tableName) {
+    async fetchNews({dispatch}, tableName: string) {
       try {
         const {data} = await http.get(`/${tableName}.json`)
         if (data) {
@@ -32,14 +35,12 @@ export const news: Module<any, RootState> = {
         }, {root: true})
       }
     },
-    // payload {
-    // tableName,
-    // }
-    async createNews({commit, dispatch}, payload) {
+    async createNews({commit, dispatch}, payload: ArticleTable) {
+      const tableName = payload.tableName
+      const article= {...payload}
+      delete article.tableName
+      return
       try {
-        const tableName = payload.tableName
-        const article = {...payload}
-        delete article.tableName
         await http.post(`/${tableName}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),

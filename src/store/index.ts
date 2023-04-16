@@ -1,7 +1,7 @@
 import {createStore, Store} from 'vuex'
 import { RootState } from './types';
-import {news} from './modules/news'
-import {alerts} from './modules/alerts'
+import {news} from './news/'
+import {alerts} from './alerts'
 
 export default createStore ({
   state: {
