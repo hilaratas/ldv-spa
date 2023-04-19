@@ -37,9 +37,8 @@ export const news: Module<NewsState, RootState> = {
     },
     async createNews({commit, dispatch}, payload: ArticleTable) {
       const tableName = payload.tableName
-      const article= {...payload}
+      const article = {...payload}
       delete article.tableName
-      return
       try {
         await http.post(`/${tableName}.json`, article)
         dispatch('alerts/alertAdd', {

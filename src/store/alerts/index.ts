@@ -1,34 +1,31 @@
 import { Module } from "vuex";
+import {Alert, AlertId} from "@/typings";
+import {RootState} from "@/store/types";
+import {AlertsState} from "@/store/alerts/types";
 
-export const alerts: Module<any, any> = {
+export const alerts: Module<AlertsState, RootState> = {
   namespaced: true,
   state: {
     alerts: []
   },
   getters: {
-    // alert:
-    // id - Date.now()
-    // text - String
-    // type: Array['none', 'primary', 'success', 'error']
-    // closable: Boolean
-    // autoClosable: Boolean
-   alerts(state: any) {
+   alerts(state: AlertsState) : Array<Alert>{
      return state.alerts
    }
   },
   mutations: {
-    alertAdd(state: any, newAlert: any) {
+    alertAdd(state : AlertsState, newAlert : Alert) : void {
       state.alerts.push(newAlert)
     },
-    alertRemove(state: any, {id}) {
-      state.alerts = state.alerts.filter((alert: any) => +alert.id !== +id)
+    alertRemove(state: AlertsState, {id} : {id : AlertId}) : void {
+      state.alerts = state.alerts.filter((alert: Alert) => +alert.id !== +id)
     }
   },
   actions: {
-    alertAdd({commit}, newAlert: any) {
+    alertAdd({commit}, newAlert : Alert) : void {
       commit('alertAdd',newAlert)
     },
-    alertRemove({commit}, alert: any) {
+    alertRemove({commit}, alert : Alert) : void {
       commit('alertRemove', alert)
     }
 

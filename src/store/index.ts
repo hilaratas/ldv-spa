@@ -10,5 +10,6 @@ export default createStore ({
   },
   actions: {
   },
-  modules: { news, alerts }
+  modules: { news, alerts },
+  strict: process.env.NODE_ENV !== 'production'
 })
