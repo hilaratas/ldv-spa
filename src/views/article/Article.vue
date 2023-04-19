@@ -16,10 +16,12 @@
 
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent} from 'vue';
 import {mapActions} from 'vuex'
+import {ArticleFetchInfo} from "@/typings";
 
-export default {
+export default defineComponent({
   name: "One",
   data: () => ({
     article: {
@@ -57,7 +59,7 @@ export default {
 
 
   }
-}
+})
 </script>
 
 <style scoped>

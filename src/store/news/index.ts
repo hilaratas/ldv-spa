@@ -3,7 +3,7 @@ import {Module} from "vuex";
 import {RootState} from '@/store/types'
 import {NewsState} from "@/store/news/types";
 import {getters} from "@/store/news/getters";
-import {Article, ArticleTable} from "@/typings";
+import {ArticleFetchInfo, ArticleTable} from "@/typings";
 
 export const news: Module<NewsState, RootState> = {
   namespaced: true,
@@ -61,12 +61,13 @@ export const news: Module<NewsState, RootState> = {
         //throw new Error()
       }
     },
-    async editOneNewsById({dispatch}, payload) {
+    async editOneNewsById({dispatch}, payload : ArticleTable) {
       try {
         const tableName = payload.tableName
-        const article = {...payload}
+        let article = {...payload}
+        const id = article.id
         delete article.tableName
-        await http.put(`/${tableName}/${article.id}.json`, article)
+        await http.put(`/${tableName}/${id}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
           text: 'Новость успешно отредактирована',
