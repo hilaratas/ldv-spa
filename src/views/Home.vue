@@ -19,14 +19,14 @@
     <ul>
       <li><router-link to="main">Главная</router-link></li>
       <li><router-link to="/auth">Авторизация </router-link>**</li>
-      <li><router-link to="news">Новости</router-link>
+      <li><router-link to="news">Новости</router-link>**
         <ul>
-          <li><router-link to="news/add">Добавить новость</router-link></li>
-          <li><router-link to="news/edit/id">Редактировать новость</router-link></li>
+          <li><router-link to="news/add">Добавить новость</router-link>**</li>
+          <li><router-link to="news/edit/id">Редактировать новость</router-link>**</li>
         </ul>
       </li>
       <li><router-link to="alerts">Алерты</router-link></li>
-      <li><router-link to="contacts">Контакты</router-link></li>
+      <li><router-link to="contacts">Контакты</router-link>**</li>
       <li><a href="blocks">Все блоки</a></li>
       <li><router-link to="catalog">Каталог</router-link></li>
       <li><router-link to="product">Продукт</router-link></li>
