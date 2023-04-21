@@ -77,7 +77,8 @@ export default defineComponent({
     }
   },
   methods: {
-    onInput(event) {
+    // todo: указать тип
+    onInput(event : any) {
       this.$emit('update:controlValue', event.target.value)
     }
   }
