@@ -33,3 +33,8 @@ export interface Alert {
     closable: boolean,
     autoClosable: boolean
 }
+
+export interface AuthInfo {
+    email: string,
+    password: string
+}

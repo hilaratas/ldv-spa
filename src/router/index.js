@@ -1,24 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Articles from '../views/Articles'
+import store from "@/store";
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/main',
     name: 'Main',
-    component: Home
+    component: Home,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/specials_and_actions',
     name: 'SpecialsAndActions',
     component: Articles,
     meta: {
-      tableName: 'specials_and_actions'
+      tableName: 'specials_and_actions',
+      auth: false
     },
     children: [
       {
@@ -49,19 +57,26 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Tech.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Tech.vue'),
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/blocks',
     name: 'Blocks',
-    component: () => import('../views/Blocks.vue')
+    component: () => import('../views/Blocks.vue'),
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/news/',
     name: 'News',
     component: Articles,
     meta: {
-      tableName: 'news'
+      tableName: 'news',
+      auth: false
     },
     children: [
       {
@@ -77,24 +92,36 @@ const routes = [
       {
         path: 'add',
         component: () => import('../views/article/ArticleAdd.vue'),
-        name: 'article-add'
+        name: 'article-add',
+        meta: {
+          auth: true
+        }
       },
       {
         path: 'edit/:id',
         component: () => import('../views/article/ArticleEdit.vue'),
-        name: 'article-edit'
+        name: 'article-edit',
+        meta: {
+          auth: true
+        }
       }
     ]
   },
   {
     path: '/alerts',
     name: 'Alerts',
-    component: () => import('../views/Alerts.vue')
+    component: () => import('../views/Alerts.vue'),
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/catalog',
     name: 'Catalog',
     component: () => import('../views/Catalog.vue'),
+    meta: {
+      auth: false
+    },
     children: [
       {
         path: 'themed_products',
@@ -128,22 +155,34 @@ const routes = [
   {
     path: '/product',
     name: 'Product',
-    component: () => import('../views/Product.vue')
+    component: () => import('../views/Product.vue'),
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/cart',
     name: 'Cart',
-    component: () => import('../views/Cart.vue')
+    component: () => import('../views/Cart.vue'),
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/cart-address',
     name: 'CartAddress',
-    component: () => import('../views/CartAddress.vue')
+    component: () => import('../views/CartAddress.vue'),
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/cart-dostavka',
     name: 'Cart-Dostavka',
-    component: () => import('../views/CartDostavka.vue')
+    component: () => import('../views/CartDostavka.vue'),
+    meta: {
+      auth: false
+    }
   }
 ]
 

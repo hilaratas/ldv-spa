@@ -17,7 +17,12 @@
             </div>
             <div class="header__bottom">
               <div class="contact-us">
-                <a class="contact-us__btn" href="#">Корзина</a>
+                <router-link v-if="!isAuth" class="contact-us__btn" to="/auth">
+                  <span class="contact-us__text">Личный кабинет</span>
+                </router-link>
+                <a v-else class="contact-us__btn" href="/" @click="onClickLogout">
+                  <span class="contact-us__text">Выход</span>
+                </a>
               </div>
             </div>
           </div>
@@ -76,16 +81,27 @@ import TheBreadcrumbs from "@/components/TheBreadcrumbs.vue";
 import TheSoc from '@/components/TheSoc.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import AppAlerts from "@/components/AppAlerts.vue";
+import {mapActions} from "vuex";
 
 export default defineComponent({
   name: 'Home',
   data:() => ({
     isMainMenuOpen: false
   }),
+  computed: {
+    isAuth() {
+      return this.$store.getters["auth/isAuth"]
+    }
+  },
   methods: {
+    ...mapActions('auth', ['logout']),
     toggleMainMenu() {
       const html = document.documentElement
       html.classList.toggle('is-main-menu-open')
+    },
+    onClickLogout() {
+      this.logout()
+      this.$router.push('/')
     }
   },
   components: {TheSidebarLeft, TheBreadcrumbs, TheFooter, TheSoc, AppAlerts}

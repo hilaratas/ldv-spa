@@ -13,12 +13,12 @@
     <p>Постепенно сайт заполняется контентом, а <a href="https://github.com/hilaratas/ldv-spa" target="_blank">github</a> кодом</p>
     <p>Сайт был сверстан мной в 2018 году. Сейчас я не обращаю внимания на верстку и ее несовершенства, сосредоточена на javascript и vue3.</p>
     <p>Гуляй по сайту и не суди строго.</p>
+    <p>** - запрограммировано</p>
 
     <h1 class="title title--h3 title--mb0">Ссылки на сверстанные страницы</h1>
     <ul>
       <li><router-link to="main">Главная</router-link></li>
-      <li><router-link to="tech">Технический дизайн</router-link></li>
-      <li><router-link to="blocks">Блоки</router-link></li>
+      <li><router-link to="/auth">Авторизация </router-link>**</li>
       <li><router-link to="news">Новости</router-link>
         <ul>
           <li><router-link to="news/add">Добавить новость</router-link></li>
@@ -37,6 +37,8 @@
           <li><router-link to="cart-dostavka">Доставка</router-link></li>
         </ul>
       </li>
+      <li><router-link to="tech">Технический дизайн</router-link></li>
+      <li><router-link to="blocks">Блоки</router-link></li>
     </ul>
   </article>
 </template>
