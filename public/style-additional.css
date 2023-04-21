@@ -90,6 +90,26 @@
     display: flex;
     align-items: center;
 }
+.button {
+    position: relative;
+}
+.button:disabled {
+    background: rgba(85,74,70,0.7);
+}
+.button.is-loading:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    animation: rotate 1s linear 0s infinite normal forwards;
+}
 
 @keyframes rotate {
     0% {

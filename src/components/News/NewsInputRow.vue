@@ -1,11 +1,12 @@
 <template>
   <tr>
     <td class="form__table-cell form__table-cell--pr15px">
-      <label class="nowrap" :for="controlId">{{label}}</label>
+      <label class="nowrap" :for="controlId" v-html="label"></label>
     </td>
     <td class="form__table-cell form__table-cell--wide">
       <input
           class="input"
+          :type="inputType"
           :name="inputName"
           :id="controlId"
           :aria-describedby="descriptionId"
@@ -27,8 +28,10 @@
   </tr>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+import INPUT_TYPES from '@/config/input-types'
+export default defineComponent({
   name: "NewsInputRow",
   emits: ['update:controlValue'],
   props: {
@@ -55,6 +58,11 @@ export default {
     controlValue: {
       type: String,
       required: true
+    },
+    inputType: {
+      type: String,
+      default: 'text',
+      validate: (value: string) => INPUT_TYPES.includes(value)
     }
   },
   computed: {
@@ -73,5 +81,5 @@ export default {
       this.$emit('update:controlValue', event.target.value)
     }
   }
-}
+})
 </script>
