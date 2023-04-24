@@ -4,7 +4,7 @@
     <article class="article">
       <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">{{ article.title }}</h1>
       <figure class="figure" v-if="article.img">
-        <img class="figure__img" src="/media/cc0-images/elephant-660-480.jpg" alt="Картинка">
+        <img class="figure__img" src="https://i.pinimg.com/originals/db/82/00/db8200a7d1228e85847ed28395be039c.jpg" alt="Картинка">
         <figcaption class="figure__caption">Подпись для картинки</figcaption>
       </figure>
       <div class="article__text" v-html="article.text">
