@@ -28,8 +28,8 @@ export default {
 
 <style lang="scss">
   .alerts-holder {
-    position: absolute;
-    top: 20px;
+    position: fixed;
+    top: 80px;
     right: 20px;
     width: 300px;
     z-index: 700;
