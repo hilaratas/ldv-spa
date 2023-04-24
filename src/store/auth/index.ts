@@ -27,7 +27,8 @@ export const auth: Module<authState, RootState> = {
     async login({commit, dispatch}, authInfo : AuthInfo) {
       try {
         const apiKey = process.env.VUE_APP_FB_API_KEY
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`
+        const authUrl = process.env.VUE_APP_FB_AUTH_URL
+        const url = `${authUrl}/accounts:signInWithPassword?key=${apiKey}`
         const {data} = await http.post(url, {...authInfo, returnSecureToken: true})
         commit('setToken', data.idToken)
         return true
@@ -48,7 +49,8 @@ export const auth: Module<authState, RootState> = {
     async singUp({commit, dispatch}, singUpInfo: AuthInfo) {
       try {
         const apiKey = process.env.VUE_APP_FB_API_KEY
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`
+        const authUrl = process.env.VUE_APP_FB_AUTH_URL
+        const url = `${authUrl}/accounts:signUp?key=${apiKey}`
         const {data} = await http.post(url, {...singUpInfo, returnSecureToken: true})
         commit('setToken', data.idToken)
         return true
