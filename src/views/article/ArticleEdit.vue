@@ -22,9 +22,7 @@
                 label="Заголовок новости *"
                 input-name="news-title"
                 form-name="news-edit"
-                description="Поле НЕобязательно к заполнению. Картинка в формате jpg, png, svg, webp.
-                  Размер картинки не более 800*800px.
-                  <br> Вес картинки не более 2Мб"
+                description="Поле обязательно к заполнению"
                 :errors="v$.article.title.$errors"
                 v-model:controlValue="article.title"
             >
@@ -74,7 +72,7 @@
             <tr>
               <td class="form__table-cell"></td>
               <td class="form__table-cell form__table-cell--wide">
-                <button type="submit" class="button" >Отправить</button>
+                <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
               </td>
             </tr>
           </tbody>
@@ -99,11 +97,12 @@ export default {
     return { v$: useVuelidate() }
   },
   data: () => ({
-      id: '',
-      img: '',
-      loading: true,
-      article: null,
-      tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
+    id: '',
+    img: '',
+    loading: true,
+    article: null,
+    isLoading: false,
+    tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
   }),
   validations() {
     return {
@@ -142,6 +141,7 @@ export default {
         return;
       }
 
+      this.isLoading = true
       const res = await this.editOneNewsById({
         id: this.id,
         img: this.img,
@@ -151,6 +151,7 @@ export default {
       if (res) {
         this.resetForm()
       }
+      this.isLoading = false
     }
   },
   components: { Editor, NewsInputRow }

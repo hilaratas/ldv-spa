@@ -68,7 +68,7 @@
       <tr>
         <td class="form__table-cell"></td>
         <td class="form__table-cell form__table-cell--wide">
-          <button type="submit" class="button" >Отправить</button>
+          <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
         </td>
       </tr>
       </tbody>
@@ -95,6 +95,7 @@ export default {
       title: '',
       preview: '',
       text: '',
+      isLoading: false,
       tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY
     }
   },
@@ -121,6 +122,7 @@ export default {
         return;
       }
 
+      this.isLoading = true
       const res = await this.createNews({
         img: this.img,
         title: this.title,
@@ -131,6 +133,7 @@ export default {
       if (res) {
         this.resetForm()
       }
+      this.isLoading = false
     }
   },
   components: { Editor, NewsInputRow }
