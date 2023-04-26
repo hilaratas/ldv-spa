@@ -1,0 +1,2 @@
+export const DISABLED_INTERVAL = 1000*50
+export const MAX_ATTEMPT_COUNT = 3

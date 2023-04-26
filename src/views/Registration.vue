@@ -47,28 +47,42 @@
         <tr>
           <td class="form__table-cell"></td>
           <td class="form__table-cell form__table-cell--wide">
-            <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+            <button type="submit"
+              :disabled="isFormLoading || isAttemptsExeed || isSubmitBlocked"
+              :class="['button', {'is-loading': isFormLoading}]" >
+              Отправить
+            </button>
+
+            <div v-if="isSubmitBlocked">
+              <br>
+              <small  class="control-description is-error" >
+                Превышено максимальное количество попыток авторизоваться. Возможность авторизоваться заблокирована до
+                <span class="nowrap">{{dateTimeFilter(blockedUntilDate)}}</span>
+              </small>
+            </div>
+
+
           </td>
         </tr>
         </tbody>
       </table>
     </form>
   </template>
-
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, reactive, computed} from "vue";
+import {defineComponent, ref, reactive, computed, watch} from "vue";
 import {useVuelidate} from '@vuelidate/core'
 import { required, email, minLength, sameAs } from '@vuelidate/validators'
 import NewsInputRow from "@/components/News/NewsInputRow.vue";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
-
+import {MAX_ATTEMPT_COUNT, DISABLED_INTERVAL} from '@/config/skip-auto-config'
+import {dateTimeFilter} from "@/filter/dateTime.filter";
 
 export default defineComponent({
   name: "Auth",
-  setup () {
+  setup() {
     const store = useStore()
     const router = useRouter()
     const formId = ref('auth')
@@ -81,7 +95,16 @@ export default defineComponent({
     }
     const v$ = useVuelidate(formRules, form)
     const isAuth = store.getters["auth/isAuth"]
-    const isLoading = ref(false)
+
+    const attemptCount = ref(0)
+    const isFormLoading = ref(false)
+    const blockedUntil = computed(() => store.getters['skipAuto/singUp'])
+    const blockedUntilDate = computed(() => new Date(blockedUntil.value))
+    const isAttemptsExeed = computed(() => attemptCount.value >= MAX_ATTEMPT_COUNT)
+    const isSubmitBlocked = computed( () => blockedUntilDate.value ? blockedUntilDate.value.getTime() > Date.now() : false)
+    const isDisabled = computed(() => {
+      isFormLoading.value || isSubmitBlocked.value
+    })
 
     const onSubmit = async() => {
       v$.value.$touch()
@@ -89,13 +112,16 @@ export default defineComponent({
         return;
       }
       try {
-        isLoading.value = true
+        isFormLoading.value = true
         let result = await store.dispatch('auth/singUp', form)
         if (result)
           router.push('/news/add')
+        else {
+          attemptCount.value ++
+        }
       } catch (e) {
       } finally {
-        isLoading.value = false
+        isFormLoading.value = false
       }
     }
 
@@ -103,14 +129,38 @@ export default defineComponent({
       store.dispatch('auth/logout')
     }
 
+    watch(isAttemptsExeed, (newValue: boolean) => {
+      let newBlockedUntil;
+      if (!newValue) {
+        return
+      }
+
+      newBlockedUntil = new Date();
+      newBlockedUntil.setMilliseconds(newBlockedUntil.getMilliseconds() + DISABLED_INTERVAL)
+      store.dispatch('skipAuto/setParam', {'singUp' : newBlockedUntil})
+      setTimeout(
+        () => {
+          attemptCount.value = 0
+          store.dispatch('skipAuto/setParam', {'singUp': null})
+        },
+        DISABLED_INTERVAL
+      )
+
+    })
+
     return {
       formId,
       form,
       v$,
       isAuth,
-      isLoading,
+      isDisabled,
+      isFormLoading,
+      isSubmitBlocked,
+      isAttemptsExeed,
       onSubmit,
-      onClickLogout
+      onClickLogout,
+      blockedUntilDate,
+      dateTimeFilter
     }
   },
   components: {NewsInputRow}

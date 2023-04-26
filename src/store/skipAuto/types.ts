@@ -1,7 +1,11 @@
+import {skipAutoInterface, skipAutoItem, skipAutoTypes} from "@/typings";
+
 export interface skipAutoState {
+  singIn?: skipAutoItem
+  singUp?: skipAutoItem
+  [key: string]: any
 }
 
-export interface paramInfo {
-  paramName: string,
-  paramValue: bigint
-}
+export type paramInfo = {
+  [key in skipAutoTypes]: skipAutoItem;
+};

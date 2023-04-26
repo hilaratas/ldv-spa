@@ -38,3 +38,11 @@ export interface AuthInfo {
     email: string,
     password: string
 }
+export type skipAutoTypes = 'singIn' | 'singUp'
+
+export type skipAutoItem = null | Date | string
+
+export interface skipAutoInterface {
+    auth?: null | Date,
+    registration?: null | Date,
+}

@@ -3,6 +3,7 @@ import { RootState } from './types';
 import {news} from './news/'
 import {alerts} from './alerts'
 import {auth} from './auth'
+import {skipAuto} from './skipAuto'
 
 const mode = process.env.NODE_ENV
 const plugins = []
@@ -11,7 +12,7 @@ if (mode === 'development') {
 }
 
 export default createStore  ({
-  modules: { news, alerts, auth },
+  modules: { news, alerts, auth, skipAuto },
   strict: mode === 'development',
   //plugins
 })
