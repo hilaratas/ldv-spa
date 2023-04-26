@@ -37,7 +37,16 @@
         <tr>
           <td class="form__table-cell"></td>
           <td class="form__table-cell form__table-cell--wide">
-            <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+            <button type="submit"
+                    :disabled="isFormLoading || isAttemptsExeed || isSubmitBlocked"
+                    :class="['button', {'is-loading': isFormLoading}]" >Отправить</button>
+            <div v-if="isSubmitBlocked">
+              <br>
+              <small  class="control-description is-error" >
+                Превышено максимальное количество попыток авторизоваться. Возможность авторизоваться заблокирована до
+                <span class="nowrap">{{dateTimeFilter(blockedUntilDate)}}</span>
+              </small>
+            </div>
           </td>
         </tr>
         </tbody>
@@ -49,12 +58,13 @@
 
 <script lang="ts">
 import {defineComponent, ref, reactive} from "vue";
-import {useVuelidate} from '@vuelidate/core'
-import { required, email, minLength } from '@vuelidate/validators'
-import NewsInputRow from "@/components/News/NewsInputRow.vue";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
-
+import {useSkipAuto} from "@/use/use.skip-auto";
+import {useVuelidate} from '@vuelidate/core'
+import {required, email, minLength } from '@vuelidate/validators'
+import NewsInputRow from "@/components/News/NewsInputRow.vue";
+import {dateTimeFilter} from "@/filter/dateTime.filter";
 
 export default defineComponent({
   name: "Auth",
@@ -69,7 +79,9 @@ export default defineComponent({
     }
     const v$ = useVuelidate(formRules, form)
     const isAuth = store.getters["auth/isAuth"]
-    const isLoading = ref(false)
+
+    const { isDisabled, isFormLoading, isSubmitBlocked, isAttemptsExeed,
+      blockedUntilDate, attemptCount} = {...useSkipAuto('singIn')}
 
     async function onSubmit() {
       v$.value.$touch()
@@ -78,13 +90,16 @@ export default defineComponent({
       }
 
       try {
-        isLoading.value = true
+        isFormLoading.value = true
         let result = await store.dispatch('auth/login', form)
-        if (result)
+        if (result) {
           router.push('/news/add')
+        } else {
+          attemptCount.value ++
+        }
       } catch (e) {
       } finally {
-        isLoading.value = false
+        isFormLoading.value = false
       }
     }
 
@@ -92,9 +107,14 @@ export default defineComponent({
       formId,
       form,
       v$,
-      onSubmit,
       isAuth,
-      isLoading
+      isDisabled,
+      isFormLoading,
+      isSubmitBlocked,
+      isAttemptsExeed,
+      blockedUntilDate,
+      onSubmit,
+      dateTimeFilter
     }
   },
   components: {NewsInputRow}
