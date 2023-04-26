@@ -29,7 +29,9 @@
     </div>
   </div>
   <div v-else>
-    <p class="title title--h2">Новостей нет</p>
+    <slot name="EmptyNewsMsg">
+      <p class="title title--h2">Новостей нет</p>
+    </slot>
   </div>
 </template>
 

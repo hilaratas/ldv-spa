@@ -52,12 +52,12 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'actions',
-        component: () => import('../views/article/ArticleList.vue'),
+        component: () => import('../views/article/SpecialList.vue'),
         name: 'SpecialsAndActionsActions'
       },
       {
         path: 'specials',
-        component: () => import('../views/article/ArticleList.vue'),
+        component: () => import('../views/article/SpecialList.vue'),
         name: 'SpecialsAndActionsSpecials'
       },
       {
