@@ -21,6 +21,8 @@ export const skipAuto: Module<skipAutoState, RootState> = {
       const key : string =  Object.keys(paramInfo)[0]
       const value = Object.values(paramInfo)[0]
       state[key as keyof skipAutoState] = value
+      // todo: разобраться с типами
+      // @ts-ignore
       localStorage.setItem(key, value)
     }
   },

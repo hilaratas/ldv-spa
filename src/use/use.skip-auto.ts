@@ -1,6 +1,7 @@
 import {computed, ref, watch} from "vue";
 import {useStore} from "vuex";
 import {DISABLED_INTERVAL, MAX_ATTEMPT_COUNT} from "@/config/skip-auto-config";
+import {skipAutoState} from "@/store/skipAuto/types";
 
 type authTypes = 'singUp' | 'singIn'
 
@@ -18,14 +19,18 @@ export function useSkipAuto (authType :authTypes) {
   })
 
   watch(isAttemptsExeed, (newValue: boolean) => {
-    let newBlockedUntil;
+    let newBlockedUntil = new Date();
+    let payload = {}
+
     if (!newValue) {
       return
     }
 
-    newBlockedUntil = new Date();
     newBlockedUntil.setMilliseconds(newBlockedUntil.getMilliseconds() + DISABLED_INTERVAL)
-    store.dispatch('skipAuto/setParam', {'singUp' : newBlockedUntil})
+    //@ts-ignore
+    payload[authType] = newBlockedUntil
+
+    store.dispatch('skipAuto/setParam', payload)
     setTimeout(
       () => {
         attemptCount.value = 0
