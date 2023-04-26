@@ -73,10 +73,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/tech',
     name: 'Tech',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Tech.vue'),
+    component: () => import('../views/Tech.vue'),
     meta: {
       auth: false
     }
@@ -202,6 +199,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       auth: false
     }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('../views/404.vue'),
+    meta: {
+      auth: false
+    }
   }
 ]
 
@@ -214,7 +219,9 @@ router.beforeEach((to, from, next) => {
   const needAuth = to.meta.auth
   const isAuth = store.getters['auth/isAuth']
 
-  console.log(`Для этой страницы нужна авторизация=${needAuth} \nАвторизация пройдена=${isAuth}`)
+  if (process.env.NODE_ENV == 'development') {
+    console.log(`Для этой страницы нужна авторизация=${needAuth} \nАвторизация пройдена=${isAuth}`)
+  }
 
   if (needAuth) {
     isAuth ? next() : next('/auth?message=auth')
