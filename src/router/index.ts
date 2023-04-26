@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/auth',
     name: 'Auth',
-    component: () => import('../views/Auth.vue'),
+    component: () => import('../views/SingIn.vue'),
     meta: {
       auth: false
     }
@@ -31,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/registration',
     name: 'Registration',
-    component: () => import('../views/Registration.vue'),
+    component: () => import('../views/SingUp.vue'),
     meta: {
       auth: false
     }
