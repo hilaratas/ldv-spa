@@ -1,16 +1,10 @@
 <template>
-  <div v-if="loading" class="loading"></div>
+  <div class="loading"></div>
 </template>
 
 <script>
 export default {
-  name: "AppLoading",
-  props: {
-    loading: {
-      type: Boolean,
-      required: true
-    }
-  }
+  name: "AppLoading"
 }
 </script>
 

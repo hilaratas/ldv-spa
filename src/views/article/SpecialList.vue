@@ -1,6 +1,6 @@
 <template>
   <div class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</div>
-  <app-loading :loading="loading" v-if="loading"></app-loading>
+  <app-loading v-if="loading"></app-loading>
   <template v-else>
     <div v-if="!news">
       На данный момент акций и спецпредложний нет
