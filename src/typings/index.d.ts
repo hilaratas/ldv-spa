@@ -46,3 +46,5 @@ export interface skipAutoInterface {
     auth?: null | Date,
     registration?: null | Date,
 }
+
+export type routeHeaderTypes = 'static' | 'dynamic'

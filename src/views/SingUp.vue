@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Регистрация</h1>
   <div v-if='isAuth' class="text" >
     <p>Вы авторизованы на сайте</p>
     <p>Чтобы создать нового пользователя, пожалуйста, <a href="#" @click="onClickLogout">разлогиньтесь</a></p>

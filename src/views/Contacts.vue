@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Контакты</h1>
   <div class="row">
     <div class="col-12">
       <article>

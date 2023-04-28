@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Каталог</h1>
   <div class="alert">
     Нет товаров, удовлетворяющих данным условиям
   </div>

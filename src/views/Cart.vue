@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Корзина</h1>
   <form action="">
     <table class="cart-table js-scroll-content">
       <tr class="cart-table__row">

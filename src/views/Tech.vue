@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Технический дизайн</h1>
   <div class="row">
     <!-- Левая колонка -->
     <div class="col-sm-12">

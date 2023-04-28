@@ -1,6 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Адрес</h1>
-
   <div class="cart-adr-menu">
     <ul class="cart-adr-menu__list">
       <li class="cart-adr-menu__item is-active"><span class="cart-adr-menu__link">Адрес</span></li>

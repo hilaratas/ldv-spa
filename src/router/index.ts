@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import Articles from '../views/Articles.vue'
 import store from "@/store";
+import {DEFAULT_META} from '@/config/default-meta'
+import {replaceHeader} from "@/utils/replaceHeader";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,7 +11,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Home,
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Welcome!'
     }
   },
   {
@@ -17,23 +20,26 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Main',
     component: Home,
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Главная'
     }
   },
   {
-    path: '/auth',
-    name: 'Auth',
+    path: '/singin',
+    name: 'SingIn',
     component: () => import('../views/SingIn.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Вход'
     }
   },
   {
-    path: '/registration',
-    name: 'Registration',
+    path: '/singup',
+    name: 'SingUp',
     component: () => import('../views/SingUp.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Регистрация'
     }
   },
   {
@@ -41,8 +47,9 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SpecialsAndActions',
     component: Articles,
     meta: {
-      tableName: 'specials_and_actions',
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Акции и спецпредложения',
+      tableName: 'specials_and_actions'
     },
     children: [
       {
@@ -53,19 +60,27 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'actions',
         component: () => import('../views/article/SpecialList.vue'),
-        name: 'SpecialsAndActionsActions'
+        name: 'SpecialsAndActionsActions',
+        meta: {
+          headerText: 'Акции'
+        }
       },
       {
         path: 'specials',
         component: () => import('../views/article/SpecialList.vue'),
-        name: 'SpecialsAndActionsSpecials'
+        name: 'SpecialsAndActionsSpecials',
+        meta: {
+          headerText: 'Спецпредложения'
+        }
       },
       {
         path: 'add',
         component: () => import('../views/article/ArticleAdd.vue'),
         name: 'SpecialsAndActionsAdd',
         meta: {
-          auth: true
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Добавить акцию или спецпредложение'
         }
       }
     ]
@@ -75,7 +90,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Tech',
     component: () => import('../views/Tech.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Технический дизайн'
     }
   },
   {
@@ -83,7 +99,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Blocks',
     component: () => import('../views/Blocks.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Блоки'
     }
   },
   {
@@ -91,8 +108,9 @@ const routes: Array<RouteRecordRaw> = [
     name: 'News',
     component: Articles,
     meta: {
-      tableName: 'news',
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Новости',
+      tableName: 'news'
     },
     children: [
       {
@@ -103,14 +121,19 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: ':id',
         component: () => import('../views/article/Article.vue'),
-        name: 'article-index-id'
+        name: 'article-index-id',
+        meta: {
+          headerType: 'dynamic'
+        }
       },
       {
         path: 'add',
         component: () => import('../views/article/ArticleAdd.vue'),
         name: 'article-add',
         meta: {
-          auth: true
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Добавить новость'
         }
       },
       {
@@ -118,7 +141,9 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/article/ArticleEdit.vue'),
         name: 'article-edit',
         meta: {
-          auth: true
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Редактировать новость'
         }
       }
     ]
@@ -128,7 +153,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Alerts',
     component: () => import('../views/Alerts.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Алерты'
     }
   },
   {
@@ -136,18 +162,22 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Catalog',
     component: () => import('../views/Catalog.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Каталог'
     },
     children: [
       {
         path: 'themed_products',
-        name: 'Catalog-themed',
-        component: () => import('../views/Contacts.vue')
+        name: 'CatalogThemed',
+        component: () => import('../views/Catalog.vue'),
+        meta: {
+          headerText: 'Тематический каталог'
+        }
       },
       {
         path: 'others',
-        name: 'Catalog-others',
-        component: () => import('../views/Contacts.vue')
+        name: 'CatalogOthers',
+        component: () => import('../views/Catalog.vue')
       }
     ]
   },
@@ -155,6 +185,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/contacts',
     name: 'Contacts',
     component: () => import('../views/Contacts.vue'),
+    meta: {
+      ...DEFAULT_META,
+      headerText: 'Контакты'
+    },
     children: [
       {
         path: 'where to watch',
@@ -173,7 +207,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Product',
     component: () => import('../views/Product.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META
     }
   },
   {
@@ -181,7 +215,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Cart',
     component: () => import('../views/Cart.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Корзина'
     }
   },
   {
@@ -189,15 +224,17 @@ const routes: Array<RouteRecordRaw> = [
     name: 'CartAddress',
     component: () => import('../views/CartAddress.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Карзина'
     }
   },
   {
     path: '/cart-dostavka',
-    name: 'Cart-Dostavka',
+    name: 'CartDostavka',
     component: () => import('../views/CartDostavka.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Корзина'
     }
   },
   {
@@ -205,7 +242,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'NotFound',
     component: () => import('../views/404.vue'),
     meta: {
-      auth: false
+      ...DEFAULT_META,
+      headerText: 'Страница не найдена'
     }
   }
 ]
@@ -229,5 +267,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+router.afterEach( replaceHeader )
 
 export default router

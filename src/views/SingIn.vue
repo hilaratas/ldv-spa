@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Авторизация</h1>
   <div v-if='isAuth' class="text" >
     <p>Вы уже авторизованы на сайте</p>
     <p>Можете продолжить гулять по сайту с помощью главного меню</p>

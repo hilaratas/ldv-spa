@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Каталог</h1>
   <div class="catalog">
     <div class="row row--mt30px">
       <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
