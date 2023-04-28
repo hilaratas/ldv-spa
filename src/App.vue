@@ -17,7 +17,7 @@
             </div>
             <div class="header__bottom">
               <div class="contact-us">
-                <router-link v-if="!isAuth" class="contact-us__btn" to="/auth">
+                <router-link v-if="!isAuth" class="contact-us__btn" to="/singin">
                   <span class="contact-us__text">Личный кабинет</span>
                 </router-link>
                 <a v-else class="contact-us__btn" href="/" @click="onClickLogout">

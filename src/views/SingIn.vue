@@ -6,7 +6,7 @@
   <template v-else>
     <div class="text">
       <p>
-        Если у вас еще нет учетной записи, вы можете <router-link to="registration">зарегистрироваться</router-link>.
+        Если у вас еще нет учетной записи, вы можете <router-link to="singup">зарегистрироваться</router-link>.
       </p>
       <br>
     </div>

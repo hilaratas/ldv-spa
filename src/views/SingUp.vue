@@ -6,7 +6,7 @@
   <template v-else>
     <div class="text">
       <p>
-        Если у вас уже есть учетная запись, вы можете <router-link to="/auth">авторизоваться</router-link>.
+        Если у вас уже есть учетная запись, вы можете <router-link to="/singin">авторизоваться</router-link>.
       </p>
       <br>
     </div>
