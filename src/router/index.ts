@@ -207,7 +207,9 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Product',
     component: () => import('../views/Product.vue'),
     meta: {
-      ...DEFAULT_META
+      ...DEFAULT_META,
+      headerType: 'dynamic',
+      headerText: 'Флорариумы'
     }
   },
   {

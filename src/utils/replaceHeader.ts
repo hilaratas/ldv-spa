@@ -14,6 +14,6 @@ export function replaceHeader(route: RouteLocationNormalized) :void {
       $$headerHolder.innerHTML = `<h1 class="title title--h1 title--white title--mb0">${headerText}</h1>`
       break;
     default:
-      $$headerHolder.innerHTML = ``
+      $$headerHolder.innerHTML = `<div class="title title--h1 title--white title--mb0">${headerText}</div>`
   }
 }
