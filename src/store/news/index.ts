@@ -58,7 +58,6 @@ export const news: Module<NewsState, RootState> = {
           autoClosable: false
         }, {root: true})
         return false
-        //throw new Error()
       }
     },
     async editOneNewsById({dispatch}, payload : ArticleTable) {
@@ -87,7 +86,7 @@ export const news: Module<NewsState, RootState> = {
         return false
       }
     },
-    async fetchOneNewsById({dispatch}, payload) {
+    async fetchOneNewsById({dispatch}, payload :ArticleFetchInfo) {
       const tableName = payload.tableName
       const id = payload.id
       try {
@@ -102,6 +101,28 @@ export const news: Module<NewsState, RootState> = {
           autoClosable: false
         }, {root: true})
       }
+    },
+    async deleteOneNewsById({dispatch}, {id, tableName}: ArticleFetchInfo) {
+      try {
+        await http.delete(`/${tableName}/${id}.json`)
+        dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Запись с id=${id} успешно удалена`,
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        }, {root: true})
+        return true
+      } catch (e) {
+        dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Запись с id=${id} удалить не удалось`,
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        }, {root: true})
+        return false
+      }
     }
-  },
+  }
 }
