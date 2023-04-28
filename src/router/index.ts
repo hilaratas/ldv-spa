@@ -262,7 +262,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (needAuth) {
-    isAuth ? next() : next('/auth?message=auth')
+    isAuth ? next() : next('/singin?message=auth')
   } else {
     next()
   }
