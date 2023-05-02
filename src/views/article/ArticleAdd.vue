@@ -68,7 +68,18 @@
       <tr>
         <td class="form__table-cell"></td>
         <td class="form__table-cell form__table-cell--wide">
-          <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+          <div class="row">
+            <div class="col-auto">
+              <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+            </div>
+            <div v-if="needShowButtons" class="col-auto">
+              <router-link :to="'/' + tableName + '/' + fbId" class="button">Посмотреть статью</router-link>
+            </div>
+            <div v-if="needShowButtons" class="col-auto">
+              <router-link :to="'/' + tableName + '/edit/' + fbId" class="button">Редактировать статью</router-link>
+            </div>
+          </div>
+
         </td>
       </tr>
       </tbody>
@@ -96,7 +107,9 @@ export default {
       preview: '',
       text: '',
       isLoading: false,
-      tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY
+      tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
+      isAlreadyCreated: false,
+      fbId: ''
     }
   },
   validations() {
@@ -104,6 +117,17 @@ export default {
       title: { required },
       preview: { required },
       text: { required }
+    }
+  },
+  computed: {
+    needShowButtons() {
+      if (!this.isAlreadyCreated) {
+        return false
+      }
+      return !(this.img || this.title || this.preview || this.text)
+    },
+    tableName() {
+      return this.$route.meta.tableName
     }
   },
   methods: {
@@ -116,7 +140,6 @@ export default {
       this.v$.$reset();
     },
     async onSubmit() {
-      const tableName = this.$route.meta.tableName
       this.v$.$touch()
       if (this.v$.$error) {
         return;
@@ -128,9 +151,11 @@ export default {
         title: this.title,
         preview: this.preview,
         text: this.text,
-        tableName
+        tableName: this.tableName
       })
-      if (res) {
+      if (res.result) {
+        this.isAlreadyCreated = true
+        this.fbId = res.fbId
         this.resetForm()
       }
       this.isLoading = false

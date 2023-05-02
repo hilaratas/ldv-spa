@@ -4,10 +4,14 @@
     <app-404 v-if="error">
       <div class="title title--h1">404</div>
       <div>Новости с id={{id}} не существует</div>
+      <div v-if="isAuth">
+        <br>
+        <router-link to="/news/add" class="button">Добавить статью</router-link>
+      </div>
     </app-404>
     <div v-else>
       <article class="article">
-        <h1 class="title title--h3">{{ article.title }}</h1>
+        <h1 class="title title--h3 title--blue">{{ article.title }}</h1>
         <figure class="figure" v-if="article.img">
           <img class="figure__img" src="https://i.pinimg.com/originals/db/82/00/db8200a7d1228e85847ed28395be039c.jpg" alt="Картинка">
           <figcaption class="figure__caption">Подпись для картинки</figcaption>

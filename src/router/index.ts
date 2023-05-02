@@ -119,14 +119,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'article-index'
       },
       {
-        path: ':id',
-        component: () => import('../views/article/Article.vue'),
-        name: 'article-index-id',
-        meta: {
-          headerType: 'dynamic'
-        }
-      },
-      {
         path: 'add',
         component: () => import('../views/article/ArticleAdd.vue'),
         name: 'article-add',
@@ -134,6 +126,14 @@ const routes: Array<RouteRecordRaw> = [
           ...DEFAULT_META,
           auth: true,
           headerText: 'Добавить новость'
+        }
+      },
+      {
+        path: ':id',
+        component: () => import('../views/article/Article.vue'),
+        name: 'article-index-id',
+        meta: {
+          headerType: 'dynamic'
         }
       },
       {

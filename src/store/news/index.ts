@@ -40,15 +40,18 @@ export const news: Module<NewsState, RootState> = {
       const article = {...payload}
       delete article.tableName
       try {
-        await http.post(`/${tableName}.json`, article)
+        const {data} = await http.post(`/${tableName}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: 'Новость успешно добавлена',
+          text: `Статья успешно создана. <br> Перейти к <a href="/${tableName}/${data.name}" class="js-click-push">просмотру</a> `,
           type: 'success',
           closable: true,
           autoClosable: false
         }, {root: true})
-        return true
+        return {
+          result: true,
+          fbId: data.name
+        }
       } catch (e) {
         dispatch('alerts/alertAdd', {
           id: Date.now(),
@@ -57,7 +60,9 @@ export const news: Module<NewsState, RootState> = {
           closable: true,
           autoClosable: false
         }, {root: true})
-        return false
+        return {
+          result: false
+        }
       }
     },
     async editOneNewsById({dispatch}, payload : ArticleTable) {

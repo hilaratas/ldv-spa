@@ -1,16 +1,19 @@
 <template>
   <div class="alerts-holder">
     <transition-group name="alert" tag="div" mode="out-in">
-      <div class="alert alert--text-small" v-for="alert in alerts" :class="['alert--' + alert.type, {'alert--has-close': alert.closable}]" :key="alert.id">
-        <button class="alert__close" v-if="alert.closable" @click="onCloseAlert(alert)">&times;</button>
-        {{alert.text}}
-      </div>
+      <app-alert v-for="alert in alerts"
+        :alert="alert"
+        @on-close="onCloseAlert(alert)"
+        :key="alert.id"
+      >
+      </app-alert>
     </transition-group>
   </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+import AppAlert from './AppAlert.vue'
 
 export default {
   name: "AppAlerts",
@@ -22,7 +25,8 @@ export default {
     onCloseAlert(alert) {
       this.alertRemove(alert);
     }
-  }
+  },
+  components: { AppAlert }
 }
 </script>
 
@@ -79,6 +83,10 @@ export default {
       background: #e9eaea;
       color: #B5B7B8;
       font-weight: bold;
+    }
+    a {
+      color: inherit;
+      opacity: 0.5;
     }
 
     &--primary {

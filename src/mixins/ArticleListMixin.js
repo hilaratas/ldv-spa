@@ -8,9 +8,13 @@ export default {
     news: [],
     loading: true
   }),
+  computed: {
+    tableName() {
+      return this.$route.meta.tableName
+    }
+  },
   async mounted() {
-    const tableName = this.$route.meta.tableName
-    this.news = await this.fetchNews(tableName)
+    this.news = await this.fetchNews(this.tableName)
     this.loading = false
   },
   methods: {

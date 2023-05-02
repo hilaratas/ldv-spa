@@ -72,7 +72,18 @@
             <tr>
               <td class="form__table-cell"></td>
               <td class="form__table-cell form__table-cell--wide">
-                <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+                <div class="row">
+                  <div class="col-auto">
+                    <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+                  </div>
+                  <div class="col-auto">
+                    <router-link :to='"/" + tableName + "/" + id' class="button">Смотреть</router-link>
+                  </div>
+                  <div class="col-auto">
+                    <router-link :to='"/" + tableName + "/"' class="button">Список всех статей</router-link>
+                  </div>
+                </div>
+
               </td>
             </tr>
           </tbody>
@@ -104,6 +115,11 @@ export default {
     isLoading: false,
     tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
   }),
+  computed: {
+    tableName() {
+      return this.$route.meta.tableName
+    }
+  },
   validations() {
     return {
       article: {
