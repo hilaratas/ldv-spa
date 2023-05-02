@@ -10,7 +10,8 @@ export interface Article {
     img: string,
     preview: string,
     text: string,
-    title: string
+    title: string,
+    type?: string
 }
 
 export interface ArticleFetchInfo {

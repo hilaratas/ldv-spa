@@ -45,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/specials_and_actions',
     name: 'SpecialsAndActions',
-    component: Articles,
+    component: () => import('../views/article/SpecialsAdd.vue'),
     meta: {
       ...DEFAULT_META,
       headerText: 'Акции и спецпредложения',
