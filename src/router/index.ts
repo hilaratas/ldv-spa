@@ -114,12 +114,22 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: ':id',
-        component: () => import('../views/article/Special.vue'),
+        component: () => import('../views/article/Article.vue'),
         name: 'specials-and-actions-index-id',
         meta: {
           headerType: 'dynamic'
         }
       },
+      {
+        path: 'edit/:id',
+        component: () => import('../views/article/ArticleEdit.vue'),
+        name: 'specials-and-actions-edit',
+        meta: {
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Редактировать акцию или спецпредложение'
+        }
+      }
     ]
   },
   {

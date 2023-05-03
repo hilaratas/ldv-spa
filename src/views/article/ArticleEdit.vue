@@ -83,7 +83,6 @@
                     <router-link :to='"/" + tableName + "/"' class="button">Список всех статей</router-link>
                   </div>
                 </div>
-
               </td>
             </tr>
           </tbody>

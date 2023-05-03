@@ -6,7 +6,7 @@
       <div>Новости с id={{id}} не существует</div>
       <div v-if="isAuth">
         <br>
-        <router-link to="/news/add" class="button">Добавить статью</router-link>
+        <router-link :to="'/' + tableName + '/add'" class="button">Добавить статью</router-link>
       </div>
     </app-404>
     <div v-else>
@@ -21,7 +21,7 @@
       </article>
       <div v-if="isAuth" class="row">
         <div class="col-auto">
-          <router-link :to=" '/news/edit/' + $route.params.id" class="button button--blue">Редактировать новость</router-link>
+          <router-link :to="'/' + tableName + '/edit/' + $route.params.id" class="button button--blue">Редактировать новость</router-link>
         </div>
         <div class="col-auto">
           <button class="button button--blue" data-fancybox data-src="#vue-article-delete">Удалить</button>
@@ -36,7 +36,7 @@
               <div class="popup__title">Удаление новости</div>
             </div>
             <div class="text">
-              <p>Вы действительно хотитие удалить новость "{{ article.title }}"</p>
+              <p>Вы действительно хотитие удалить статью "{{ article.title }}"</p>
               <div class="row">
                 <div class="col-auto">
                   <button class="button" @click="deleteNews">Да</button>
@@ -80,6 +80,9 @@ export default defineComponent({
     ...mapGetters('auth', ["isAuth"]),
     id() {
       return this.$route.params.id
+    },
+    tableName() {
+      return this.$route.meta.tableName
     }
   },
   methods: {
@@ -88,7 +91,7 @@ export default defineComponent({
       Fancybox.close();
       const payload :ArticleFetchInfo = {
         id: this.id as string,
-        tableName: this.$route.meta.tableName as string
+        tableName: this.tableName as string
       }
       await this.deleteOneNewsById(payload)
     },
@@ -99,7 +102,7 @@ export default defineComponent({
   async mounted() {
     const payload :ArticleFetchInfo = {
       id: this.id as string,
-      tableName: this.$route.meta.tableName as string
+      tableName: this.tableName as string
     }
     const data = await this.fetchOneNewsById(payload)
     this.loading = false
@@ -110,7 +113,6 @@ export default defineComponent({
     }
 
     this.article = data
-
     Fancybox.bind('[data-fancybox]');
   },
   unmounted() {

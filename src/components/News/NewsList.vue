@@ -28,7 +28,7 @@
               <div class="about__text" v-html="newsItem.preview">
               </div>
               <div class="about__link-holder">
-                <router-link :to="'/news/' + newsItem.id" class="button button--blue button--no-radius">Подробнее</router-link>
+                <router-link :to="'/' + tableName + '/' + newsItem.id" class="button button--blue button--no-radius">Подробнее</router-link>
               </div>
             </div>
           </div>
@@ -49,7 +49,11 @@ import {ARTICLE_TYPES} from "@/config/article-types.config";
 export default {
   name: "NewsList",
   props: {
-    news: Array
+    news: Array,
+    tableName: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {

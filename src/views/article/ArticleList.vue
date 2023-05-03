@@ -7,7 +7,7 @@
         <br><br>
       </div>
     </div>
-    <news-list :news="news" >
+    <news-list :news="news" :tableName="tableName">
       <template v-slot:EmptyNewsMsg>
         <div v-if="tableName === 'news'" class="title title--h3">
           На данный момент лента новостей пуста

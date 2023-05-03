@@ -24,7 +24,7 @@ export const news: Module<NewsState, RootState> = {
         if (data) {
           return Object.keys(data).map(id => ({...data[id], id}))
         }
-        return false
+        return []
       } catch (e) {
         dispatch('alerts/alertAdd', {
           id: Date.now(),
