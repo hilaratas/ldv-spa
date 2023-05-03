@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="loading"></div>
+  <app-loading v-if="pageLoading"></app-loading>
   <template v-else>
     <div v-if="!article">Новости с id = {{rticle.id}} не существует</div>
     <template v-else>
@@ -97,7 +97,7 @@
               <td class="form__table-cell form__table-cell--wide">
                 <div class="row">
                   <div class="col-auto">
-                    <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+                    <button type="submit" :disabled="isLoading" :class="['button', {'is-pageLoading': isLoading}]" >Отправить</button>
                   </div>
                   <div class="col-auto">
                     <router-link :to='"/" + tableName + "/" + id' class="button">Смотреть</router-link>
@@ -125,6 +125,7 @@ import { ref, reactive, onMounted } from "vue";
 import { required } from '@vuelidate/validators'
 import Editor from '@tinymce/tinymce-vue'
 import NewsInputRow from "@/components/News/NewsInputRow";
+import AppLoading from "@/components/AppLoading.vue";
 
 // todo: Добавить typescript
 export default {
@@ -135,7 +136,7 @@ export default {
     const id = route.params.id
     const tableName = route.meta.tableName
     const isLoading = ref(false)
-    const loading = ref(true)
+    const pageLoading = ref(true)
     const tinymceKey = process.env.VUE_APP_TINYMCE_API_KEY
 
     const articleDefault = {
@@ -166,7 +167,7 @@ export default {
       if (data) {
         Object.keys(article).map(key => article[key] = data[key] ?? article[key])
       }
-      loading.value = false
+      pageLoading.value = false
     })
 
     const resetForm = () => (
@@ -190,7 +191,7 @@ export default {
     return {
       id,
       article,
-      loading,
+      pageLoading,
       tableName,
       isLoading,
       tinymceKey,
@@ -198,7 +199,7 @@ export default {
       onSubmit
     }
   },
-  components: { Editor, NewsInputRow }
+  components: { Editor, NewsInputRow, AppLoading }
 }
 </script>
 

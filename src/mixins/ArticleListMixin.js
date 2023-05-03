@@ -6,7 +6,7 @@ export default {
   name: "News",
   data: () => ({
     news: [],
-    loading: true
+    pageLoading: true
   }),
   computed: {
     tableName() {
@@ -15,7 +15,7 @@ export default {
   },
   async mounted() {
     this.news = await this.fetchNews(this.tableName)
-    this.loading = false
+    this.pageLoading = false
   },
   methods: {
   ...mapActions('news', ['fetchNews'])

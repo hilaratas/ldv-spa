@@ -1,5 +1,5 @@
 <template>
-  <app-loading v-if="loading"></app-loading>
+  <app-loading v-if="pageLoading"></app-loading>
   <template v-else>
     <app-404 v-if="error">
       <div class="title title--h1">404</div>
@@ -74,7 +74,7 @@ export default defineComponent({
       text: ''
     },
     error: false,
-    loading: true
+    pageLoading: true
   }),
   computed: {
     ...mapGetters('auth', ["isAuth"]),
@@ -105,7 +105,7 @@ export default defineComponent({
       tableName: this.tableName as string
     }
     const data = await this.fetchOneNewsById(payload)
-    this.loading = false
+    this.pageLoading = false
 
     if (!data) {
       this.error = true

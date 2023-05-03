@@ -1,5 +1,5 @@
 <template>
-  <app-loading v-if="loading"></app-loading>
+  <app-loading v-if="pageLoading"></app-loading>
   <template v-else>
     <div v-if="isAuth" class="row">
       <div class="col-auto">

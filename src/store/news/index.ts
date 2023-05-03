@@ -74,7 +74,7 @@ export const news: Module<NewsState, RootState> = {
         await http.put(`/${tableName}/${id}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: `Новость успешно отредактирована. <br> Перейти к <a href="/${tableName}/${id}" class="js-click-push">просмотру</a>`,
+          text: `Статья успешно отредактирована. <br> Перейти к <a href="/${tableName}/${id}" class="js-click-push">просмотру</a>`,
           type: 'success',
           closable: true,
           autoClosable: false
