@@ -21,7 +21,7 @@
       </article>
       <div v-if="isAuth" class="row">
         <div class="col-auto">
-          <router-link :to="'/' + tableName + '/edit/' + $route.params.id" class="button button--blue">Редактировать новость</router-link>
+          <router-link :to="'/' + tableName + '/edit/' + $route.params.id" class="button button--blue">Редактировать статью</router-link>
         </div>
         <div class="col-auto">
           <button class="button button--blue" data-fancybox data-src="#vue-article-delete">Удалить</button>

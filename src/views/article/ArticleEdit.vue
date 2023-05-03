@@ -1,12 +1,35 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Редактирование новости</h1>
   <div v-if="loading" class="loading"></div>
   <template v-else>
-    <div v-if="!article">Новости с id = {{id}} не существует</div>
+    <div v-if="!article">Новости с id = {{rticle.id}} не существует</div>
     <template v-else>
       <form action="#" id="news-edit" class="form" @submit.prevent="onSubmit">
         <table class="form__table">
           <tbody>
+            <tr v-if="article.type">
+              <td class="form__table-cell form__table-cell--pr15px">
+                <label class="nowrap" for="news-type">Это акция или <br>спецпредложение *</label>
+              </td>
+              <td class="form__table-cell form__table-cell--wide">
+                <div class="select">
+                  <select
+                    name="news-type"
+                    id="news-type"
+                    class="select__select"
+                    v-model="article.type"
+                    aria-describedby="news-type-disc">
+                    <option value="action">Акция</option>
+                    <option value="special">Спецпредложение</option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="article.type">
+              <td class="form__table-cell"></td>
+              <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
+                <small class="control-description" id="news-type-disc">Поле обязательно к заполнению</small>
+              </td>
+            </tr>
             <news-input-row
                 label="Ссылка на картинку"
                 input-name="news-img"
@@ -15,7 +38,7 @@
                   Размер картинки не более 800*800px.
                   <br> Вес картинки не более 2Мб"
                 :errors="[]"
-                v-model:controlValue="img"
+                v-model:controlValue="article.img"
             >
             </news-input-row>
             <news-input-row
@@ -23,7 +46,7 @@
                 input-name="news-title"
                 form-name="news-edit"
                 description="Поле обязательно к заполнению"
-                :errors="v$.article.title.$errors"
+                :errors="v$.title.$errors"
                 v-model:controlValue="article.title"
             >
             </news-input-row>
@@ -33,8 +56,8 @@
               </td>
               <td class="form__table-cell form__table-cell--wide">
                 <editor v-model="article.preview" :api-key="tinymceKey"></editor>
-                <div class="control-error" v-if="v$.article.preview.$errors.length">
-                  <div v-for="error of v$.article.preview.$errors">
+                <div class="control-error" v-if="v$.preview.$errors.length">
+                  <div v-for="error of v$.preview.$errors">
                     <div>{{ error.$message }}</div>
                   </div>
                 </div>
@@ -52,8 +75,8 @@
               </td>
               <td class="form__table-cell form__table-cell--wide">
                 <editor v-model="article.text" :api-key="tinymceKey"></editor>
-                <div class="control-error" v-if="v$.article.text.$errors.length">
-                  <div v-for="error of v$.article.text.$errors">
+                <div class="control-error" v-if="v$.text.$errors.length">
+                  <div v-for="error of v$.text.$errors">
                     <div>{{ error.$message }}</div>
                   </div>
                 </div>
@@ -95,78 +118,84 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { useStore} from 'vuex'
+import { useRoute } from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
+import { ref, reactive, onMounted } from "vue";
 import { required } from '@vuelidate/validators'
 import Editor from '@tinymce/tinymce-vue'
 import NewsInputRow from "@/components/News/NewsInputRow";
 
+// todo: Добавить typescript
 export default {
   name: "Edit",
   setup () {
-    return { v$: useVuelidate() }
-  },
-  data: () => ({
-    id: '',
-    img: '',
-    loading: true,
-    article: null,
-    isLoading: false,
-    tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
-  }),
-  computed: {
-    tableName() {
-      return this.$route.meta.tableName
-    }
-  },
-  validations() {
-    return {
-      article: {
-        title: {required},
-        preview: {required},
-        text: {required}
-      }
-    }
-  },
-  async mounted() {
-    this.id = this.$route.params.id
-    const tableName = this.$route.meta.tableName
-    const payload = {
-      id: this.id,
-      tableName
-    }
-    let data = await this.fetchOneNewsById(payload)
-    this.img = data.img
-    this.article = {
-      title: data.title,
-      preview: data.preview,
-      text: data.text
-    }
-    this.loading = false
-  },
-  methods: {
-    ...mapActions('news', ['fetchOneNewsById', 'editOneNewsById']),
-    resetForm() {
-      this.v$.$reset();
-    },
-    async onSubmit() {
-      const tableName = this.$route.meta.tableName
-      this.v$.$touch()
-      if (this.v$.$error) {
-        return;
-      }
+    const route = useRoute()
+    const store = useStore()
+    const id = route.params.id
+    const tableName = route.meta.tableName
+    const isLoading = ref(false)
+    const loading = ref(true)
+    const tinymceKey = process.env.VUE_APP_TINYMCE_API_KEY
 
-      this.isLoading = true
-      const res = await this.editOneNewsById({
-        id: this.id,
-        img: this.img,
-        tableName,
-        ...this.article}
-      )
-      if (res) {
-        this.resetForm()
+    const articleDefault = {
+      id: route.params.id,
+      img: '',
+      title: '',
+      preview: '',
+      text: '',
+      tableName: tableName
+    }
+    const articleRules = {
+      title: { required },
+      preview: { required },
+      text: { required },
+      tableName: { required }
+    }
+    if (tableName === 'specials_and_actions') {
+      articleDefault.type = ''
+      articleRules.type = { required }
+    }
+
+    const article = reactive({ ...articleDefault})
+    const v$ = useVuelidate(articleRules, article)
+
+    onMounted(async () => {
+      const payload = { id, tableName }
+      const data = await store.dispatch('news/fetchOneNewsById', payload)
+      if (data) {
+        Object.keys(article).map(key => article[key] = data[key] ?? article[key])
       }
-      this.isLoading = false
+      loading.value = false
+    })
+
+    const resetForm = () => (
+      v$.value.$reset()
+    )
+
+    const onSubmit = async () => {
+      v$.value.$touch()
+      if (v$.value.$error)
+        return
+
+      isLoading.value = true
+
+      const res = await store.dispatch('news/editOneNewsById',article)
+      if (res) {
+        resetForm()
+      }
+      isLoading.value = false
+    }
+
+    return {
+      id,
+      article,
+      loading,
+      tableName,
+      isLoading,
+      tinymceKey,
+      v$,
+      onSubmit
     }
   },
   components: { Editor, NewsInputRow }

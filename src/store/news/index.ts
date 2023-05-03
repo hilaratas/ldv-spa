@@ -68,13 +68,13 @@ export const news: Module<NewsState, RootState> = {
     async editOneNewsById({dispatch}, payload : ArticleTable) {
       try {
         const tableName = payload.tableName
+        const id = payload.id
         let article = {...payload}
-        const id = article.id
         delete article.tableName
         await http.put(`/${tableName}/${id}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: 'Новость успешно отредактирована',
+          text: `Новость успешно отредактирована. <br> Перейти к <a href="/${tableName}/${id}" class="js-click-push">просмотру</a>`,
           type: 'success',
           closable: true,
           autoClosable: false
