@@ -1,5 +1,4 @@
 <template>
-  <div class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Новости</div>
   <app-loading v-if="loading"></app-loading>
   <template v-else>
     <div v-if="isAuth" class="row">
