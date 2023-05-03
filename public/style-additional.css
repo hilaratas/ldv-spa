@@ -127,3 +127,28 @@
         transform: rotate(360deg);
     }
 }
+
+.label {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #FFF;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cce4c1;
+    text-align: center;
+    line-height: 1;
+}
+
+.about__text-holder {
+    position: relative;
+}
+
+.about__labels-holder {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

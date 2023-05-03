@@ -14,6 +14,14 @@
             </div>
           </div>
           <div class="about__text-holder">
+            <div v-if="newsItem.type" class="about__labels-holder">
+              <div v-if="newsItem.type === 'special'" class="label">
+                <div class="label__inner">Спец<wbr>предло<wbr>жение</div>
+              </div>
+              <div v-else class="label">
+                <div class="label__inner">{{ARTICLE_TYPES[newsItem.type]}}</div>
+              </div>
+            </div>
             <div class="about__text-wrapper">
               <div class="about__title" v-html="newsItem.title">
               </div>
@@ -36,14 +44,17 @@
 </template>
 
 <script>
+import {ARTICLE_TYPES} from "@/config/article-types.config";
+
 export default {
   name: "NewsList",
   props: {
     news: Array
+  },
+  data() {
+    return {
+      ARTICLE_TYPES: {...ARTICLE_TYPES}
+    }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

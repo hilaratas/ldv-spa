@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Добавление новости</h1>
   <form action="#" id="news" class="form" @submit.prevent="onSubmit">
     <table class="form__table">
       <tbody>
@@ -15,8 +14,8 @@
               class="select__select"
               v-model="article.type"
               aria-describedby="news-type-disc">
-              <option value="actions">Акция</option>
-              <option value="specials">Спецпредложение</option>
+              <option value="action">Акция</option>
+              <option value="special">Спецпредложение</option>
             </select>
           </div>
         </td>

@@ -1,4 +1,4 @@
-type ArticleTypes = 'id' | 'img' | 'preview' | 'text' | 'title'
+type ArticleTypes = 'id' | 'img' | 'preview' | 'text' | 'title' | 'type'
 
 // todo: узнать, почему не работает
 // export interface Article {

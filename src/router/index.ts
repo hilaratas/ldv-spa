@@ -43,67 +43,6 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/specials_and_actions',
-    name: 'SpecialsAndActions',
-    component: () => import('../views/article/SpecialsAdd.vue'),
-    meta: {
-      ...DEFAULT_META,
-      headerText: 'Акции и спецпредложения',
-      tableName: 'specials_and_actions'
-    },
-    children: [
-      {
-        path: '',
-        component: () => import('../views/article/SpecialList.vue'),
-        name: 'SpecialsAndActionsIndex'
-      },
-      {
-        path: 'actions',
-        component: () => import('../views/article/SpecialList.vue'),
-        name: 'SpecialsAndActionsActions',
-        meta: {
-          headerText: 'Акции'
-        }
-      },
-      {
-        path: 'specials',
-        component: () => import('../views/article/SpecialList.vue'),
-        name: 'SpecialsAndActionsSpecials',
-        meta: {
-          headerText: 'Спецпредложения'
-        }
-      },
-      {
-        path: 'add',
-        component: () => import('../views/article/ArticleAdd.vue'),
-        name: 'SpecialsAndActionsAdd',
-        meta: {
-          ...DEFAULT_META,
-          auth: true,
-          headerText: 'Добавить акцию или спецпредложение'
-        }
-      }
-    ]
-  },
-  {
-    path: '/tech',
-    name: 'Tech',
-    component: () => import('../views/Tech.vue'),
-    meta: {
-      ...DEFAULT_META,
-      headerText: 'Технический дизайн'
-    }
-  },
-  {
-    path: '/blocks',
-    name: 'Blocks',
-    component: () => import('../views/Blocks.vue'),
-    meta: {
-      ...DEFAULT_META,
-      headerText: 'Блоки'
-    }
-  },
-  {
     path: '/news/',
     name: 'News',
     component: Articles,
@@ -147,6 +86,59 @@ const routes: Array<RouteRecordRaw> = [
         }
       }
     ]
+  },
+  {
+    path: '/specials_and_actions',
+    name: 'SpecialsAndActions',
+    component: Articles,
+    meta: {
+      ...DEFAULT_META,
+      headerText: 'Акции и спецпредложения',
+      tableName: 'specials_and_actions'
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('../views/article/ArticleList.vue'),
+        name: 'specials-and-actions-index'
+      },
+      {
+        path: 'add',
+        component: () => import('../views/article/SpecialAdd.vue'),
+        name: 'specials-and-actions-add',
+        meta: {
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Добавить акцию или спецпредложение'
+        },
+      },
+      {
+        path: ':id',
+        component: () => import('../views/article/Special.vue'),
+        name: 'specials-and-actions-index-id',
+        meta: {
+          headerType: 'dynamic'
+        }
+      },
+    ]
+  },
+  {
+    path: '/tech',
+    name: 'Tech',
+    component: () => import('../views/Tech.vue'),
+    meta: {
+      ...DEFAULT_META,
+      headerText: 'Технический дизайн'
+    }
+  },
+  {
+    path: '/blocks',
+    name: 'Blocks',
+    component: () => import('../views/Blocks.vue'),
+    meta: {
+      ...DEFAULT_META,
+      headerText: 'Блоки'
+    }
   },
   {
     path: '/alerts',

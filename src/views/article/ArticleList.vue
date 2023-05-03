@@ -9,8 +9,11 @@
     </div>
     <news-list :news="news" >
       <template v-slot:EmptyNewsMsg>
-        <div class="title title--h3">
+        <div v-if="tableName === 'news'" class="title title--h3">
           На данный момент лента новостей пуста
+        </div>
+        <div v-if="tableName === 'specials_and_actions'" class="title title--h3">
+          На данный момент акций и спецпредложений нет
         </div>
       </template>
     </news-list>
@@ -23,7 +26,10 @@ import {mapGetters} from "vuex";
 
 export default {
   computed: {
-    ...mapGetters('auth', ['isAuth'])
+    ...mapGetters('auth', ['isAuth']),
+    tableName() {
+      return this.$route.meta.tableName
+    }
   },
   mixins: [ ArticleListMixin ]
 }
