@@ -43,7 +43,10 @@ export const news: Module<NewsState, RootState> = {
         const {data} = await http.post(`/${tableName}.json`, article)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: `Статья успешно создана. <br> Перейти к <a href="/${tableName}/${data.name}" class="js-click-push">просмотру</a> `,
+          text: `Статья успешно создана. <br>
+            Перейти к 
+            <a href="/${tableName}/${data.name}" class="js-click-push">просмотру</a>.<br>
+            Перейти к <a href="/${tableName}/">списку всех статей</a>.`,
           type: 'success',
           closable: true,
           autoClosable: false
@@ -112,7 +115,8 @@ export const news: Module<NewsState, RootState> = {
         await http.delete(`/${tableName}/${id}.json`)
         dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: `Запись с id=${id} успешно удалена`,
+          text: `Статья с id=${id} успешно удалена <br>
+            Перейти к <a href="/${tableName}/">списку всех статей</a>.`,
           type: 'success',
           closable: true,
           autoClosable: false

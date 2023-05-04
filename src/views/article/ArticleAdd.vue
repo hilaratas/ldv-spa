@@ -141,7 +141,7 @@ export default {
       tableName: { required }
     }
     if (tableName === 'specials_and_actions') {
-      articleDefault.type = 'actions'
+      articleDefault.type = 'action'
       articleRules.type = { required }
     }
     const article = reactive({...articleDefault})
@@ -156,9 +156,11 @@ export default {
         false :
         !(article.img || article.title || article.preview || article.text)
       ))
-    const resetForm = () => (
+    const resetForm = () => {
       Object.keys(article).map(key => article[key] = articleDefault[key])
-    )
+      v$.value.$reset()
+      console.log(article)
+    }
 
     const onSubmit = async () => {
       v$.value.$touch()
