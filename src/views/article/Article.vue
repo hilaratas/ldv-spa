@@ -12,6 +12,9 @@
     <div v-else>
       <article class="article">
         <h1 class="title title--h3 title--blue">{{ article.title }}</h1>
+        <div class="article__date-holder">
+          <div class="article__date">{{articleDate}}</div>
+        </div>
         <figure class="figure" v-if="article.img">
           <img class="figure__img" src="https://i.pinimg.com/originals/db/82/00/db8200a7d1228e85847ed28395be039c.jpg" alt="Картинка">
           <figcaption class="figure__caption">Подпись для картинки</figcaption>
@@ -60,6 +63,7 @@ import AppLoading from '@/components/AppLoading.vue'
 import App404 from "@/components/App404.vue";
 import {ArticleFetchInfo} from "@/typings";
 import type { Fancybox as FancyboxType } from "@fancyapps/ui/types";
+import {dateFilter} from "@/filter/date.filter";
 import * as Fancyapps from "@fancyapps/ui";
 const Fancybox: typeof FancyboxType = Fancyapps.Fancybox;
 
@@ -71,7 +75,8 @@ export default defineComponent({
       img: '',
       title: '',
       preview: '',
-      text: ''
+      text: '',
+      date: null
     },
     error: false,
     pageLoading: true
@@ -83,6 +88,9 @@ export default defineComponent({
     },
     tableName() {
       return this.$route.meta.tableName
+    },
+    articleDate() {
+      return dateFilter(new Date(this.article.date ?? 0))
     }
   },
   methods: {

@@ -11,6 +11,7 @@ export interface Article {
     preview: string,
     text: string,
     title: string,
+    date: null | Date,
     type?: string
 }
 

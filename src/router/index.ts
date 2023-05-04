@@ -104,7 +104,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'add',
-        component: () => import('../views/article/SpecialAdd.vue'),
+        component: () => import('../views/article/ArticleAdd.vue'),
         name: 'specials-and-actions-add',
         meta: {
           ...DEFAULT_META,

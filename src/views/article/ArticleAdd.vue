@@ -1,8 +1,31 @@
 <template>
-  <h1 class="title title--h1 title--white title--mb0 is-hidden" id="js-main-header">Добавление новости</h1>
   <form action="#" id="news" class="form" @submit.prevent="onSubmit">
     <table class="form__table">
       <tbody>
+      <tr v-if="tableName === 'specials_and_actions'">
+        <td class="form__table-cell form__table-cell--pr15px">
+          <label class="nowrap" for="news-type">Это акция или <br>спецпредложение *</label>
+        </td>
+        <td class="form__table-cell form__table-cell--wide">
+          <div class="select">
+            <select
+              name="news-type"
+              id="news-type"
+              class="select__select"
+              v-model="article.type"
+              aria-describedby="news-type-disc">
+              <option value="action">Акция</option>
+              <option value="special">Спецпредложение</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+      <tr v-if="tableName === 'specials_and_actions'">>
+        <td class="form__table-cell"></td>
+        <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
+          <small class="control-description" id="news-type-disc">Поле обязательно к заполнению</small>
+        </td>
+      </tr>
       <news-input-row
         formName="news"
         inputName="news-img"
@@ -10,7 +33,7 @@
         description="Поле НЕобязательно к заполнению.
           Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
           <br> Вес картинки не более 2Мб"
-        v-model:controlValue="img"
+        v-model:controlValue="article.img"
         :errors="[]"
       >
       </news-input-row>
@@ -19,7 +42,7 @@
         inputName="news-title"
         label="Заголовок новости *"
         description="Поле обязательно к заполнению"
-        v-model:controlValue="title"
+        v-model:controlValue="article.title"
         :errors="v$.title.$errors"
       >
       </news-input-row>
@@ -28,7 +51,7 @@
           <label class="nowrap" for="news-preview">Превью новости *</label>
         </td>
         <td class="form__table-cell form__table-cell--wide">
-          <editor v-model="preview" :api-key="tinymceKey"></editor>
+          <editor v-model="article.preview" :api-key="tinymceKey"></editor>
           <div class="control-error" v-if="v$.preview.$errors.length">
             <div v-for="error of v$.preview.$errors">
               <div>{{ error.$message }}</div>
@@ -47,7 +70,7 @@
           <label class="nowrap" for="news-text">Текст новости *</label>
         </td>
         <td class="form__table-cell form__table-cell--wide">
-          <editor v-model="text" :api-key="tinymceKey"></editor>
+          <editor v-model="article.text" :api-key="tinymceKey"></editor>
           <div class="control-error" v-if="v$.text.$errors.length">
             <div v-for="error of v$.text.$errors">
               <div>{{ error.$message }}</div>
@@ -89,7 +112,9 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { computed, reactive, ref, onMounted} from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import Editor from '@tinymce/tinymce-vue'
@@ -98,73 +123,72 @@ import NewsInputRow from "@/components/News/NewsInputRow";
 export default {
   name: "Add",
   setup () {
-    return { v$: useVuelidate() }
-  },
-  data: function () {
-    return {
+    const store = useStore()
+    const route = useRoute()
+    const tableName = route.meta.tableName
+    const articleDefault = {
       img: '',
       title: '',
       preview: '',
       text: '',
-      isLoading: false,
-      tinymceKey: process.env.VUE_APP_TINYMCE_API_KEY,
-      isAlreadyCreated: false,
-      fbId: ''
+      date: null,
+      tableName
     }
-  },
-  validations() {
-    return {
+    const articleRules = {
       title: { required },
       preview: { required },
-      text: { required }
+      text: { required },
+      tableName: { required }
     }
-  },
-  computed: {
-    needShowButtons() {
-      if (!this.isAlreadyCreated) {
-        return false
-      }
-      return !(this.img || this.title || this.preview || this.text)
-    },
-    tableName() {
-      return this.$route.meta.tableName
+    if (tableName === 'specials_and_actions') {
+      articleDefault.type = 'actions'
+      articleRules.type = { required }
     }
-  },
-  methods: {
-    ...mapActions('news', ['createNews']),
-    resetForm() {
-      this.img = '';
-      this.title = '';
-      this.preview = '';
-      this.text = '';
-      this.v$.$reset();
-    },
-    async onSubmit() {
-      this.v$.$touch()
-      if (this.v$.$error) {
+    const article = reactive({...articleDefault})
+    const isLoading = ref(false)
+    const isAlreadyCreated = ref(false)
+    const fbId = ref('')
+    const tinymceKey = process.env.VUE_APP_TINYMCE_API_KEY
+    const v$ = useVuelidate(articleRules, article)
+    const isAuth = store.getters["auth/isAuth"]
+    const needShowButtons = computed(() => (
+      !isAlreadyCreated.value ?
+        false :
+        !(article.img || article.title || article.preview || article.text)
+      ))
+    const resetForm = () => (
+      Object.keys(article).map(key => article[key] = articleDefault[key])
+    )
+
+    const onSubmit = async () => {
+      v$.value.$touch()
+      if (v$.value.$error) {
         return;
       }
 
-      this.isLoading = true
-      const res = await this.createNews({
-        img: this.img,
-        title: this.title,
-        preview: this.preview,
-        text: this.text,
-        tableName: this.tableName
-      })
+      isLoading.value = true
+      article.date = new Date()
+      const res = await store.dispatch('news/createNews', article)
       if (res.result) {
-        this.isAlreadyCreated = true
-        this.fbId = res.fbId
-        this.resetForm()
+        isAlreadyCreated.value = true
+        fbId.value = res.fbId
+        resetForm()
       }
-      this.isLoading = false
+      isLoading.value = false
+    }
+
+    return {
+      v$,
+      fbId,
+      isAuth,
+      article,
+      isLoading,
+      needShowButtons,
+      tinymceKey,
+      tableName,
+      onSubmit
     }
   },
   components: { Editor, NewsInputRow }
 }
 </script>
-
-<style scoped>
-
-</style>

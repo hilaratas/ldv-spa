@@ -145,6 +145,7 @@ export default {
       title: '',
       preview: '',
       text: '',
+      date: null,
       tableName: tableName
     }
     const articleRules = {
