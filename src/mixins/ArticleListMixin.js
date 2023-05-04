@@ -3,7 +3,6 @@ import NewsList from "@/components/News/NewsList";
 import AppLoading from "@/components/AppLoading";
 
 export default {
-  name: "News",
   data: () => ({
     news: [],
     pageLoading: true

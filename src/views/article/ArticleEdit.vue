@@ -129,7 +129,7 @@ import AppLoading from "@/components/AppLoading.vue";
 
 // todo: Добавить typescript
 export default {
-  name: "Edit",
+  name: "ArticleEdit",
   setup () {
     const route = useRoute()
     const store = useStore()

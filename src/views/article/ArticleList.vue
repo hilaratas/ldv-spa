@@ -25,6 +25,7 @@ import ArticleListMixin from "@/mixins/ArticleListMixin";
 import {mapGetters} from "vuex";
 
 export default {
+  name: "ArticleList",
   computed: {
     ...mapGetters('auth', ['isAuth']),
     tableName() {

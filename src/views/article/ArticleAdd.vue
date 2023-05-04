@@ -121,7 +121,7 @@ import Editor from '@tinymce/tinymce-vue'
 import NewsInputRow from "@/components/News/NewsInputRow";
 
 export default {
-  name: "Add",
+  name: "ArticleAdd",
   setup () {
     const store = useStore()
     const route = useRoute()

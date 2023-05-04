@@ -68,7 +68,7 @@ import * as Fancyapps from "@fancyapps/ui";
 const Fancybox: typeof FancyboxType = Fancyapps.Fancybox;
 
 export default defineComponent({
-  name: "One",
+  name: "Article",
   data: () => ({
     article: {
       id: null,
