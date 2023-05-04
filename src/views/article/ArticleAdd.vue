@@ -20,7 +20,7 @@
           </div>
         </td>
       </tr>
-      <tr v-if="tableName === 'specials_and_actions'">>
+      <tr v-if="tableName === 'specials_and_actions'">
         <td class="form__table-cell"></td>
         <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
           <small class="control-description" id="news-type-disc">Поле обязательно к заполнению</small>
