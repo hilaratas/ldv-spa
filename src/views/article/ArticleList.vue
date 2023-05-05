@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import ArticleListMixin from "@/mixins/ArticleListMixin";
 import {mapActions, mapGetters} from "vuex";
 import NewsList from "@/components/News/NewsList.vue";
 import AppLoading from "@/components/AppLoading.vue";
@@ -48,7 +47,3 @@ export default {
   components: { NewsList, AppLoading }
 }
 </script>
-
-<style scoped>
-
-</style>
