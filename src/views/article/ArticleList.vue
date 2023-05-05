@@ -22,17 +22,30 @@
 
 <script>
 import ArticleListMixin from "@/mixins/ArticleListMixin";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import NewsList from "@/components/News/NewsList.vue";
+import AppLoading from "@/components/AppLoading.vue";
 
 export default {
   name: "ArticleList",
+  data: () => ({
+    news: [],
+    pageLoading: true
+  }),
   computed: {
     ...mapGetters('auth', ['isAuth']),
     tableName() {
       return this.$route.meta.tableName
     }
   },
-  mixins: [ ArticleListMixin ]
+  async mounted() {
+    this.news = await this.fetchNews(this.tableName)
+    this.pageLoading = false
+  },
+  methods: {
+    ...mapActions('news', ['fetchNews'])
+  },
+  components: { NewsList, AppLoading }
 }
 </script>
 
