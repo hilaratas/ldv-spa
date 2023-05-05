@@ -24,6 +24,11 @@ export const alerts: Module<AlertsState, RootState> = {
   actions: {
     alertAdd({commit}, newAlert : Alert) : void {
       commit('alertAdd',newAlert)
+      if (newAlert.closable) {
+        setInterval(()=>(
+          commit('alertRemove', newAlert)
+        ), 5000)
+      }
     },
     alertRemove({commit}, alert : Alert) : void {
       commit('alertRemove', alert)
