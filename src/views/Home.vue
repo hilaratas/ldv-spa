@@ -23,7 +23,13 @@
       <li><router-link to="news">Новости</router-link>**
         <ul>
           <li><router-link to="news/add">Добавить новость</router-link>**</li>
-          <li><router-link to="news/edit/id">Редактировать новость</router-link>**</li>
+          <li>Чтобы отредактировать новость, перейдите внутрь новости. Если вы авторизованы, увидите ссылку на редактирование</li>
+        </ul>
+      </li>
+      <li><router-link to="news">Акции и спецпредложения</router-link>**
+        <ul>
+          <li><router-link to="news/add">Добавить акцию или спецпредложение</router-link>**</li>
+          <li>Чтобы отредактировать акцию или спецпредложение, перейдите внутрь. Если вы авторизованы, увидите ссылку на редактирование</li>
         </ul>
       </li>
       <li><router-link to="alerts">Алерты</router-link></li>

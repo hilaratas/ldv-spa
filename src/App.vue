@@ -5,7 +5,7 @@
         <header class="header">
           <div class="header__inner">
             <div class="header__gumburger">
-              <button class="humb humb__htx humb--header" id="js-main-menu-toggle" aria-label="Главное меню" @click="toggleMainMenu">
+              <button class="humb humb__htx humb--header" id="js-main-menu-toggle" aria-label="Главное меню">
                 <span>Меню</span>
               </button>
             </div>
@@ -76,12 +76,14 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import {mapActions} from "vuex";
 import TheSidebarLeft from '@/components/TheSidebarLeft.vue'
 import TheBreadcrumbs from "@/components/TheBreadcrumbs.vue";
 import TheSoc from '@/components/TheSoc.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import AppAlerts from "@/components/AppAlerts.vue";
-import {mapActions} from "vuex";
+import sideNav from '@/plugins/siveNav.plugin'
+
 
 export default defineComponent({
   name: 'Home',
@@ -103,6 +105,9 @@ export default defineComponent({
       this.logout()
       this.$router.push('/')
     }
+  },
+  mounted() {
+    sideNav(document.getElementById('js-main-menu'))
   },
   components: {TheSidebarLeft, TheBreadcrumbs, TheFooter, TheSoc, AppAlerts}
 })
