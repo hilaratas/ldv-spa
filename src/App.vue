@@ -5,7 +5,7 @@
         <header class="header">
           <div class="header__inner">
             <div class="header__gumburger">
-              <button class="humb humb__htx humb--header" id="js-main-menu-toggle" aria-label="Главное меню">
+              <button class="humb humb__htx humb--header" id="js-main-menu-toggle" aria-label="Главное меню" ref="menuButton">
                 <span>Меню</span>
               </button>
             </div>
@@ -97,10 +97,6 @@ export default defineComponent({
   },
   methods: {
     ...mapActions('auth', ['logout']),
-    toggleMainMenu() {
-      const html = document.documentElement
-      html.classList.toggle('is-main-menu-open')
-    },
     onClickLogout() {
       this.logout()
       this.$router.push('/')
