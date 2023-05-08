@@ -33,6 +33,7 @@ export const news: Module<NewsState, RootState> = {
           closable: true,
           autoClosable: false
         }, {root: true})
+        return []
       }
     },
     async createNews({commit, dispatch}, payload: ArticleTable) {
