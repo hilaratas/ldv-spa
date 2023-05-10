@@ -38,7 +38,18 @@ export default {
     }
   },
   async mounted() {
-    this.news = await this.fetchNews(this.tableName)
+    const res = await this.fetchNews(this.tableName)
+    if (res.result ) {
+      this.news = res.data
+    } else {
+      dispatch('alerts/alertAdd', {
+        id: Date.now(),
+        text: 'Ошибка ответа от сервера при получении новостей',
+        type: 'error',
+        closable: true,
+        autoClosable: false
+      }, {root: true})
+    }
     this.pageLoading = false
   },
   methods: {

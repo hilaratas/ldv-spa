@@ -159,7 +159,6 @@ export default {
     const resetForm = () => {
       Object.keys(article).map(key => article[key] = articleDefault[key])
       v$.value.$reset()
-      console.log(article)
     }
 
     const onSubmit = async () => {
@@ -173,8 +172,26 @@ export default {
       const res = await store.dispatch('news/createNews', article)
       if (res.result) {
         isAlreadyCreated.value = true
-        fbId.value = res.fbId
+        fbId.value = res.data.name
         resetForm()
+        store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Статья успешно создана. <br>
+            Перейти к
+            <a href="/${tableName}/${fbId.value}" class="js-click-push">просмотру</a>.<br>
+            Перейти к <a href="/${tableName}/">списку всех статей</a>.`,
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        })
+      } else {
+        store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: 'Ошибка ответа от сервера при добавлении новой новости',
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
       }
       isLoading.value = false
     }

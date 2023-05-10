@@ -3,7 +3,7 @@ import {Module} from "vuex";
 import {RootState} from '@/store/types'
 import {NewsState} from "@/store/news/types";
 import {getters} from "@/store/news/getters";
-import {ArticleFetchInfo, ArticleTable} from "@/typings";
+import {Article, ArticleFetchInfo, ArticleTable} from "@/typings";
 
 export const news: Module<NewsState, RootState> = {
   namespaced: true,
@@ -21,19 +21,13 @@ export const news: Module<NewsState, RootState> = {
     async fetchNews({dispatch}, tableName: string) {
       try {
         const {data} = await http.get(`/${tableName}.json`)
+        let articles :Array<Article> = []
         if (data) {
-          return Object.keys(data).map(id => ({...data[id], id}))
+          articles = Object.keys(data).map(id => ({...data[id], id}))
         }
-        return []
+        return { result: true, data: articles }
       } catch (e) {
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: 'Ошибка ответа от сервера при получении новостей',
-          type: 'error',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return []
+        return { result: false, data: null }
       }
     },
     async createNews({commit, dispatch}, payload: ArticleTable) {
@@ -42,31 +36,9 @@ export const news: Module<NewsState, RootState> = {
       delete article.tableName
       try {
         const {data} = await http.post(`/${tableName}.json`, article)
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: `Статья успешно создана. <br>
-            Перейти к 
-            <a href="/${tableName}/${data.name}" class="js-click-push">просмотру</a>.<br>
-            Перейти к <a href="/${tableName}/">списку всех статей</a>.`,
-          type: 'success',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return {
-          result: true,
-          fbId: data.name
-        }
+        return { result: true, data }
       } catch (e) {
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: 'Ошибка ответа от сервера при добавлении новой новости',
-          type: 'error',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return {
-          result: false
-        }
+        return { result: false, data: null }
       }
     },
     async editOneNewsById({dispatch}, payload : ArticleTable) {
@@ -75,24 +47,10 @@ export const news: Module<NewsState, RootState> = {
         const id = payload.id
         let article = {...payload}
         delete article.tableName
-        await http.put(`/${tableName}/${id}.json`, article)
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: `Статья успешно отредактирована. <br> Перейти к <a href="/${tableName}/${id}" class="js-click-push">просмотру</a>`,
-          type: 'success',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return true
+        const {data} = await http.put(`/${tableName}/${id}.json`, article)
+        return { result: true, data }
       } catch (e) {
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: 'Ошибка ответа от сервера при редактировании новости',
-          type: 'error',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return false
+        return { result: true, data: null }
       }
     },
     async fetchOneNewsById({dispatch}, payload :ArticleFetchInfo) {
@@ -100,29 +58,17 @@ export const news: Module<NewsState, RootState> = {
       const id = payload.id
       try {
         const {data} = await http.get(`/${tableName}/${id}.json`)
-        return data
+        return { result: !!data, data }
       } catch (e) {
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: `Ошибка ответа от сервера при получении новости с id=${id}`,
-          type: 'error',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
+        //todo: инсценировать ошибочную ситуацию и протестировать ее
+        return { result: false, data: null }
       }
     },
     async deleteOneNewsById({dispatch}, {id, tableName}: ArticleFetchInfo) {
       try {
-        await http.delete(`/${tableName}/${id}.json`)
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: `Статья с id=${id} успешно удалена <br>
-            Перейти к <a href="/${tableName}/">списку всех статей</a>.`,
-          type: 'success',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return true
+        const res = await http.delete(`/${tableName}/${id}.json`)
+        console.log(res)
+        return { result: true }
       } catch (e) {
         dispatch('alerts/alertAdd', {
           id: Date.now(),
@@ -131,7 +77,7 @@ export const news: Module<NewsState, RootState> = {
           closable: true,
           autoClosable: false
         }, {root: true})
-        return false
+        return { result: false }
       }
     }
   }

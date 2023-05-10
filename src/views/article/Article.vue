@@ -95,13 +95,32 @@ export default defineComponent({
   },
   methods: {
     ...mapActions('news', ['fetchOneNewsById', 'deleteOneNewsById']),
+    ...mapActions('alerts', ['alertAdd']),
     async deleteNews() {
       Fancybox.close();
       const payload :ArticleFetchInfo = {
         id: this.id as string,
         tableName: this.tableName as string
       }
-      await this.deleteOneNewsById(payload)
+      const res = await this.deleteOneNewsById(payload)
+      if (res.result) {
+        this.alertAdd({
+          id: Date.now(),
+          text: `Статья с id=${this.id} успешно удалена <br>
+            Перейти к <a href="/${this.tableName}/">списку всех статей</a>.`,
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        })
+      } else {
+        this.alertAdd({
+          id: Date.now(),
+          text: `Запись с id=${this.id} удалить не удалось`,
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
+      }
     },
     closeFancy() {
       Fancybox.close();
@@ -112,15 +131,22 @@ export default defineComponent({
       id: this.id as string,
       tableName: this.tableName as string
     }
-    const data = await this.fetchOneNewsById(payload)
-    this.pageLoading = false
-
-    if (!data) {
+    const res = await this.fetchOneNewsById(payload)
+    if (res.result) {
+      this.pageLoading = false
+    } else {
       this.error = true
+      this.pageLoading = false
+      this.alertAdd({
+        id: Date.now(),
+        text: `Ошибка ответа от сервера при получении новости с id=${this.id}`,
+        type: 'error',
+        closable: true,
+        autoClosable: false
+      })
       return
     }
-
-    this.article = data
+    this.article = res.data
     Fancybox.bind('[data-fancybox]');
   },
   unmounted() {

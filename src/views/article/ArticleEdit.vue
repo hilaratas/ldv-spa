@@ -164,9 +164,18 @@ export default {
 
     onMounted(async () => {
       const payload = { id, tableName }
-      const data = await store.dispatch('news/fetchOneNewsById', payload)
-      if (data) {
+      const res = await store.dispatch('news/fetchOneNewsById', payload)
+      const {data} = res
+      if (res.result) {
         Object.keys(article).map(key => article[key] = data[key] ?? article[key])
+      } else {
+        store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Ошибка ответа от сервера при получении новости с id=${res.data.id}`,
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
       }
       pageLoading.value = false
     })
@@ -181,10 +190,24 @@ export default {
         return
 
       isLoading.value = true
-
       const res = await store.dispatch('news/editOneNewsById',article)
-      if (res) {
+      if (res.result) {
         resetForm()
+        store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Статья успешно отредактирована. <br> Перейти к <a href="/${tableName}/${res.data.id}" class="js-click-push">просмотру</a>`,
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        })
+      } else {
+        store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: 'Ошибка ответа от сервера при редактировании новости',
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
       }
       isLoading.value = false
     }
