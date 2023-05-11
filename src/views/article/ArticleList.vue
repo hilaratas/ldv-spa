@@ -42,18 +42,19 @@ export default {
     if (res.result ) {
       this.news = res.data
     } else {
-      dispatch('alerts/alertAdd', {
+      await this.alertAdd( {
         id: Date.now(),
         text: 'Ошибка ответа от сервера при получении новостей',
         type: 'error',
         closable: true,
         autoClosable: false
-      }, {root: true})
+      })
     }
     this.pageLoading = false
   },
   methods: {
-    ...mapActions('news', ['fetchNews'])
+    ...mapActions('news', ['fetchNews']),
+    ...mapActions('alerts', ['alertAdd'])
   },
   components: { NewsList, AppLoading }
 }
