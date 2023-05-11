@@ -64,6 +64,7 @@ import {useVuelidate} from '@vuelidate/core'
 import {required, email, minLength } from '@vuelidate/validators'
 import NewsInputRow from "@/components/News/NewsInputRow.vue";
 import {dateTimeFilter} from "@/filter/dateTime.filter";
+import {error} from "@/utils/error";
 
 export default defineComponent({
   name: "Auth",
@@ -90,10 +91,17 @@ export default defineComponent({
 
       try {
         isFormLoading.value = true
-        let result = await store.dispatch('auth/login', form)
+        let {result, data} = await store.dispatch('auth/login', form)
         if (result) {
-          router.push('/news/add')
+          await router.push('/news/add')
         } else {
+          await store.dispatch('alerts/alertAdd', {
+            id: Date.now(),
+            text: error(data.error.message),
+            type: 'error',
+            closable: true,
+            autoClosable: false
+          })
           attemptCount.value ++
         }
       } catch (e) {

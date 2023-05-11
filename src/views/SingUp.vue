@@ -78,6 +78,7 @@ import NewsInputRow from "@/components/News/NewsInputRow.vue";
 import {MAX_ATTEMPT_COUNT, DISABLED_INTERVAL} from '@/config/skip-auto-config'
 import {dateTimeFilter} from "@/filter/dateTime.filter";
 import {useSkipAuto} from "@/use/use.skip-auto";
+import {error} from "@/utils/error";
 
 export default defineComponent({
   name: "SingUp",
@@ -105,10 +106,20 @@ export default defineComponent({
       }
       try {
         isFormLoading.value = true
-        let result = await store.dispatch('auth/singUp', form)
+        let { result, data } = await store.dispatch('auth/singUp', form)
         if (result)
           router.push('/news/add')
         else {
+          const errorCode: string = data.error.message
+          const specifyErrorCode: string = errorCode !== 'OPERATION_NOT_ALLOWED' ?
+            errorCode :`SING_UP_${errorCode}`
+          await store.dispatch('alerts/alertAdd', {
+            id: Date.now(),
+            text: error(specifyErrorCode),
+            type: 'error',
+            closable: true,
+            autoClosable: false
+          })
           attemptCount.value ++
         }
       } catch (e) {
@@ -118,7 +129,7 @@ export default defineComponent({
     }
 
     const onClickLogout = async() => {
-      store.dispatch('auth/logout')
+      await store.dispatch('auth/logout')
     }
 
 

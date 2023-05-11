@@ -3,7 +3,6 @@ import {RootState} from "@/store/types";
 import {authState} from './types'
 import http from "@/http";
 import {AuthInfo} from "@/typings";
-import {error} from "@/utils/error";
 
 
 export const auth: Module<authState, RootState> = {
@@ -31,16 +30,9 @@ export const auth: Module<authState, RootState> = {
         const url = `${authUrl}/accounts:signInWithPassword?key=${apiKey}`
         const {data} = await http.post(url, {...authInfo, returnSecureToken: true})
         commit('setToken', data.idToken)
-        return true
+        return { result: true, data }
       } catch (e) {
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: error(e.response.data.error.message),
-          type: 'error',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return false
+        return { result: false, data: e.response.data }
       }
     },
     logout({commit}) {
@@ -53,19 +45,9 @@ export const auth: Module<authState, RootState> = {
         const url = `${authUrl}/accounts:signUp?key=${apiKey}`
         const {data} = await http.post(url, {...singUpInfo, returnSecureToken: true})
         commit('setToken', data.idToken)
-        return true
+        return  { result: true, data }
       } catch (e) {
-        const errorCode: string = e.response.data.error.message
-        const specifyErrorCode: string = errorCode !== 'OPERATION_NOT_ALLOWED' ?
-          errorCode :`SING_UP_${errorCode}`
-        dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: error(specifyErrorCode),
-          type: 'error',
-          closable: true,
-          autoClosable: false
-        }, {root: true})
-        return false
+        return { result: false, data: e.response.data }
       }
     }
   }
