@@ -18,8 +18,8 @@
     <h1 class="title title--h3 title--mb0">Ссылки на сверстанные страницы</h1>
     <ul>
       <li><router-link to="main">Главная</router-link></li>
-      <li><router-link to="/auth">Авторизация </router-link>**</li>
-      <li><router-link to="/registration">Регистрация </router-link>**</li>
+      <li><router-link to="/singin">Авторизация </router-link>**</li>
+      <li><router-link to="/singup">Регистрация </router-link>**</li>
       <li><router-link to="news">Новости</router-link>**
         <ul>
           <li><router-link to="news/add">Добавить новость</router-link>**</li>
