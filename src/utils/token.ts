@@ -1,10 +1,10 @@
 const LOCAL_ACCESS_NAME = 'jwt-token';
 
-function setTokens(access :string){
-	localStorage.setItem(LOCAL_ACCESS_NAME, access);
+function setAccessToken(accessToken :string){
+	localStorage.setItem(LOCAL_ACCESS_NAME, accessToken);
 }
 
-function cleanTokensData(){
+function cleanAccessToken(){
 	localStorage.removeItem(LOCAL_ACCESS_NAME);
 }
 
@@ -30,4 +30,4 @@ function parsePart(str: string){
 	return JSON.parse(window.atob(str));
 }
 
-export { setTokens, cleanTokensData, getJWTPayload, getAccessToken }
+export { setAccessToken, cleanAccessToken, getJWTPayload, getAccessToken }

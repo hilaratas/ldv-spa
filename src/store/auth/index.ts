@@ -1,15 +1,16 @@
 import {Module} from "vuex";
 import {RootState} from "@/store/types";
 import {authState, fbPayload} from './types'
-import http from "@/http";
+import authHttp from "@/authHttp";
 import {AuthInfo} from "@/typings";
-import {getJWTPayload, setTokens} from "@/utils/token"
+import {getJWTPayload, setAccessToken} from "@/utils/token"
 
 
 export const auth: Module<authState, RootState> = {
   namespaced: true,
   state: () => ({
     token: localStorage.getItem('jwt-token'),
+    refreshToken: localStorage.getItem('refresh-token'),
     user: null
   }),
   getters: {
@@ -17,13 +18,19 @@ export const auth: Module<authState, RootState> = {
     isAuth: (_, getters) => !!getters.token
   },
   mutations: {
-    setToken(state, token : string) {
+    setAccessToken(state, token : string) {
       localStorage.setItem('jwt-token', token)
       state.token = token
     },
-    removeToken(state) {
+    removeAccessToken(state) {
       localStorage.removeItem('jwt-token')
       state.token = null
+    },
+    setRefreshToken(_, refreshToken){
+      localStorage.setItem('refresh-token', refreshToken)
+    },
+    removeRefreshToken(_) {
+      localStorage.removeItem('refresh-token')
     },
     setUser(state, fbPayload :fbPayload) {
       state.user = {
@@ -42,14 +49,12 @@ export const auth: Module<authState, RootState> = {
     async login({commit, dispatch}, authInfo : AuthInfo) {
       try {
         const apiKey = process.env.VUE_APP_FB_API_KEY
-        const authUrl = process.env.VUE_APP_FB_AUTH_URL
-        const url = `${authUrl}/accounts:signInWithPassword?key=${apiKey}`
-        const {data} = await http.post(url, {...authInfo, returnSecureToken: true})
+        const url = `/accounts:signInWithPassword?key=${apiKey}`
+        const {data} = await authHttp.post(url, {...authInfo, returnSecureToken: true})
         const accessToken :string = data.idToken
         const fbPayload: fbPayload = getJWTPayload(accessToken)
-        console.log(data, fbPayload)
 
-        commit('setToken', accessToken)
+        commit('setAccessToken', accessToken)
         commit('setUser', fbPayload)
 
         return { result: true, data }
@@ -58,17 +63,16 @@ export const auth: Module<authState, RootState> = {
       }
     },
     logout({commit}) {
-      commit('removeToken')
+      commit('removeAccessToken')
+      commit('removeRefreshToken')
       commit('removeUser')
     },
     async singUp({commit, dispatch}, singUpInfo: AuthInfo) {
       try {
         const apiKey = process.env.VUE_APP_FB_API_KEY
-        const authUrl = process.env.VUE_APP_FB_AUTH_URL
-        const url = `${authUrl}/accounts:signUp?key=${apiKey}`
-        const {data} = await http.post(url, {...singUpInfo, returnSecureToken: true})
-        setTokens(data.accessToken);
-        commit('setToken', data.idToken)
+        const url = `/accounts:signUp?key=${apiKey}`
+        const {data} = await authHttp.post(url, {...singUpInfo, returnSecureToken: true})
+        commit('setAccessToken', data.idToken)
         return  { result: true, data }
       } catch (e) {
         return { result: false, data: e.response.data }
