@@ -1,7 +1,6 @@
 export interface authState {
   token: string | null,
   refreshToken: string | null,
-  user : User | null
 }
 
 export interface User {
@@ -11,7 +10,3 @@ export interface User {
   auth_time: number,
   exp_time: number
 }
-
-//todo: уточнить у firebase точное определение jwt-token payload
-//todo: избавиться от any
-export type fbPayload = Object | any

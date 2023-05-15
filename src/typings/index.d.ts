@@ -50,3 +50,15 @@ export interface skipAutoInterface {
 }
 
 export type routeHeaderTypes = 'static' | 'dynamic'
+
+//todo: уточнить у firebase точное определение jwt-token payload
+//todo: избавиться от any
+export type fbUserPayload = Object | any
+
+export interface User {
+    email: string,
+    email_verified: boolean,
+    auth_time: number,
+    user_id: string,
+    exp_time:  fbnumber // истекает
+}

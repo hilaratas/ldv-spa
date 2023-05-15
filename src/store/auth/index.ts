@@ -1,21 +1,25 @@
 import {Module} from "vuex";
 import {RootState} from "@/store/types";
-import {authState, fbPayload} from './types'
+import {authState, } from './types'
 import authHttp from "@/authHttp";
-import {AuthInfo} from "@/typings";
+import {AuthInfo, fbUserPayload} from "@/typings";
 import {getJWTPayload, setAccessToken} from "@/utils/token"
+import {user} from '@/utils/user'
 
 
 export const auth: Module<authState, RootState> = {
   namespaced: true,
   state: () => ({
     token: localStorage.getItem('jwt-token'),
-    refreshToken: localStorage.getItem('refresh-token'),
-    user: null
+    refreshToken: localStorage.getItem('refresh-token')
   }),
   getters: {
     token: (state) => state.token,
     refreshToken: (state) => state.refreshToken,
+    user: function (state) {
+      const accessToken = state.token
+      return !accessToken ? null : user(getJWTPayload(accessToken))
+    },
     isAuth: (_, getters) => !!getters.token
   },
   mutations: {
@@ -27,23 +31,13 @@ export const auth: Module<authState, RootState> = {
       localStorage.removeItem('jwt-token')
       state.token = null
     },
-    setRefreshToken(_, refreshToken){
+    setRefreshToken(state, refreshToken){
       localStorage.setItem('refresh-token', refreshToken)
+      state.refreshToken = refreshToken
     },
-    removeRefreshToken(_) {
+    removeRefreshToken(state) {
       localStorage.removeItem('refresh-token')
-    },
-    setUser(state, fbPayload :fbPayload) {
-      state.user = {
-        email: fbPayload.email,
-        email_verified: fbPayload.email_verified,
-        auth_time: fbPayload.auth_time,
-        user_id: fbPayload.user_id,
-        exp_time:  fbPayload.exp // истекает
-      }
-    },
-    removeUser (state) {
-      state.user = null
+      state.refreshToken = null
     }
   },
   actions: {
@@ -54,11 +48,10 @@ export const auth: Module<authState, RootState> = {
         const {data} = await authHttp.post(url, {...authInfo, returnSecureToken: true})
         const accessToken :string = data.idToken
         const refreshToken :string = data.refreshToken
-        const fbPayload: fbPayload = getJWTPayload(accessToken)
+        const fbPayload: fbUserPayload = getJWTPayload(accessToken)
 
         commit('setAccessToken', accessToken)
         commit('setRefreshToken', refreshToken)
-        commit('setUser', fbPayload)
 
         return { result: true, data }
       } catch (e) {
