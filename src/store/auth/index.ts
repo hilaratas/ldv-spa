@@ -15,6 +15,7 @@ export const auth: Module<authState, RootState> = {
   }),
   getters: {
     token: (state) => state.token,
+    refreshToken: (state) => state.refreshToken,
     isAuth: (_, getters) => !!getters.token
   },
   mutations: {
@@ -52,9 +53,11 @@ export const auth: Module<authState, RootState> = {
         const url = `/accounts:signInWithPassword?key=${apiKey}`
         const {data} = await authHttp.post(url, {...authInfo, returnSecureToken: true})
         const accessToken :string = data.idToken
+        const refreshToken :string = data.refreshToken
         const fbPayload: fbPayload = getJWTPayload(accessToken)
 
         commit('setAccessToken', accessToken)
+        commit('setRefreshToken', refreshToken)
         commit('setUser', fbPayload)
 
         return { result: true, data }
