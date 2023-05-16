@@ -4,7 +4,6 @@ import {RootState} from '@/store/types'
 import {NewsState} from "@/store/news/types";
 import {getters} from "@/store/news/getters";
 import {Article, ArticleFetchInfo, ArticleTable} from "@/typings";
-import {auth} from "@/store/auth";
 import {AxiosRequestConfig} from "axios";
 
 export const news: Module<NewsState, RootState> = {

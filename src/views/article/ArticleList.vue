@@ -41,20 +41,11 @@ export default {
     const res = await this.fetchNews(this.tableName)
     if (res.result ) {
       this.news = res.data
-    } else {
-      await this.alertAdd( {
-        id: Date.now(),
-        text: 'Ошибка ответа от сервера при получении новостей',
-        type: 'error',
-        closable: true,
-        autoClosable: false
-      })
     }
     this.pageLoading = false
   },
   methods: {
     ...mapActions('news', ['fetchNews']),
-    ...mapActions('alerts', ['alertAdd'])
   },
   components: { NewsList, AppLoading }
 }
