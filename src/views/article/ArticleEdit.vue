@@ -97,7 +97,7 @@
               <td class="form__table-cell form__table-cell--wide">
                 <div class="row">
                   <div class="col-auto">
-                    <button type="submit" :disabled="isLoading" :class="['button', {'is-pageLoading': isLoading}]" >Отправить</button>
+                    <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
                   </div>
                   <div class="col-auto">
                     <router-link :to='"/" + tableName + "/" + id' class="button">Смотреть</router-link>
