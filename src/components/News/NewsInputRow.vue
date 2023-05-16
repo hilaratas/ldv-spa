@@ -13,17 +13,14 @@
           :value="controlValue"
           @input="onInput"
       >
+      <div v-if="description" style="padding-bottom: 10px">
+        <small class="control-description" :id="descriptionId" v-html="description"></small>
+      </div>
       <div class="control-error" v-if="errors.length">
         <div v-for="error of errors">
           <div>{{ error.$message }}</div>
         </div>
       </div>
-    </td>
-  </tr>
-  <tr v-if="description">
-    <td class="form__table-cell"></td>
-    <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-      <small class="control-description" :id="descriptionId" v-html="description"></small>
     </td>
   </tr>
 </template>
