@@ -107,9 +107,10 @@ export default defineComponent({
       try {
         isFormLoading.value = true
         let { result, data } = await store.dispatch('auth/singUp', form)
-        if (result)
-          router.push('/news/add')
-        else {
+        if (result) {
+          await store.dispatch('profile/fetchProfile')
+          await router.push('/profile')
+        } else {
           const errorCode: string = data.error.message
           const specifyErrorCode: string = errorCode !== 'OPERATION_NOT_ALLOWED' ?
             errorCode :`SING_UP_${errorCode}`

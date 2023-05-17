@@ -93,7 +93,8 @@ export default defineComponent({
         isFormLoading.value = true
         let {result, data} = await store.dispatch('auth/login', form)
         if (result) {
-          await router.push('/news/add')
+          await store.dispatch('profile/fetchProfile')
+          await router.push('/profile')
         } else {
           await store.dispatch('alerts/alertAdd', {
             id: Date.now(),

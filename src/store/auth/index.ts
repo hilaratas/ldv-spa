@@ -1,6 +1,6 @@
 import {Module} from "vuex";
 import {RootState} from "@/store/types";
-import {authState, } from './types'
+import {authState, User} from './types'
 import authHttp from "@/authHttp";
 import {AuthInfo, fbUserPayload} from "@/typings";
 import {getJWTPayload, setAccessToken} from "@/utils/token"
@@ -14,11 +14,15 @@ export const auth: Module<authState, RootState> = {
     refreshToken: localStorage.getItem('refresh-token')
   }),
   getters: {
-    token: (state) => state.token,
+    token: (state)   => state.token,
     refreshToken: (state) => state.refreshToken,
-    user: function (state) {
+    user: function (state) :null | User {
       const accessToken = state.token
       return !accessToken ? null : user(getJWTPayload(accessToken))
+    },
+    userId: function (state) :null | string {
+      const accessToken = state.token
+      return !accessToken ? null : user(getJWTPayload(accessToken)).user_id
     },
     isAuth: (_, getters) => !!getters.token
   },

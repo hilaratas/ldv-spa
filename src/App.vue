@@ -17,12 +17,29 @@
             </div>
             <div class="header__bottom">
               <div class="contact-us">
-                <router-link v-if="!isAuth" class="contact-us__btn" to="/singin">
-                  <span class="contact-us__text">Личный кабинет</span>
-                </router-link>
-                <a v-else class="contact-us__btn" href="/" @click="onClickLogout">
-                  <span class="contact-us__text">Выход</span>
-                </a>
+                <div class="contact-us__btn">
+                  <router-link v-if="!isAuth" class="contact-us__btn" to="/singin">
+                    <span class="contact-us__text">Личный кабинет</span>
+                  </router-link>
+                  <router-link v-else class="contact-us__btn" to="/profile" >
+                    <span class="contact-us__text">Профиль</span>
+                  </router-link>
+                  <ul v-if="isAuth" class="contact-us__drop">
+                    <li class="contact-us__drop-item">
+                      <a href="#" class="contact-us__drop-elem">Корзина</a>
+                    </li>
+                    <li class="contact-us__drop-item">
+                      <a href="/" class="contact-us__drop-elem" @click="onClickLogout">Выйти</a>
+                    </li>
+                  </ul>
+                </div>
+
+<!--                <router-link v-if="!isAuth" class="contact-us__btn" to="/singin">-->
+<!--                  <span class="contact-us__text">Личный кабинет</span>-->
+<!--                </router-link>-->
+<!--                <a v-else class="contact-us__btn" href="/" @click="onClickLogout">-->
+<!--                  <span class="contact-us__text">Выход</span>-->
+<!--                </a>-->
               </div>
             </div>
           </div>
@@ -104,6 +121,7 @@ export default defineComponent({
   },
   mounted() {
     sideNav(document.getElementById('js-main-menu'))
+
   },
   components: {TheSidebarLeft, TheBreadcrumbs, TheFooter, TheSoc, AppAlerts}
 })

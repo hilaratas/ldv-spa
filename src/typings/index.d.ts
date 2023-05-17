@@ -60,5 +60,12 @@ export interface User {
     email_verified: boolean,
     auth_time: number,
     user_id: string,
-    exp_time:  fbnumber // истекает
+    exp_time:  number // истекает
+}
+
+export interface Profile {
+    userId?: string | null
+    name?: string | null,
+    surname?: string | null,
+    tel?: string | null
 }

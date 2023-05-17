@@ -242,6 +242,16 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+    meta: {
+      ...DEFAULT_META,
+      auth: true,
+      headerText: 'Профиль'
+    }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../views/404.vue'),

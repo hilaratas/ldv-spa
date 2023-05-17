@@ -94,6 +94,38 @@
     display: flex;
     align-items: center;
 }
+
+.contact-us__drop {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 0px;
+    overflow: hidden;
+    transition: all 0.3s;
+    opacity: 0;
+}
+.contact-us:hover .contact-us__drop {
+    height: auto;
+    opacity: 1;
+}
+
+
+.contact-us__drop-elem {
+    display: block;
+    padding: 0.8em 1em;
+    background: #92C57A;
+    color: #000;
+    font-size: 12px;
+    text-decoration: none;
+    border-top: 1px solid #75b656;
+    transition: all 0.3s;
+}
+.contact-us__drop-elem:hover, .contact-us__drop-elem.is-active {
+    background: #75b656;
+}
 .button {
     position: relative;
 }
