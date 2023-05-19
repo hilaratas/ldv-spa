@@ -22,7 +22,7 @@ if (refreshToken) {
         const newRefreshToken = response.data.refresh_token
         store.commit('auth/setAccessToken', newAccessToken)
         store.commit('auth/setRefreshToken', newRefreshToken)
-        store.dispatch('profile/fetchProfile')
+        return store.dispatch('profile/fetchProfile')
       },
       ()=> {
         store.commit('auth/removeAccessToken')

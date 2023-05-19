@@ -26,6 +26,21 @@
           <input class="input" type="tel" name="profile-tel" id="profile-tel" v-model="tel">
         </td>
       </tr>
+      <tr>
+        <td class="form__table-cell form__table-cell--pr15px">
+          <label class="nowrap" for="profile-email">Email</label>
+        </td>
+        <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
+          <input class="input" type="email" name="profile-email" id="profile-tel" v-model="email" readonly>
+          <div v-if="!email_verified" style="padding-top: 10px">
+            <small class="control-description"> Ваша почта не подтверждена. </small>
+            <button class="button button--small button--blue" @click.prevent="onVerifyEmail">Подтвердить</button>
+          </div>
+          <div v-else style="padding-top: 10px">
+            <span class="button button--small button--green">Ваша почта подтверждена</span>
+          </div>
+        </td>
+      </tr>
       <td class="form__table-cell form__table-cell--pr15px"></td>
       <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
         <button type="submit" :disabled="isFormLoading" :class="['button', {'is-loading': isFormLoading}]" >Отправить</button>
@@ -37,28 +52,31 @@
 
 <script lang="ts">
 import {useStore} from "vuex";
-import { ref, computed, defineComponent} from "vue";
+import {ref, computed, defineComponent} from "vue";
 
 export default defineComponent({
   name: "Profile",
   setup() {
     const store = useStore()
     const authUserId = computed(() => store.getters['auth/userId'])
+    const authUser = store.getters['auth/user']
     const profile = store.getters['profile/profile']
-    const userId= ref(authUserId),
-      name = ref(profile.name || null ),
-      surname = ref(profile.surname || null ),
-      tel = ref(profile.tel || null)
+    const userId = ref(authUserId),
+      name = ref(profile.name),
+      surname = ref(profile.surname),
+      tel = ref(profile.tel)
     const isFormLoading = ref(false)
+    const email :string = ref(authUser.email),
+      email_verified :boolean = ref(authUser.email_verified);
 
-    const onSubmit = async () => {
+    async function onSubmit() {
       const profilePayload = {
         userId: authUserId.value,
         name: name.value,
         surname: surname.value,
         tel: tel.value
       }
-      console.table(profilePayload)
+
       isFormLoading.value = true
       const res = await store.dispatch('profile/editProfile', profilePayload)
       if(res.result) {
@@ -80,13 +98,37 @@ export default defineComponent({
       }
       isFormLoading.value = false
     }
+
+    async function onVerifyEmail() {
+      const res = await store.dispatch('auth/verifyEmail')
+      if(res.result) {
+        await store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: "На вашу почту отправлено письмо с кодом подтверждения",
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        })
+      } else {
+        console.log(res.error)
+        await store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: "Во время отправки письма с кодом подтверждения произошла ошибка. <br> Повторите попытку позже",
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
+      }
+    }
     return {
       name,
       surname,
       tel,
+      email,
+      email_verified,
       isFormLoading,
       onSubmit,
-      profile
+      onVerifyEmail
     }
   }
 })

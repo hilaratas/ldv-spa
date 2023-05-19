@@ -1,3 +1,8 @@
+:root {
+    --light-green: #cce4c1;
+    --green: #92C57A;
+}
+
 .page__middle-inner {
     position: relative;
 }
@@ -145,6 +150,16 @@
     border-top: 2px solid #fff;
     border-right: 2px solid #fff;
     animation: rotate 1s linear 0s infinite normal forwards;
+}
+
+.button--green {
+    background: var(--green);
+    border: 1px solid var(--green);
+}
+
+.button--light-green {
+    background: var(--light-green);
+    border: 1px solid var(--green);
 }
 
 .nowrap {

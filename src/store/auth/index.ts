@@ -77,6 +77,17 @@ export const auth: Module<authState, RootState> = {
       } catch (e) {
         return { result: false, data: e.response.data }
       }
+    },
+    async verifyEmail({commit, getters}) {
+      try {
+        const apiKey = process.env.VUE_APP_FB_API_KEY
+        const url = `/accounts:sendOobCode?key=${apiKey}`
+        const token = getters['token']
+        const {data} = await authHttp.post(url, {idToken: token, requestType: "VERIFY_EMAIL"})
+        return {result: true, data}
+      } catch (e) {
+        return {result: false, error: e}
+      }
     }
   }
 }
