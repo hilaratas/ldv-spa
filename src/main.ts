@@ -2,15 +2,24 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import authHttp from "@/authHttp";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCC4MZtebMMxm4ACI-OIIh58vOVgFtn9Zo",
-  authDomain: "nrachkova-vue3-ldv.firebaseapp.com",
-  databaseURL: "https://nrachkova-vue3-ldv-default-rtdb.firebaseio.com",
-  projectId: "nrachkova-vue3-ldv",
-  storageBucket: "nrachkova-vue3-ldv.appspot.com",
-  messagingSenderId: "747858080340",
-  appId: "1:747858080340:web:89dbdd72c6f6c973aaf3c1"
-};
-
-createApp(App).use(store).use(router).mount('#app')
+try {
+  const apiKey = process.env.VUE_APP_FB_API_KEY
+  const secureUrl = process.env.VUE_APP_FB_SECURE_URL
+  const refreshToken = localStorage.getItem('refresh-token')
+  if (refreshToken) {
+    const url = `${secureUrl}/token?key=${apiKey}`
+    const payload = { refresh_token: refreshToken,  grant_type: "refresh_token" }
+    authHttp.post(url, payload).then((response)=> {
+      const newAccessToken = response.data.id_token
+      const newRefreshToken = response.data.refresh_token
+      store.commit('auth/setAccessToken',newAccessToken)
+      store.commit('auth/setRefreshToken',newRefreshToken)
+    })
+  }
+} catch(e) {
+  console.log(e)
+} finally {
+  createApp(App).use(store).use(router).mount('#app')
+}
