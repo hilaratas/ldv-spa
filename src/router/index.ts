@@ -216,17 +216,37 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: 'themed_products',
-        name: 'CatalogThemed',
+        path: '',
         component: () => import('../views/Catalog.vue'),
+        name: 'CatalogIndex'
+      },
+      {
+        path: 'add',
+        component: () => import('../views/catalog/CatalogSectionAdd.vue'),
+        name: 'CatalogSectionAdd',
         meta: {
-          headerText: 'Тематический каталог'
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Добавить новый раздел каталога'
         }
       },
       {
-        path: 'others',
-        name: 'CatalogOthers',
-        component: () => import('../views/Catalog.vue')
+        path: ':id',
+        component: () => import('../views/article/Article.vue'),
+        name: 'AboutIndexId',
+        meta: {
+          headerType: 'dynamic'
+        }
+      },
+      {
+        path: 'edit/:id',
+        component: () => import('../views/article/ArticleEdit.vue'),
+        name: 'AboutEdit',
+        meta: {
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Редактировать статью о нас'
+        }
       }
     ]
   },
