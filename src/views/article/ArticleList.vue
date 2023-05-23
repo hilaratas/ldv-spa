@@ -15,6 +15,9 @@
         <div v-if="tableName === 'specials_and_actions'" class="title title--h3">
           На данный момент акций и спецпредложений нет
         </div>
+        <div v-if="tableName === 'about'" class="title title--h3">
+          Пока нам нечего о себе рассказать
+        </div>
       </template>
     </news-list>
   </template>

@@ -33,13 +33,6 @@
                     </li>
                   </ul>
                 </div>
-
-<!--                <router-link v-if="!isAuth" class="contact-us__btn" to="/singin">-->
-<!--                  <span class="contact-us__text">Личный кабинет</span>-->
-<!--                </router-link>-->
-<!--                <a v-else class="contact-us__btn" href="/" @click="onClickLogout">-->
-<!--                  <span class="contact-us__text">Выход</span>-->
-<!--                </a>-->
               </div>
             </div>
           </div>
@@ -50,7 +43,7 @@
 
       </div>
 
-      <div class="page__middle">
+      <div v-if="layout !== 'main'" class="page__middle">
         <div class="page__middle-inner">
           <app-alerts></app-alerts>
           <div class="section section--index">
@@ -62,15 +55,12 @@
               </div>
             </div>
           </div>
-
           <div class="section section--index">
             <div class="section__inner">
               <the-breadcrumbs></the-breadcrumbs>
             </div>
           </div>
-
           <section class="section section--index">
-
             <div class="section__main-content">
               <div class="section__inner">
                 <main class="main-content" role="main">
@@ -78,9 +68,14 @@
                 </main>
               </div>
             </div> <!-- / .section__main-content -->
-
           </section>
+        </div>
+      </div>
 
+      <div v-else class="page__middle">
+        <div class="page__middle-inner">
+          <app-alerts></app-alerts>
+          <router-view></router-view>
         </div>
       </div>
 
@@ -110,6 +105,9 @@ export default defineComponent({
   computed: {
     isAuth() {
       return this.$store.getters["auth/isAuth"]
+    },
+    layout() {
+      return this.$route.meta.layout
     }
   },
   methods: {

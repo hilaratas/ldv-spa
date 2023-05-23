@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
+import Main from '../views/Main.vue'
 import Articles from '../views/Articles.vue'
 import store from "@/store";
 import {DEFAULT_META} from '@/config/default-meta'
@@ -18,10 +19,11 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/main',
     name: 'Main',
-    component: Home,
+    component: Main,
     meta: {
       ...DEFAULT_META,
-      headerText: 'Главная'
+      headerText: 'Главная',
+      layout: 'main'
     }
   },
   {
@@ -41,6 +43,51 @@ const routes: Array<RouteRecordRaw> = [
       ...DEFAULT_META,
       headerText: 'Регистрация'
     }
+  },
+  {
+    path: '/about/',
+    name: 'About',
+    component: Articles,
+    meta: {
+      ...DEFAULT_META,
+      headerText: 'О нас',
+      tableName: 'about'
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('../views/article/ArticleList.vue'),
+        name: 'AboutIndex'
+      },
+      {
+        path: 'add',
+        component: () => import('../views/article/ArticleAdd.vue'),
+        name: 'AboutAdd',
+        meta: {
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Добавить статью о нас'
+        }
+      },
+      {
+        path: ':id',
+        component: () => import('../views/article/Article.vue'),
+        name: 'AboutIndexId',
+        meta: {
+          headerType: 'dynamic'
+        }
+      },
+      {
+        path: 'edit/:id',
+        component: () => import('../views/article/ArticleEdit.vue'),
+        name: 'AboutEdit',
+        meta: {
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Редактировать статью о нас'
+        }
+      }
+    ]
   },
   {
     path: '/news/',
