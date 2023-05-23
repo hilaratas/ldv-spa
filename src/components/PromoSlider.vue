@@ -32,15 +32,14 @@
       </div>
     </div>
   </div>
-
-
 </template>
 
 <script>
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
   name: "PromoSlider"
-}
+})
 </script>
 
 <style scoped>
