@@ -13,13 +13,15 @@
           :value="controlValue"
           @input="onInput"
       >
+      <div class="control-error-holder">
+        <div class="control-error" v-if="errors.length">
+          <div v-for="error of errors">
+            <div>{{ error.$message }}</div>
+          </div>
+        </div>
+      </div>
       <div v-if="description" style="padding-bottom: 10px">
         <small class="control-description" :id="descriptionId" v-html="description"></small>
-      </div>
-      <div class="control-error" v-if="errors.length">
-        <div v-for="error of errors">
-          <div>{{ error.$message }}</div>
-        </div>
       </div>
     </td>
   </tr>

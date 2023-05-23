@@ -20,6 +20,10 @@
     padding-bottom: 10px;
 }
 
+.control-error-holder {
+    position: relative
+}
+
 .control-error {
     font-size: 13px;
     background: #f4a096;
