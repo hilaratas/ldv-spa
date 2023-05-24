@@ -104,7 +104,7 @@ export default {
 
     const onSubmit = async () => {
       v$.value.$touch()
-      if (v$.value.$error) {
+      if (v$.value.$error || !isHruValid.value) {
         return;
       }
 
