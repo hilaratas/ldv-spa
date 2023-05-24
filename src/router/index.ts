@@ -233,19 +233,19 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: ':id',
         component: () => import('../views/article/Article.vue'),
-        name: 'AboutIndexId',
+        name: 'CatalogId',
         meta: {
           headerType: 'dynamic'
         }
       },
       {
-        path: 'edit/:id',
-        component: () => import('../views/article/ArticleEdit.vue'),
-        name: 'AboutEdit',
+        path: 'edit/:hru',
+        component: () => import('../views/catalog/CatalogSectionEdit.vue'),
+        name: 'CatalogEdit',
         meta: {
           ...DEFAULT_META,
           auth: true,
-          headerText: 'Редактировать статью о нас'
+          headerText: 'Редактировать раздел каталога'
         }
       }
     ]

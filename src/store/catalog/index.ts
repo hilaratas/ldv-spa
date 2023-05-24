@@ -11,7 +11,8 @@ export const catalog: Module<CatalogState, RootState> = {
     catalogSections: []
   },
   getters: {
-    catalogSections: s => s.catalogSections
+    catalogSections: s => s.catalogSections,
+    catalogSection: s => (hru :string) => s.catalogSections.find(sec => sec.hru === hru)
   },
   mutations: {
     editCatalogSection(state, catalogSection) {

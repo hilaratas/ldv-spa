@@ -49,8 +49,7 @@
               <router-link to="/catalog/" class="button">Посмотреть каталог</router-link>
             </div>
             <div v-if="needShowButtons" class="col-auto">
-              reserveHru = {{reserveHru}}
-              <router-link :to="'/catalog/edit/' + reserveHru" class="button">Редактировать раздел каталога</router-link>
+              <router-link :to="'/catalog/edit/' + hru" class="button">Редактировать раздел каталога</router-link>
             </div>
           </div>
 
@@ -63,8 +62,9 @@
 
 <script>
 import NewsInputRow from "@/components/News/NewsInputRow";
-import {ref, computed, reactive, watch} from "vue"
+import {ref, computed, reactive, watch, onMounted} from "vue"
 import { useStore } from "vuex"
+import  { useRoute } from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { hruFilter } from "@/filter/hru.filter";
@@ -73,6 +73,7 @@ export default {
   name: "CatalogSectionAdd",
   setup() {
     const store = useStore()
+    const route = useRoute()
     const formName = "catalog-types"
     const isFormLoading = ref(false)
     const sectionDefault = { img: "", title: "" }
@@ -82,8 +83,8 @@ export default {
         }
     const section = reactive({...sectionDefault})
     const v$ = useVuelidate(sectionRules, section)
+    const routeHru = route.params.hru
     const hru = computed(() => hruFilter(section.title))
-    let reserveHru = ''
     const isAlreadyCreated = ref(false)
     const needShowButtons = computed(() => (
         !isAlreadyCreated.value ?  false :  !(section.img || section.title )
@@ -96,6 +97,24 @@ export default {
         return
       }
       isHruValid.value = await store.dispatch('catalog/isUniqueCatalogSection', newHru)
+    })
+
+    onMounted(async () => {
+      const payload = { id, tableName }
+      section = store.getters['catalog/catalogSection'](hru)
+      const {data} = res
+      if (res.result) {
+        Object.keys(article).map(key => article[key] = data[key] ?? article[key])
+      } else {
+        store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Ошибка ответа от сервера при получении новости с id=${res.data.id}`,
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
+      }
+      pageLoading.value = false
     })
 
     const resetForm = () => {
@@ -142,8 +161,7 @@ export default {
       isAlreadyCreated,
       needShowButtons,
       onSubmit,
-      isHruValid,
-      reserveHru
+      isHruValid
     }
   },
   components: { NewsInputRow }
