@@ -69,3 +69,9 @@ export interface Profile {
     surname?: string | null,
     tel?: string | null
 }
+
+export interface CatalogSection {
+    img: string,
+    title: string,
+    hru: string
+}

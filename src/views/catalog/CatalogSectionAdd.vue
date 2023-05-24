@@ -5,7 +5,7 @@
       <news-input-row
           :formName="formName"
           inputName="catalog-img"
-          label="Ссылку на картинку"
+          label="Ссылку на картинку *"
           description="Поле обязательно к заполнению.
           Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
           <br> Вес картинки не более 2Мб"
@@ -28,11 +28,11 @@
         </td>
         <td class="form__table-cell form__table-cell--wide">
           <div class="row">
-            <div class="col-auto">
-              <small class=""></small>
-            </div>
             <div class="col">
-              проверено
+              <small class="">{{hru}}</small>
+            </div>
+            <div class="col-auto">
+              <span>✔</span> или <span>✘</span>
             </div>
           </div>
         </td>
@@ -42,13 +42,13 @@
         <td class="form__table-cell form__table-cell--wide">
           <div class="row">
             <div class="col-auto">
-              <button type="submit" :disabled="isLoading" :class="['button', {'is-loading': isLoading}]" >Отправить</button>
+              <button type="submit" :disabled="isFormLoading" :class="['button', {'is-loading': isFormLoading}]" >Отправить</button>
             </div>
             <div v-if="needShowButtons" class="col-auto">
-              <router-link :to="'/' + tableName + '/' + fbId" class="button">Посмотреть статью</router-link>
+              <router-link to="/catalog/" class="button">Посмотреть каталог</router-link>
             </div>
             <div v-if="needShowButtons" class="col-auto">
-              <router-link :to="'/' + tableName + '/edit/' + fbId" class="button">Редактировать статью</router-link>
+              <router-link :to="'/catalog/edit/' + hru" class="button">Редактировать раздел каталога</router-link>
             </div>
           </div>
 
@@ -61,31 +61,76 @@
 
 <script>
 import NewsInputRow from "@/components/News/NewsInputRow";
-import { reactive } from "vue"
+import { ref, computed, reactive } from "vue"
 import { useStore } from "vuex"
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import { hruFilter } from "@/filter/hru.filter";
 
 export default {
   name: "CatalogSectionAdd",
   setup() {
     const store = useStore()
-    const formName = "catalog-types",
-        sectionDefault = {
-          img: "",
-          title: "",
-          hru: ""
-        },
-        sectionRules = {
+    const formName = "catalog-types"
+    const isFormLoading = ref(false)
+    const sectionDefault = { img: "", title: "" }
+    const sectionRules = {
           img: {required},
-          title: {required},
-          hru: {required}
-        },
-        section = reactive({...sectionDefault})
-        v$ = useVuelidate(section, sectionRules)
+          title: {required}
+        }
+    const section = reactive({...sectionDefault})
+    const v$ = useVuelidate(sectionRules, section)
+    const hru = computed(() => hruFilter(section.title))
+    const isAlreadyCreated = ref(false)
+    const needShowButtons = computed(() => (
+        !isAlreadyCreated.value ?  false :  !(section.img || section.title )
+      ))
+
+    store.dispatch('catalog/fetchCatalogSections')
+
+    const resetForm = () => {
+      Object.keys(section).map(key => section[key] = sectionDefault[key])
+      v$.value.$reset()
+    }
+
+    const onSubmit = async () => {
+      v$.value.$touch()
+      if (v$.value.$error) {
+        return;
+      }
+
+      isFormLoading.value = true
+      const res = await store.dispatch('catalog/createCatalogSection', {...section, hru: hru.value})
+      if (res) {
+        isAlreadyCreated.value = true
+        resetForm()
+        await store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Новый раздел каталога успешно создан`,
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        })
+      } else {
+        await store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: 'Ошибка сервера при создании нового раздела каталога',
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
+      }
+      isFormLoading.value = false
+    }
     return {
+      isFormLoading,
       formName,
-      section
+      section,
+      hru,
+      v$,
+      isAlreadyCreated,
+      needShowButtons,
+      onSubmit
     }
   },
   components: { NewsInputRow }

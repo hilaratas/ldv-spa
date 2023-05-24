@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import Main from '../views/Main.vue'
-import Articles from '../views/Articles.vue'
+import Articles from '../views/Base.vue'
 import store from "@/store";
 import {DEFAULT_META} from '@/config/default-meta'
 import {replaceHeader} from "@/utils/replaceHeader";
@@ -209,7 +209,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/catalog',
     name: 'Catalog',
-    component: () => import('../views/Catalog.vue'),
+    component: () => import('../views/Base.vue'),
     meta: {
       ...DEFAULT_META,
       headerText: 'Каталог'

@@ -1,44 +1,59 @@
 import http from '@/http'
 import {Module} from "vuex";
 import {RootState} from '@/store/types'
-import {NewsState} from "@/store/news/types";
-import {getters} from "@/store/news/getters";
-import {Article, ArticleFetchInfo, ArticleTable} from "@/typings";
+import {CatalogSection} from "@/typings";
 import {AxiosRequestConfig} from "axios";
+import {CatalogSectionPayLoad, CatalogState} from "./types";
 
-export const catalog: Module<any, RootState> = {
+export const catalog: Module<CatalogState, RootState> = {
+  namespaced: true,
   state: {
     catalogSections: []
   },
   getters: {
-    catalogSections: s => s.catalogSections()
+    catalogSections: s => s.catalogSections
   },
   mutations: {
-    setCatalogSection(state, catalogSection) {
-
+    editCatalogSection(state, catalogSection) {
+    },
+    setCatalogSections(state, sections: Array<CatalogSection>) {
+      state.catalogSections = sections
     }
   },
   actions: {
-    async fetchCatalogSections() {
+    async fetchCatalogSections({commit}) {
       try {
         const config :AxiosRequestConfig = {params: { auth: null }}
-        const {data} = await http.get(`/catalogTypes.json`, config)
-        let catalogTypes = []
+        const {data} = await http.get(`/catalogSections.json`, config)
+        let catalogSections = {}
         if (data) {
-          catalogTypes = Object.keys(data).map(id => ({...data[id], id}))
+          catalogSections = Object.keys(data).map(key => ({...data[key], hru: key}))
+          commit('setCatalogSections', catalogSections)
         }
-        return { result: !!data, data: catalogTypes }
       } catch (e) {
-        return { result: false, data: null}
       }
     },
-    async isUniqueCatalogSection(_, newSection) {
+    async isUniqueCatalogSection(_, newSection :CatalogSection) {
+      const hru: string = newSection.hru
       try {
         const config :AxiosRequestConfig = {params: { auth: null }}
-        const {data} = await http.get(`/catalogTypes/${newSection}.json`, config)
+        const {data} = await http.get(`/catalogSections/${hru}.json`, config)
         return !data
       } catch (e) {
         // ошибка запроса - значть мы ичего не знаем про уникальность
+        return false
+      }
+    },
+    async createCatalogSection(_, newSection :CatalogSection) {
+      const hru: string = newSection.hru
+      try {
+        const config :AxiosRequestConfig = {params: { auth: null }}
+        const payLoad :CatalogSectionPayLoad = {img : newSection.img, title: newSection.title}
+        const {data} = await http.put(`/catalogSections/${hru}.json`, payLoad, config)
+        console.log(!!data, data)
+        return !!data
+      } catch (e) {
+        // ошибка запроса - значит мы ничего не знаем про уникальность
         return false
       }
     }
