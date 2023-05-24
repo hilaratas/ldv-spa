@@ -32,7 +32,8 @@
               <small class="">{{hru}}</small>
             </div>
             <div class="col-auto">
-              <span>✔</span> или <span>✘</span>
+              <span v-if="isHruValid" class="check is-seccess">✔</span>
+              <span v-else class="check is-error">✘</span>
             </div>
           </div>
         </td>
@@ -61,7 +62,7 @@
 
 <script>
 import NewsInputRow from "@/components/News/NewsInputRow";
-import { ref, computed, reactive } from "vue"
+import {ref, computed, reactive, watch} from "vue"
 import { useStore } from "vuex"
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
@@ -85,6 +86,15 @@ export default {
     const needShowButtons = computed(() => (
         !isAlreadyCreated.value ?  false :  !(section.img || section.title )
       ))
+    const isHruValid = ref(false)
+
+    watch( hru, async (newHru) => {
+      if ( !newHru ) {
+        isHruValid.value = false
+        return
+      }
+      isHruValid.value = await store.dispatch('catalog/isUniqueCatalogSection', newHru)
+    })
 
     store.dispatch('catalog/fetchCatalogSections')
 
@@ -111,6 +121,7 @@ export default {
           closable: true,
           autoClosable: false
         })
+        await store.dispatch('catalog/fetchCatalogSections')
       } else {
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
@@ -130,7 +141,8 @@ export default {
       v$,
       isAlreadyCreated,
       needShowButtons,
-      onSubmit
+      onSubmit,
+      isHruValid
     }
   },
   components: { NewsInputRow }

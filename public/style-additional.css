@@ -1,6 +1,8 @@
 :root {
     --light-green: #cce4c1;
     --green: #92C57A;
+    --light-red: #f4a096;
+    --red: #ea4c3a;
 }
 
 .page__middle-inner {
@@ -210,4 +212,12 @@
 
 .article__date {
     font-size: 13px
+}
+
+.check.is-seccess {
+    color: var(--green)
+}
+
+.check.is-error {
+    color: var(--red)
 }

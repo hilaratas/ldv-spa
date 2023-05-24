@@ -3,12 +3,21 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import authHttp from "@/authHttp";
+import {AlertId, AlertTypes} from "@/typings";
 
 function loadApp() {
   createApp(App).use(store).use(router).mount('#app')
 }
 
-
+store.dispatch('catalog/fetchCatalogSections').catch( (error) => {
+  store.dispatch('alerts/alertAdd', {
+    id: Date.now(),
+    text: `Невозможно загрузить каталог <br>Перезагрузите страницу`,
+    type: 'error',
+    closable: false,
+    autoClosable: false
+  })
+})
 const apiKey = process.env.VUE_APP_FB_API_KEY
 const secureUrl = process.env.VUE_APP_FB_SECURE_URL
 const refreshToken = localStorage.getItem('refresh-token')

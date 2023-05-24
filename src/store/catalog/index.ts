@@ -31,18 +31,11 @@ export const catalog: Module<CatalogState, RootState> = {
           commit('setCatalogSections', catalogSections)
         }
       } catch (e) {
+        throw new Error(e)
       }
     },
-    async isUniqueCatalogSection(_, newSection :CatalogSection) {
-      const hru: string = newSection.hru
-      try {
-        const config :AxiosRequestConfig = {params: { auth: null }}
-        const {data} = await http.get(`/catalogSections/${hru}.json`, config)
-        return !data
-      } catch (e) {
-        // ошибка запроса - значть мы ичего не знаем про уникальность
-        return false
-      }
+    isUniqueCatalogSection( {state}, hru: string) {
+      return state.catalogSections.findIndex((elem :CatalogSection)  => elem.hru === hru) === -1
     },
     async createCatalogSection(_, newSection :CatalogSection) {
       const hru: string = newSection.hru
