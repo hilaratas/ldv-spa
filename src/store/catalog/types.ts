@@ -6,6 +6,13 @@ export interface CatalogState {
 }
 
 export interface CatalogSectionPayLoad {
-  img?: string,
+  img: string,
+  title: string
+}
+
+export interface EditCatalogSection {
+  oldHru: string,
+  newHru: string,
+  img: string,
   title: string
 }

@@ -1,5 +1,13 @@
 <template>
-  <form action="#" :id="formName" class="form" @submit.prevent="onSubmit">
+  <app-404 v-if="!isSectionExist">
+    <div class="title title--h1">404</div>
+    <div>Такаго раздела каталога не существует</div>
+    <div v-if="isAuth">
+      <br>
+      <router-link to="/catalog/add" class="button">Добавить раздел каталога</router-link>
+    </div>
+  </app-404>
+  <form v-else action="#" :id="formName" class="form" @submit.prevent="onSubmit">
     <table class="form__table">
       <tbody>
       <news-input-row
@@ -27,7 +35,7 @@
           ЧПУ
         </td>
         <td class="form__table-cell form__table-cell--wide">
-          <div class="row">
+          <div class="row" style="padding-bottom: 10px">
             <div class="col">
               <small class="">{{hru}}</small>
             </div>
@@ -52,7 +60,6 @@
               <router-link :to="'/catalog/edit/' + hru" class="button">Редактировать раздел каталога</router-link>
             </div>
           </div>
-
         </td>
       </tr>
       </tbody>
@@ -61,66 +68,56 @@
 </template>
 
 <script>
-import NewsInputRow from "@/components/News/NewsInputRow";
-import {ref, computed, reactive, watch, onMounted} from "vue"
+import {ref, computed, reactive, watch, onMounted, defineComponent} from "vue"
 import { useStore } from "vuex"
-import  { useRoute } from "vue-router";
+import  { useRoute } from "vue-router"
 import { useVuelidate } from '@vuelidate/core'
+import { useRouter} from "vue-router";
 import { required } from '@vuelidate/validators'
-import { hruFilter } from "@/filter/hru.filter";
+import { hruFilter } from "@/filter/hru.filter"
+import App404 from "@/components/App404"
+import NewsInputRow from "@/components/News/NewsInputRow"
 
-export default {
+export default defineComponent({
   name: "CatalogSectionAdd",
   setup() {
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
     const formName = "catalog-types"
+    const routeHru = route.params.hru
+    const isAuth = computed(() => store.getters["auth/isAuth"])
+    const isHruValid = ref(true)
     const isFormLoading = ref(false)
-    const sectionDefault = { img: "", title: "" }
-    const sectionRules = {
-          img: {required},
-          title: {required}
-        }
+    const isSectionExist = ref(false)
+    const isAlreadyCreated = ref(false)
+    const sectionRules = { img: {required}, title: {required} }
+    const sectionDefault = { hru: '', img: '', title: '' }
     const section = reactive({...sectionDefault})
     const v$ = useVuelidate(sectionRules, section)
-    const routeHru = route.params.hru
     const hru = computed(() => hruFilter(section.title))
-    const isAlreadyCreated = ref(false)
+
     const needShowButtons = computed(() => (
         !isAlreadyCreated.value ?  false :  !(section.img || section.title )
       ))
-    const isHruValid = ref(false)
 
     watch( hru, async (newHru) => {
-      if ( !newHru ) {
-        isHruValid.value = false
+      if (routeHru === newHru) {
+        isHruValid.value = true
         return
       }
       isHruValid.value = await store.dispatch('catalog/isUniqueCatalogSection', newHru)
     })
 
     onMounted(async () => {
-      const payload = { id, tableName }
-      section = store.getters['catalog/catalogSection'](hru)
-      const {data} = res
-      if (res.result) {
-        Object.keys(article).map(key => article[key] = data[key] ?? article[key])
+      const data = store.getters['catalog/catalogSection'](routeHru)
+      if ( !data) {
+        isSectionExist.value = false
       } else {
-        store.dispatch('alerts/alertAdd', {
-          id: Date.now(),
-          text: `Ошибка ответа от сервера при получении новости с id=${res.data.id}`,
-          type: 'error',
-          closable: true,
-          autoClosable: false
-        })
+        isSectionExist.value = true
+        Object.keys(section).map(key => section[key] = data[key] ?? section[key])
       }
-      pageLoading.value = false
     })
-
-    const resetForm = () => {
-      Object.keys(section).map(key => section[key] = sectionDefault[key])
-      v$.value.$reset()
-    }
 
     const onSubmit = async () => {
       v$.value.$touch()
@@ -129,22 +126,23 @@ export default {
       }
 
       isFormLoading.value = true
-      const res = await store.dispatch('catalog/createCatalogSection', {...section, hru: hru.value})
+      const res = await store.dispatch('catalog/editCatalogSection', {...section, oldHru: routeHru, newHru: hru.value })
       if (res) {
         isAlreadyCreated.value = true
-        resetForm()
+        v$.value.$reset()
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: `Новый раздел каталога успешно создан`,
+          text: `Раздел каталога успешно отредактирован`,
           type: 'success',
           closable: true,
           autoClosable: false
         })
         await store.dispatch('catalog/fetchCatalogSections')
+
       } else {
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: 'Ошибка сервера при создании нового раздела каталога',
+          text: 'Ошибка сервера при редактировании раздела каталога',
           type: 'error',
           closable: true,
           autoClosable: false
@@ -153,21 +151,19 @@ export default {
       isFormLoading.value = false
     }
     return {
-      isFormLoading,
       formName,
       section,
       hru,
       v$,
+      isAuth,
+      isHruValid,
+      isFormLoading,
+      isSectionExist,
       isAlreadyCreated,
       needShowButtons,
-      onSubmit,
-      isHruValid
+      onSubmit
     }
   },
-  components: { NewsInputRow }
-}
+  components: { NewsInputRow, App404 }
+})
 </script>
-
-<style scoped>
-
-</style>

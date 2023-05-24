@@ -27,7 +27,7 @@
           ЧПУ
         </td>
         <td class="form__table-cell form__table-cell--wide">
-          <div class="row">
+          <div class="row" style="padding-bottom: 10px">
             <div class="col">
               <small class="">{{hru}}</small>
             </div>
@@ -49,7 +49,6 @@
               <router-link to="/catalog/" class="button">Посмотреть каталог</router-link>
             </div>
             <div v-if="needShowButtons" class="col-auto">
-              reserveHru = {{reserveHru}}
               <router-link :to="'/catalog/edit/' + reserveHru" class="button">Редактировать раздел каталога</router-link>
             </div>
           </div>

@@ -1,7 +1,7 @@
 <template>
   <app-loading v-if="pageLoading"></app-loading>
   <template v-else>
-    <div v-if="!article">Новости с id = {{rticle.id}} не существует</div>
+    <div v-if="!article">Новости с id = {{article.id}} не существует</div>
     <template v-else>
       <form action="#" id="news-edit" class="form" @submit.prevent="onSubmit">
         <table class="form__table">

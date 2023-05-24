@@ -227,7 +227,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           ...DEFAULT_META,
           auth: true,
-          headerText: 'Добавить новый раздел каталога'
+          headerText: 'Добавить раздел каталога'
         }
       },
       {

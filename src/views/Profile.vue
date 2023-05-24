@@ -110,7 +110,6 @@ export default defineComponent({
           autoClosable: false
         })
       } else {
-        console.log(res.error)
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
           text: "Во время отправки письма с кодом подтверждения произошла ошибка. <br> Повторите попытку позже",
