@@ -788,7 +788,8 @@ body.compensate-for-scrollbar {
 .fancybox-container {
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
+ 'Segoe UI Emoji', 'Segoe UI Symbol';
 	height: 100%;
 	left: 0;
 	position: fixed;
@@ -4207,13 +4208,14 @@ body.compensate-for-scrollbar {
 	overflow: hidden;
 }
 
-.product-color input[type="radio"] {
+.product-color input[type="radio"], .product-color input[type="checkbox"] {
 	position: absolute;
 	opacity: 0;
 	cursor: pointer;
 }
 
-.product-color input[type="radio"] + .radio_attr_label {
+.product-color input[type="radio"] + .radio_attr_label,
+.product-color input[type="checkbox"] + .radio_attr_label {
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -4222,7 +4224,8 @@ body.compensate-for-scrollbar {
 	text-indent: -999px;
 }
 
-.product-color input[type="radio"] + .radio_attr_label:before {
+.product-color input[type="radio"] + .radio_attr_label:before,
+.product-color input[type="checkbox"] + .radio_attr_label:before{
 	content: "";
 	position: absolute;
 	z-index: 1;
@@ -4243,23 +4246,28 @@ body.compensate-for-scrollbar {
 	opacity: 0;
 }
 
-.product-color input[type="radio"]:checked + .radio_attr_label:before {
+.product-color input[type="radio"]:checked + .radio_attr_label:before,
+.product-color input[type="checkbox"]:checked + .radio_attr_label:before{
 	opacity: 1;
 }
 
-.product-color input[type="radio"]:disabled + .radio_attr_label {
+.product-color input[type="radio"]:disabled + .radio_attr_label,
+.product-color input[type="checkbox"]:disabled + .radio_attr_label{
 	background: #635652;
 }
 
-.product-color input[type="radio"][value="1"] + .radio_attr_label {
+.product-color input[type="radio"][value="black"] + .radio_attr_label,
+.product-color input[type="checkbox"][value="black"] + .radio_attr_label {
 	background: #000;
 }
 
-.product-color input[type="radio"][value="2"] + .radio_attr_label {
+.product-color input[type="radio"][value="silver"] + .radio_attr_label,
+.product-color input[type="checkbox"][value="silver"] + .radio_attr_label {
 	background: #c0c0c0;
 }
 
-.product-color input[type="radio"][value="3"] + .radio_attr_label {
+.product-color input[type="radio"][value="copper"] + .radio_attr_label,
+.product-color input[type="checkbox"][value="copper"] + .radio_attr_label{
 	background: #b87333;
 }
 

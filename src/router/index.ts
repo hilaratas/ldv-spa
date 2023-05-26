@@ -234,11 +234,12 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: ':id',
-        component: () => import('../views/article/Article.vue'),
-        name: 'CatalogId',
+        path: 'product/:id',
+        component: () => import('../views/product/ProductAdd.vue'),
+        name: 'ProductAdd',
         meta: {
-          headerType: 'dynamic'
+          auth: true,
+          headerText: 'Добавить продукт'
         }
       },
       {

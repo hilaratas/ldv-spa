@@ -81,3 +81,18 @@ export interface CatalogSectionCrop {
     title: string
 }
 
+type ProductColors = 'black' | 'silver' | 'copper'
+
+export interface Product {
+    hru: string,
+    title: string,
+    img: string,
+    oldPrice: number,
+    price: number,
+    colors: ProductColors,
+    desc: string,
+    sale: boolean,
+    forOrder: boolean,
+    catalogSection: string
+}
+

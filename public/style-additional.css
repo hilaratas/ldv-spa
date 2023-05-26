@@ -221,3 +221,9 @@
 .check.is-error {
     color: var(--red)
 }
+
+.input--only-bottom {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
