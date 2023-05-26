@@ -217,8 +217,11 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        component: () => import('../views/Catalog.vue'),
-        name: 'CatalogIndex'
+        component: () => import('../views/catalog/Catalog.vue'),
+        name: 'CatalogIndex',
+        meta: {
+          headerText: 'Каталог'
+        }
       },
       {
         path: 'add',
