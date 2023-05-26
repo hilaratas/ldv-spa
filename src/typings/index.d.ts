@@ -81,10 +81,9 @@ export interface CatalogSectionCrop {
     title: string
 }
 
-type ProductColors = 'black' | 'silver' | 'copper'
+export type ProductColors = 'black' | 'silver' | 'copper'
 
-export interface Product {
-    hru: string,
+export interface ProductCrop {
     title: string,
     img: string,
     oldPrice: number,
@@ -96,3 +95,6 @@ export interface Product {
     catalogSection: string
 }
 
+export interface Product extends ProductCrop {
+    hru: string
+}

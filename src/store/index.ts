@@ -4,8 +4,9 @@ import {news} from './news/'
 import {alerts} from './alerts'
 import {auth} from './auth'
 import {skipAuto} from './skipAuto'
-import {profile} from './profile';
+import {profile} from './profile'
 import {catalog} from './catalog'
+import {product} from './product'
 
 
 const mode = process.env.NODE_ENV
@@ -15,7 +16,7 @@ if (mode === 'development') {
 }
 
 export default createStore  ({
-  modules: { news, alerts, auth, skipAuto, profile, catalog },
+  modules: { news, alerts, auth, skipAuto, profile, catalog, product },
   strict: mode === 'development',
   //plugins
 })

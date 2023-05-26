@@ -18,7 +18,7 @@
         <td class="form__table-cell form__table-cell--wide">
           <div style="padding-bottom: 20px">
             <div class="input input--only-bottom">
-              <div class="row" >
+              <div class="row">
                 <div class="col">
                   <small >{{hru}}</small>
                 </div>
@@ -34,12 +34,12 @@
       <news-input-row
           :formName="formName"
           inputName="product-img"
-          label="Ссылку на картинку"
-          description="Поле НЕобязательно к заполнению.
+          label="Ссылка на картинку"
+          description="Поле обязательно к заполнению.
           Картинка в формате jpg, png, svg, webp. Размер картинки не более 800*800px.
           <br> Вес картинки не более 2Мб"
           v-model:controlValue="product.img"
-          :errors="[]"
+          :errors="v$.img.$errors"
       >
       </news-input-row>
       <news-input-row
@@ -48,7 +48,7 @@
           inputType="number"
           label="Старая цена"
           description="Поле необязательно к заполнению"
-          v-model:controlValue="product.title"
+          v-model:controlValue="product.oldPrice"
           :errors="[]"
       >
       </news-input-row>
@@ -58,8 +58,8 @@
           inputType="number"
           label="Новая цена *"
           description="Поле обязательно к заполнению"
-          v-model:controlValue="product.title"
-          :errors="v$.title.$errors"
+          v-model:controlValue="product.price"
+          :errors="v$.price.$errors"
       >
       </news-input-row>
       <tr>
@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed  } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router/dist/vue-router";
 import { useVuelidate } from '@vuelidate/core'
@@ -197,13 +197,58 @@ export default {
     const tinymceKey = process.env.VUE_APP_TINYMCE_API_KEY
     const v$ = useVuelidate(productRules, product)
     const hru = computed(() => hruFilter(product.title))
+    const reserveHru = ref('')
     const needShowButtons = computed(() => (
         !isAlreadyCreated.value ?
             false :
-            !Object.values(product).any(value => value === '')
+            !Object.values(product).any(value => !value)
     ))
     const catalogSections = store.getters['catalog/catalogSections']
 
+    watch( hru, async (newHru) => {
+      if ( !newHru ) {
+        isHruValid.value = false
+        return
+      }
+      isHruValid.value = await store.dispatch('product/isUniqueProduct', newHru)
+    })
+
+    const resetForm = () => {
+      Object.keys(product).map(key => product[key] = productDefault[key])
+      v$.value.$reset()
+    }
+
+    const onSubmit = async () => {
+      v$.value.$touch()
+      if (v$.value.$error || !isHruValid.value) {
+        return;
+      }
+
+      isFormLoading.value = true
+      const res = await store.dispatch('product/createProduct', {...product, hru: hru.value})
+      if (res.result) {
+        isAlreadyCreated.value = true
+        reserveHru.value = hru.value
+        resetForm()
+        await store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: `Новый раздел каталога успешно создан`,
+          type: 'success',
+          closable: true,
+          autoClosable: false
+        })
+        await store.dispatch('catalog/fetchCatalogSections')
+      } else {
+        await store.dispatch('alerts/alertAdd', {
+          id: Date.now(),
+          text: 'Ошибка сервера при создании нового раздела каталога',
+          type: 'error',
+          closable: true,
+          autoClosable: false
+        })
+      }
+      isFormLoading.value = false
+    }
 
     return {
       hru,
@@ -216,6 +261,8 @@ export default {
       needShowButtons,
       catalogSections,
       tinymceKey,
+      reserveHru,
+      onSubmit,
       v$
     }
   },
