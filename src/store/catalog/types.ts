@@ -1,8 +1,11 @@
-import {CatalogSection} from "@/typings";
+import {CatalogSection, CatalogSectionCrop} from "@/typings";
 
+export interface CatalogSections {
+  [key: string]: CatalogSectionCrop
+}
 
-export interface CatalogState {
-  catalogSections: Array<CatalogSection>
+export interface CatalogState extends CatalogSections {
+
 }
 
 export interface CatalogSectionPayLoad {
@@ -16,3 +19,5 @@ export interface EditCatalogSection {
   img: string,
   title: string
 }
+
+

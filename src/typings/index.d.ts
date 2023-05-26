@@ -75,3 +75,9 @@ export interface CatalogSection {
     title: string,
     hru: string
 }
+
+export interface CatalogSectionCrop {
+    img: string,
+    title: string
+}
+

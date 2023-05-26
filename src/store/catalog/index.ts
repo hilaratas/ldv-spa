@@ -5,14 +5,15 @@ import {CatalogSection} from "@/typings";
 import {AxiosRequestConfig} from "axios";
 import {CatalogSectionPayLoad, CatalogState, EditCatalogSection} from "./types";
 
-export const catalog: Module<CatalogState, RootState> = {
+//todo: избавиться от any
+export const catalog: Module<any, RootState> = {
   namespaced: true,
   state: {
-    catalogSections: []
+    catalogSections: {}
   },
   getters: {
     catalogSections: s => s.catalogSections,
-    catalogSection: s => (hru :string) => s.catalogSections.find(sec => sec.hru === hru)
+    catalogSection: s => (hru :string) => s.catalogSections[hru]
   },
   mutations: {
     editCatalogSection(state, catalogSection) {
@@ -26,17 +27,15 @@ export const catalog: Module<CatalogState, RootState> = {
       try {
         const config :AxiosRequestConfig = {params: { auth: null }}
         const {data} = await http.get(`/catalogSections.json`, config)
-        let catalogSections = {}
         if (data) {
-          catalogSections = Object.keys(data).map(key => ({...data[key], hru: key}))
-          commit('setCatalogSections', catalogSections)
+          commit('setCatalogSections', data)
         }
       } catch (e) {
         throw new Error(e)
       }
     },
     isUniqueCatalogSection( {state}, hru: string) {
-      return state.catalogSections.findIndex((elem :CatalogSection)  => elem.hru === hru) == -1
+      return !state.catalogSections[hru]
     },
     async createCatalogSection(_, newSection :CatalogSection) {
       const hru: string = newSection.hru
@@ -44,10 +43,9 @@ export const catalog: Module<CatalogState, RootState> = {
         const config :AxiosRequestConfig = {params: { auth: null }}
         const payLoad :CatalogSectionPayLoad = {img : newSection.img, title: newSection.title}
         const {data} = await http.put(`/catalogSections/${hru}.json`, payLoad, config)
-        return !!data
+        return {result: !!data, data}
       } catch (e) {
-        // ошибка запроса - значит мы ничего не знаем про уникальность
-        return false
+        return { result: false, data: e}
       }
     },
     async editCatalogSection({dispatch}, section :EditCatalogSection ) {

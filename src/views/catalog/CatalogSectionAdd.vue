@@ -60,15 +60,16 @@
   </form>
 </template>
 
-<script>
-import NewsInputRow from "@/components/News/NewsInputRow";
-import {ref, computed, reactive, watch} from "vue"
+<script lang="ts">
+import NewsInputRow from "@/components/News/NewsInputRow.vue";
+import { ref, computed, reactive, watch, defineComponent } from "vue"
 import { useStore } from "vuex"
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { hruFilter } from "@/filter/hru.filter";
+import { CatalogSectionCrop} from "@/typings";
 
-export default {
+export default defineComponent({
   name: "CatalogSectionAdd",
   setup() {
     const store = useStore()
@@ -82,7 +83,7 @@ export default {
     const section = reactive({...sectionDefault})
     const v$ = useVuelidate(sectionRules, section)
     const hru = computed(() => hruFilter(section.title))
-    let reserveHru = ''
+    let reserveHru = ref('')
     const isAlreadyCreated = ref(false)
     const needShowButtons = computed(() => (
         !isAlreadyCreated.value ?  false :  !(section.img || section.title )
@@ -98,7 +99,7 @@ export default {
     })
 
     const resetForm = () => {
-      Object.keys(section).map(key => section[key] = sectionDefault[key])
+      Object.keys(section).map(key => section[key as keyof CatalogSectionCrop] = sectionDefault[key as keyof CatalogSectionCrop])
       v$.value.$reset()
     }
 
@@ -110,8 +111,9 @@ export default {
 
       isFormLoading.value = true
       const res = await store.dispatch('catalog/createCatalogSection', {...section, hru: hru.value})
-      if (res) {
+      if (res.result) {
         isAlreadyCreated.value = true
+        reserveHru.value = hru.value
         resetForm()
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
@@ -146,7 +148,7 @@ export default {
     }
   },
   components: { NewsInputRow }
-}
+})
 </script>
 
 <style scoped>
