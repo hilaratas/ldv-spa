@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { ref, defineComponent } from "vue";
 import { useStore } from "vuex";
 
 export default {
