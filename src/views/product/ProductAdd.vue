@@ -116,7 +116,7 @@
           <div class="select">
             <select name="product-section" id="product-section" class="select__select" aria-describedby="product-section-disc" v-model="product.catalogSection">
               <option value="" disabled>Выберите раздел</option>
-              <option v-for="cat in catalogSections" value="cat.hru">{{cat.title}}</option>
+              <option v-for="(cat, key) in catalogSections" :value="key">{{cat.title}}</option>
             </select>
           </div>
           <div class="control-error-holder">
@@ -139,10 +139,10 @@
               <button type="submit" :disabled="isFormLoading" :class="['button', {'is-loading': isFormLoading}]" >Отправить</button>
             </div>
             <div v-if="needShowButtons" class="col-auto">
-              <router-link :to="'/' + tableName + '/' + fbId" class="button">Посмотреть статью</router-link>
+              <router-link :to="'/catalog/' + reserveSection + '/' + reserveHru" class="button">Посмотреть продукт</router-link>
             </div>
             <div v-if="needShowButtons" class="col-auto">
-              <router-link :to="'/' + tableName + '/edit/' + fbId" class="button">Редактировать статью</router-link>
+              <router-link :to="'/catalog/product/edit/' + reserveHru" class="button">Редактировать продукт</router-link>
             </div>
           </div>
         </td>
@@ -160,6 +160,7 @@ import { useRoute } from "vue-router/dist/vue-router";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from "@vuelidate/validators";
 import { hruFilter } from "@/filter/hru.filter";
+import { isObjsIqual } from "@/utils/isObjsIqual";
 import Editor from '@tinymce/tinymce-vue'
 import NewsInputRow from "@/components/News/NewsInputRow.vue";
 
@@ -197,12 +198,12 @@ export default {
     const tinymceKey = process.env.VUE_APP_TINYMCE_API_KEY
     const v$ = useVuelidate(productRules, product)
     const hru = computed(() => hruFilter(product.title))
+    const reserveSection = ref('')
     const reserveHru = ref('')
     const needShowButtons = computed(() => (
-        !isAlreadyCreated.value ?
-            false :
-            !Object.values(product).any(value => !value)
-    ))
+      !isAlreadyCreated.value ?
+        false :  isObjsIqual(product, productDefault)
+      ))
     const catalogSections = store.getters['catalog/catalogSections']
 
     watch( hru, async (newHru) => {
@@ -229,10 +230,14 @@ export default {
       if (res.result) {
         isAlreadyCreated.value = true
         reserveHru.value = hru.value
+        reserveSection.value = product.catalogSection
         resetForm()
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: `Новый раздел каталога успешно создан`,
+          text: `Новый продукт успешно создан<br>
+            Перейти <a href=/catalog/${reserveSection.value}/${reserveHru.value}">просмотру.<br>
+            Перейти к <a href="/${reserveSection.value}/">каталогу</a>.
+          `,
           type: 'success',
           closable: true,
           autoClosable: false
@@ -241,7 +246,7 @@ export default {
       } else {
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
-          text: 'Ошибка сервера при создании нового раздела каталога',
+          text: 'Ошибка сервера при создании нового продукта',
           type: 'error',
           closable: true,
           autoClosable: false
@@ -262,6 +267,7 @@ export default {
       catalogSections,
       tinymceKey,
       reserveHru,
+      reserveSection,
       onSubmit,
       v$
     }
