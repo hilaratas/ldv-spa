@@ -4,8 +4,8 @@ export interface ProductState {
 }
 
 export interface EditProduct extends ProductCrop{
-  oldHru: string,
-  newHru: string
+  oldProdHru: string,
+  newProdHru: string
 }
 
 export interface ProductsFilter {

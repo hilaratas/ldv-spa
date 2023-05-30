@@ -38,7 +38,6 @@ export default {
     const store = useStore()
     const catalogSections = store.getters['catalog/catalogSections']
     const isAuth = store.getters['auth/isAuth']
-    console.log(isAuth)
 
     return {
       isAuth,

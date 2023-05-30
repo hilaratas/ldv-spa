@@ -2,8 +2,9 @@ import http from '@/http'
 import {Module} from "vuex";
 import {RootState} from '@/store/types'
 import {AxiosRequestConfig} from "axios";
-import {Product} from "@/typings";
+import {Product, ProductCrop} from "@/typings";
 import {ProductState, EditProduct, ProductsFilter} from "./types";
+import {cleanAccessToken} from "@/utils/token";
 
 export const product: Module<ProductState, RootState> = {
   namespaced: true,
@@ -44,13 +45,17 @@ export const product: Module<ProductState, RootState> = {
       }
     },
     async editProduct({dispatch}, product :EditProduct ) {
-      const {newHru, oldHru} = product
+      const {newProdHru, oldProdHru} = product
       try {
         const config :AxiosRequestConfig = {params: { auth: null }}
-        let  payload = {}
+        let  payload = {} as ProductCrop
         payload = {...product}
-        await http.delete(`/products/${oldHru}.json`, config)
-        const {data} = await http.patch(`/products/${newHru}.json`, payload, config)
+        //@ts-ignore
+        delete payload.oldProdHru
+        //@ts-ignore
+        delete payload.newProdHru
+        await http.delete(`/products/${oldProdHru}.json`, config)
+        const {data} = await http.patch(`/products/${newProdHru}.json`, payload, config)
         return { result: !!data, data }
       } catch (e) {
         // ошибка запроса - значит мы ничего не знаем про уникальность
@@ -60,7 +65,7 @@ export const product: Module<ProductState, RootState> = {
     async getProduct ({dispatch}, prHru) {
       const config :AxiosRequestConfig = {params: { auth: null }}
       try {
-        const {data} = await http.get(`/products/${prHru}`, config)
+        const {data} = await http.get(`/products/${prHru}.json`, config)
         return { result: !!data, data}
       } catch (e) {
         return {result: false, e }

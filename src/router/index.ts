@@ -257,16 +257,16 @@ const routes: Array<RouteRecordRaw> = [
         name: 'ProductAdd',
         meta: {
           auth: true,
-          headerText: 'Добавить продукт'
+          headerText: 'Добавить изделие'
         }
       },
       {
-        path: 'product/edit/:hru',
+        path: 'product/edit/:prodHru',
         component: () => import('../views/product/ProductEdit.vue'),
         name: 'ProductEdit',
         meta: {
           auth: true,
-          headerText: 'Добавить продукт'
+          headerText: 'Редактировать изделие'
         }
       },
       {

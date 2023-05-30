@@ -211,7 +211,6 @@ export default {
       forOrder: '',
       catalogSection: '',
       pubDate: pubDateStr
-
     }
     const productRules = {
       title: { required },
