@@ -35,13 +35,17 @@
           ЧПУ
         </td>
         <td class="form__table-cell form__table-cell--wide">
-          <div class="row" style="padding-bottom: 10px">
-            <div class="col">
-              <small class="">{{hru}}</small>
-            </div>
-            <div class="col-auto">
-              <span v-if="isHruValid" class="check is-seccess">✔</span>
-              <span v-else class="check is-error">✘</span>
+          <div style="padding-bottom: 20px">
+            <div class="input input--only-bottom">
+              <div class="row">
+                <div class="col">
+                  <small class="">{{hru}}</small>
+                </div>
+                <div class="col-auto">
+                  <span v-if="isHruValid" class="check is-seccess">✔</span>
+                  <span v-else class="check is-error">✘</span>
+                </div>
+              </div>
             </div>
           </div>
         </td>
