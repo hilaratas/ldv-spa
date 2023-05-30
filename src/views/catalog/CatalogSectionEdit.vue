@@ -2,7 +2,7 @@
   <app-404 v-if="!isSectionExist">
     <div class="title title--h1">404</div>
     <div>Такаго раздела каталога не существует</div>
-    <div v-if="isAuth">
+    <div v-if="isAdmin">
       <br>
       <router-link to="/catalog/add" class="button">Добавить раздел каталога</router-link>
     </div>
@@ -90,7 +90,7 @@ export default defineComponent({
     const router = useRouter()
     const formName = "catalog-types"
     const routeHru = route.params.hru
-    const isAuth = computed(() => store.getters["auth/isAuth"])
+    const isAdmin = computed(() => store.getters["auth/isAdmin"])
     const isHruValid = ref(true)
     const isFormLoading = ref(false)
     const isSectionExist = ref(false)
@@ -159,7 +159,7 @@ export default defineComponent({
       section,
       hru,
       v$,
-      isAuth,
+      isAdmin,
       isHruValid,
       isFormLoading,
       isSectionExist,

@@ -150,7 +150,6 @@ export default {
     const fbId = ref('')
     const tinymceKey = process.env.VUE_APP_TINYMCE_API_KEY
     const v$ = useVuelidate(articleRules, article)
-    const isAuth = store.getters["auth/isAuth"]
     const needShowButtons = computed(() => (
       !isAlreadyCreated.value ?
         false :
@@ -199,7 +198,6 @@ export default {
     return {
       v$,
       fbId,
-      isAuth,
       article,
       isLoading,
       needShowButtons,

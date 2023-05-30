@@ -1,7 +1,7 @@
 <template>
   <app-loading v-if="pageLoading"></app-loading>
   <template v-else>
-    <div v-if="isAuth" class="row">
+    <div v-if="isAdmin" class="row">
       <div class="col-auto">
         <router-link :to='"/" + tableName + "/add/"' class="button button--blue">Создать статью</router-link>
         <br><br>
@@ -35,7 +35,7 @@ export default {
     pageLoading: true
   }),
   computed: {
-    ...mapGetters('auth', ['isAuth']),
+    ...mapGetters('auth', ['isAdmin']),
     tableName() {
       return this.$route.meta.tableName
     }

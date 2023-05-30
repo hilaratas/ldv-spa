@@ -4,7 +4,7 @@
     <app-404 v-if="error">
       <div class="title title--h1">404</div>
       <div>Новости с id={{id}} не существует</div>
-      <div v-if="isAuth">
+      <div v-if="isAdmin">
         <br>
         <router-link :to="'/' + tableName + '/add'" class="button">Добавить статью</router-link>
       </div>
@@ -22,7 +22,7 @@
         <div class="article__text" v-html="article.text">
         </div>
       </article>
-      <div v-if="isAuth" class="row">
+      <div v-if="isAdmin" class="row">
         <div class="col-auto">
           <router-link :to="'/' + tableName + '/edit/' + $route.params.id" class="button button--blue">Редактировать статью</router-link>
         </div>
@@ -82,7 +82,7 @@ export default defineComponent({
     pageLoading: true
   }),
   computed: {
-    ...mapGetters('auth', ["isAuth"]),
+    ...mapGetters('auth', ["isAdmin"]),
     id() {
       return this.$route.params.id
     },
