@@ -62,6 +62,17 @@
           :errors="v$.price.$errors"
       >
       </news-input-row>
+      <news-input-row
+        :formName="formName"
+        inputName="product-pubDate"
+        inputType="date"
+        label="Дата публикации"
+        description="2 месяца со дня публикации изделия считается новым. <br>
+          Если дата публикации больше текущей даты, продукт не отображается на сайте"
+        v-model:controlValue="product.pubDate"
+        :errors="[]"
+      >
+      </news-input-row>
       <tr>
         <td class="form__table-cell form__table-cell--pr15px">
           <label class="nowrap" >Цвета *</label>
@@ -92,19 +103,17 @@
       </tr>
       <tr>
         <td class="form__table-cell form__table-cell--pr15px">
-          <label class="nowrap" >Описание издения *</label>
+          <label class="nowrap" for="product-forOrder">Под заказ</label>
         </td>
         <td class="form__table-cell form__table-cell--wide">
-          <editor v-model="product.desc" :api-key="tinymceKey" aria-describedby="product-desc-disc"></editor>
-          <div class="control-error-holder">
-            <div class="control-error" v-if="v$.desc.$errors.length">
-              <div v-for="error of v$.desc.$errors">
-                <div>{{ error.$message }}</div>
-              </div>
-            </div>
+          <div class="form__row">
+            <label class="checkbox">
+              <input type="checkbox" id="product-forOrder" name="product-forOrder" value="1" v-model="product.forOrder">
+              <span class="checkbox__indicator"></span>
+            </label>
           </div>
           <div style="padding-bottom: 10px">
-            <small class="control-description" id="product-desc-disc">Поле обязательно к заполнению</small>
+            <small class="control-description" id="product-forOrder-disc">Поле необязательно к заполнению</small>
           </div>
         </td>
       </tr>
@@ -128,6 +137,24 @@
           </div>
           <div style="padding-bottom: 10px">
             <small class="control-description" id="product-section-disc">Поле обязательно к заполнению</small>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="form__table-cell form__table-cell--pr15px">
+          <label class="nowrap" >Описание издения *</label>
+        </td>
+        <td class="form__table-cell form__table-cell--wide">
+          <editor v-model="product.desc" :api-key="tinymceKey" aria-describedby="product-desc-disc"></editor>
+          <div class="control-error-holder">
+            <div class="control-error" v-if="v$.desc.$errors.length">
+              <div v-for="error of v$.desc.$errors">
+                <div>{{ error.$message }}</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding-bottom: 10px">
+            <small class="control-description" id="product-desc-disc">Поле обязательно к заполнению</small>
           </div>
         </td>
       </tr>
@@ -163,6 +190,7 @@ import { hruFilter } from "@/filter/hru.filter";
 import { isObjsIqual } from "@/utils/isObjsIqual";
 import Editor from '@tinymce/tinymce-vue'
 import NewsInputRow from "@/components/News/NewsInputRow.vue";
+import {dateInputFormat} from "@/filter/dateInputFormat.filter";
 
 export default {
   name: "ProductAdd",
@@ -170,6 +198,8 @@ export default {
     const store = useStore()
     const route = useRoute()
     const formName = 'product'
+    const pubDate = new Date()
+    const pubDateStr = dateInputFormat(pubDate)
     const productDefault = {
       title: '',
       img: '',
@@ -179,7 +209,9 @@ export default {
       desc: '',
       sale: '',
       forOrder: '',
-      catalogSection: ''
+      catalogSection: '',
+      pubDate: pubDateStr
+
     }
     const productRules = {
       title: { required },
@@ -226,7 +258,11 @@ export default {
       }
 
       isFormLoading.value = true
-      const res = await store.dispatch('product/createProduct', {...product, hru: hru.value})
+      const res = await store.dispatch('product/createProduct', {
+        ...product,
+        pubDate: new Date(product.pubDate),
+        hru: hru.value}
+      )
       if (res.result) {
         isAlreadyCreated.value = true
         reserveHru.value = hru.value
@@ -235,7 +271,7 @@ export default {
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),
           text: `Новый продукт успешно создан<br>
-            Перейти <a href=/catalog/${reserveSection.value}/${reserveHru.value}">просмотру.<br>
+            Перейти <a href="/catalog/${reserveSection.value}/${reserveHru.value}">просмотру.<br>
             Перейти к <a href="/${reserveSection.value}/">каталогу</a>.
           `,
           type: 'success',

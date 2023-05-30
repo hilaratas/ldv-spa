@@ -1,9 +1,5 @@
-export function dateFilter(date: Date) {
-  const options = {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  }
+import {DATE_FILTER_OPTIONS} from "@/config/date-filter.options";
 
-  return Intl.DateTimeFormat('ru-Ru', options).format(date)
+export function dateFilter(date: Date) {
+  return Intl.DateTimeFormat('ru-Ru', DATE_FILTER_OPTIONS).format(date)
 }
