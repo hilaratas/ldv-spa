@@ -3,14 +3,19 @@ import {Module} from "vuex";
 import {RootState} from '@/store/types'
 import {AxiosRequestConfig} from "axios";
 import {Product} from "@/typings";
-import {ProductState, EditProduct} from "./types";
+import {ProductState, EditProduct, ProductsFilter} from "./types";
 
 export const product: Module<ProductState, RootState> = {
   namespaced: true,
   actions: {
-    async getAllProducts({commit}) {
+    async getProductsByFilter({commit}, filter :ProductsFilter) {
+      const config :AxiosRequestConfig = {params: { auth: null }}
+      const {catalogSection} = filter
+      if (catalogSection) {
+        config.params.orderBy = `"catalogSection"`
+        config.params.equalTo = `"${catalogSection}"`
+      }
       try {
-        const config :AxiosRequestConfig = {params: { auth: null }}
         const {data} = await http.get(`/products.json`, config)
         return { result: !!data, data }
       } catch (e) {
@@ -50,6 +55,15 @@ export const product: Module<ProductState, RootState> = {
       } catch (e) {
         // ошибка запроса - значит мы ничего не знаем про уникальность
         return { result: false, data: e }
+      }
+    },
+    async getProduct ({dispatch}, prHru) {
+      const config :AxiosRequestConfig = {params: { auth: null }}
+      try {
+        const {data} = await http.get(`/products/${prHru}`, config)
+        return { result: !!data, data}
+      } catch (e) {
+        return {result: false, e }
       }
     }
   }

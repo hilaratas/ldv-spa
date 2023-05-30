@@ -98,3 +98,8 @@ export interface ProductCrop {
 export interface Product extends ProductCrop {
     hru: string
 }
+
+export interface ProductColorTitles {
+    ru: { [key: ProductColors] : string },
+    eng: { [key: ProductColors] : string }
+}

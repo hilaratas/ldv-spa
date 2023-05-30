@@ -5,7 +5,7 @@
     </div>
     <div v-else class="services__zz row row--30px row--small-phone-15px row--mt60px">
       <div v-for="(cat,key) in catalogSections" class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" :key="cat.hru">
-        <router-link :to="'catalog/' + key" class="services__item" >
+        <router-link :to="'/catalog/' + key" class="services__item" >
           <div class="services__img-holder aos-init aos-animate" data-aos="fade-left">
             <div class="services__img-inner">
               <picture class="services__pict">

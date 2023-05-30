@@ -8,4 +8,8 @@ export interface EditProduct extends ProductCrop{
   newHru: string
 }
 
+export interface ProductsFilter {
+  catalogSection?: string
+}
+
 

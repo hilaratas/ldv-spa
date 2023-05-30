@@ -234,7 +234,25 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: 'product/:id',
+        path: 'edit/:hru',
+        component: () => import('../views/catalog/CatalogSectionEdit.vue'),
+        name: 'CatalogEdit',
+        meta: {
+          ...DEFAULT_META,
+          auth: true,
+          headerText: 'Редактировать раздел каталога'
+        }
+      },
+      {
+        path: ':sectionHru/',
+        component: () => import('../views/product/Products.vue'),
+        name: 'Products',
+        meta: {
+          headerType: 'dynamic'
+        }
+      },
+      {
+        path: 'product/add',
         component: () => import('../views/product/ProductAdd.vue'),
         name: 'ProductAdd',
         meta: {
@@ -243,13 +261,21 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: 'edit/:hru',
-        component: () => import('../views/catalog/CatalogSectionEdit.vue'),
-        name: 'CatalogEdit',
+        path: 'product/edit/:hru',
+        component: () => import('../views/product/ProductEdit.vue'),
+        name: 'ProductEdit',
         meta: {
-          ...DEFAULT_META,
           auth: true,
-          headerText: 'Редактировать раздел каталога'
+          headerText: 'Добавить продукт'
+        }
+      },
+      {
+        path: ':sectionHru/:productHru',
+        component: () => import('../views/product/Product.vue'),
+        name: 'Product',
+        meta: {
+          auth: true,
+          headerType: 'dynamic'
         }
       }
     ]

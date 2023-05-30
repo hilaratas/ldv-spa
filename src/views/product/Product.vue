@@ -1,0 +1,354 @@
+<template>
+  <app-loading v-if="isPageLoading"></app-loading>
+  <div v-else class="product">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="title title--h2 title--onl title--blue">{product.title}</h1>
+      </div>
+      <div class="col-12 col-sm-5 col-xl-4">
+        <div class="product__left">
+          <div class="product__img-holder">
+            <div class="product__img-inner">
+              <picture class="product__pict">
+                <img class="product__img" :src="product.img" :alt="product.title">
+              </picture>
+            </div>
+          </div>
+          <div class="product__label-holder">
+            <div class="product__label is-sale">Sale</div>
+            <div class="product__label is-for-order">Под заказ</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-12 col-sm-7 col-xl-8">
+        <div class="product__details product__details--not-small-phone-mt0">
+          <div class="title--h3 title--blue title--not-small-phone-hidden">Информация о товаре</div>
+          <div class="product__price-holder">
+            <div class="product__details-title">Цена:</div>
+            <div class="row align-items-end">
+              <div class="col-auto">
+                <div class="product__price">{{product.price}} P</div>
+              </div>
+              <div class="col-auto">
+                <div class="product__old-price">{{product.oldPrice}} P</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <form action="#" method="post">
+          <input type="hidden" name="id" :value="product.hru">
+          <input type="hidden" name="price" :value="product.price">
+          <div class="product__details">
+            <div class="row">
+              <div class="col-auto">
+                <div class="product__colors-holder">
+                  <div class="product__details-title">Цвет швов:</div>
+                  <div class="product__colors">
+                    <div class="row row--6px">
+                      <div class="col-auto" v-for="(title, key) in prColorTitles">
+                        <label class="product-color"><input type="radio" name="color" :value="key" checked><span class="radio_attr_label">{{title}}</span></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="product__count-holder">
+                  <label class="product__details-title">Количество:</label>
+                  <div class="product__count">
+                    <div class="row row--6px">
+                      <div class="col-auto">
+                        <input type="number" class="input" name="count" value="1" min="1" max="10">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="product__details">
+            <div class="row">
+              <div class="col-10">
+                <div class="product__details-title">Примечание к заказу:</div>
+                <textarea class="textarea" name="comment"></textarea>
+                <div class="product__note">
+                  Тут можно добавить пожелания к заказу, вопрос или другую необходимую информацию
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="product__submit-holder">
+            <div class="row">
+              <div class="col-10">
+                <button type="submit" class="button button--blue button">Добавить в корзину</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+
+
+    <div class="product__details">
+      <div class="title--h3 title--blue">Описание товара</div>
+      <div class="product-details">
+        <p>Флорариум капля с пятиугольным основанием изготовлен из стекла толщиной 2мм. На фото представлен вариант с черным цветом швов. </p>
+        <p>Парамерты изделия:</p>
+        <ul>
+          <li>Высота изделия - 35см</li>
+          <li>Ширина изделия - 15см</li>
+          <li>Это изделие - одна из самых популарных форм для создания флорариума с сукулентами. Пример этого фрорариума с сукулентами можно посмотреть <a href="#">здесь</a> </li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="product__details">
+      <div class="title--h3 title--blue">Фото товара</div>
+      <div class="product-gallery">
+        <div class="product-gallery__list">
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img1.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <source srcset="/example/product/trumb_img1.jpg 1x, /example/product/img1.jpg 2x" media="(min-width: 1366px)">
+                        <source srcset="/example/product/trumb_img1.jpg 1x, /example/product/img1.jpg 2x" media="(min-width: 1025px)">
+                        <source srcset="/example/product/trumb_img1.jpg 1x, /example/product/img1.jpg 2x" media="(min-width: 768px)">
+                        <source srcset="/example/product/trumb_img1.jpg" media="(min-width: 576px)">
+                        <source srcset="/example/product/trumb_img1.jpg 1x, /example/product/img1.jpg 2x" media="(max-width: 575px)">
+                        <img class="pict__img js-img-loading" src="/example/product/trumb_img1.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img2.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img2.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img3.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img100.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img4.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img4.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img5.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img5.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img6.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img6.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img7.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img7.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img8.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img8.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img9.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img9.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img10.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img10.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img11.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img11.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+          <div class="product-gallery__item">
+            <a class="product-gallery__link" data-fancybox="gallery" href="/example/product/img12.jpg">
+              <div class="product-gallery__img-holder">
+                <div class="product-gallery__img-inner">
+                  <div class="pict">
+                    <div class="pict__img-holder pict__img-holder--1_1 is-loading ">
+                      <picture class="pict__picture">
+                        <img class="pict__img js-img-loading" src="/example/product/img12.jpg" alt="">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__hover"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+import { ref, computed, onMounted } from "vue";
+import { useStore } from "vuex"
+import { useRoute } from 'vue-router'
+import { PRODUCT_COLOR_TITLES} from '@/config/product-colors'
+import { AppLoading } from '@/components/AppLoading.vue'
+
+
+export default {
+  name: "Product",
+  setup() {
+    const store = useStore()
+    const route = useRoute()
+    const isPageLoading = ref(true)
+    const prHRU = route.params('productHru')
+    const prSec = route.params('sectionHru')
+    let product = ref({})
+    const prColorTitles = {...PRODUCT_COLOR_TITLES['ru']}
+
+    onMounted(async () =>{
+      const res = await store.dispatch('product/getProduct', prHRU)
+      if (res.result) {
+        product.value = {...res.data, hru: prHRU}
+        isPageLoading.value = false
+      }
+    })
+
+    return {
+      product,
+      isPageLoading,
+      prColorTitles
+    }
+  },
+  components: { AppLoading }
+}
+</script>
