@@ -14,7 +14,10 @@
   </template>
 
   <section class="section section--index">
-    <services></services>
+    <h2 class="title title--h1 title--pretty">Каталог</h2>
+    <div class="section__wide">
+      <services-list :services="services"></services-list>
+    </div>
   </section>
 </template>
 
@@ -23,7 +26,7 @@ import {ref, defineComponent, onMounted} from "vue";
 import {useStore} from 'vuex'
 import PromoSlider from "../components/PromoSlider";
 import NewsList from "@/components/News/NewsList";
-import Services from "@/components/Main/Services";
+import ServicesList from "@/components/Services/ServiceList.vue";
 
 export default defineComponent ({
   name: "Main",
@@ -32,21 +35,23 @@ export default defineComponent ({
     const aboutTableName = 'about',
         pageLoading = ref(true)
     const aboutList = ref([])
+    const services = store.getters['catalog/catalogSections']
 
     onMounted(async () => {
-      const res = await store.dispatch('news/fetchNews', aboutTableName)
-      if (res.result ) {
-        aboutList.value = res.data
+      const {result, data} = await store.dispatch('news/fetchNews', aboutTableName)
+      if ( result ) {
+        aboutList.value = data
       }
       pageLoading.value = false
     })
 
     return {
       aboutList,
-      pageLoading
+      pageLoading,
+      services
     }
   },
-  components: { PromoSlider, Services, NewsList}
+  components: { PromoSlider, ServicesList, NewsList}
 })
 
 </script>

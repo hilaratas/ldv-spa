@@ -270,7 +270,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: ':sectionHru/:productHru',
+        path: ':myParams*',
         component: () => import('../views/product/Product.vue'),
         name: 'Product',
         meta: {
