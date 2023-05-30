@@ -1,10 +1,19 @@
 <template>
   <app-loading v-if="isPageLoading"></app-loading>
-  <div v-else class="catalog">
-    <div v-if="isNoProducts" class="title title--h3">
+  <template v-else>
+    <app-404 v-if="!isCatSecExist">
+      <div class="title title--h1">404</div>
+      <div>Такаго раздела каталога не существует</div>
+      <div v-if="isAuth">
+        <br>
+        <router-link to="/catalog/add" class="button">Добавить раздел каталога</router-link>
+      </div>
+    </app-404>
+    <div v-else-if="isNoProducts" class="title title--h3">
       На данный момент этот раздел каталога пуст.
     </div>
-    <div v-else class="row row--mt30px">
+    <div v-else class="catalog">
+    <div class="row row--mt30px">
       <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" v-for="(pr, key) in products">
         <router-link class="catalog__item" :to='"/catalog/" + pr.catalogSection + "/" + key' :key="key">
           <div class="catalog__img-holder">
@@ -39,6 +48,7 @@
       </div>
     </div>
   </div>
+  </template>
 </template>
 
 <script>
@@ -46,33 +56,41 @@ import {useRoute} from "vue-router";
 import {useStore} from "vuex";
 import {ref,onMounted} from "vue";
 import AppLoading from "@/components/AppLoading.vue";
+import App404 from "@/components/App404.vue";
 
 export default {
   name: "Products",
   setup() {
     const route = useRoute()
     const store = useStore()
-    const catalogSection = route.params.sectionHru
+    const sectionHru = route.params.sectionHru
     const products = ref({})
+    const catalogSection = store.getters['catalog/catalogSection'](sectionHru)
+    const isCatSecExist = !!catalogSection
     const isNoProducts = ref(true)
     const isPageLoading = ref(true)
+    const isAuth = store.getters['auth/isAuth']
 
     onMounted(async() => {
-      const {result,  data} = await store.dispatch('product/getProductsByFilter', {catalogSection})
-      if (result) {
-        products.value = data
-        isNoProducts.value = !Object.keys(products.value).length
+      if (isCatSecExist) {
+        const {result, data} = await store.dispatch('product/getProductsByFilter', {catalogSection: sectionHru})
+        if (result) {
+          products.value = data
+          isNoProducts.value = !Object.keys(products.value).length
+        }
       }
       isPageLoading.value = false
 
     })
 
     return {
+      isAuth,
       products,
       isNoProducts,
-      isPageLoading
+      isPageLoading,
+      isCatSecExist
     }
   },
-  components: { AppLoading }
+  components: { AppLoading, App404 }
 }
 </script>
