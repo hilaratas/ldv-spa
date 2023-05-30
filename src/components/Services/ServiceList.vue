@@ -29,7 +29,6 @@ export default {
   },
   setup(props) {
     const services = props.services
-    console.log('123', props)
     const isNotEmptyServices = !!Object.keys(services).length
 
     return {

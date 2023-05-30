@@ -24,7 +24,8 @@ export const auth: Module<authState, RootState> = {
       const accessToken = state.token
       return !accessToken ? null : user(getJWTPayload(accessToken)).user_id
     },
-    isAuth: (_, getters) => !!getters.token
+    isAuth: (_, getters) => !!getters.token,
+    isAdmin: (_,  getters) :boolean => getters.user?.email === 'nadezda.rachkova@mail.ru'
   },
   mutations: {
     setAccessToken(state, token : string) {
