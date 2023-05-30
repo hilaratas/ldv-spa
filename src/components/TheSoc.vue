@@ -5,13 +5,13 @@
         Мы в соц сетях:
       </div>
       <div class="hsoc__sep"></div>
-      <a class="hsoc__icon-link" href="#" aria-label="В контакте">
+      <a class="hsoc__icon-link" href="https://vk.com/lb_space" aria-label="В контакте" target="_blank">
         <svg class="hsoc__icon">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/media/svg-sprite.svg#icon-soc-vk"></use>
         </svg>
       </a>
       <div class="hsoc__sep"></div>
-      <a class="hsoc__icon-link" href="#" aria-label="Инстаграм">
+      <a class="hsoc__icon-link" href="https://www.instagram.com/lb_space" aria-label="Инстаграм" target="_blank">
         <svg class="hsoc__icon">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/media/svg-sprite.svg#icon-soc-insta"></use>
         </svg>

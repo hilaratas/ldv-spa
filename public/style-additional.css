@@ -107,9 +107,6 @@
 }
 
 .contact-us__drop {
-    position: absolute;
-    top: 100%;
-    right: 0;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -122,7 +119,20 @@
     height: auto;
     opacity: 1;
 }
-
+@media (max-width: 767px) {
+    .contact-us__drop {
+        position: absolute;
+        top: 100%;
+        right: 0;
+    }
+}
+@media (min-width: 768px) {
+    .contact-us__drop {
+        position: absolute;
+        left: 100%;
+        bottom: 0;
+    }
+}
 
 .contact-us__drop-elem {
     display: block;
