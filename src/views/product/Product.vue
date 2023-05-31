@@ -3,7 +3,7 @@
   <div v-else class="product">
     <div class="row">
       <div class="col-12">
-        <h1 class="title title--h2 title--onl title--blue">{product.title}</h1>
+        <h1 class="title title--h2 title--onl title--blue">{{ product.title }}</h1>
       </div>
       <div class="col-12 col-sm-5 col-xl-4">
         <div class="product__left">
@@ -330,8 +330,8 @@ export default {
     const store = useStore()
     const route = useRoute()
     const isPageLoading = ref(true)
-    const prHRU = route.params('productHru')
-    const prSec = route.params('sectionHru')
+    const prHRU = route.params['productHru']
+    const prSec = route.params['sectionHru']
     let product = ref({})
     const prColorTitles = {...PRODUCT_COLOR_TITLES['ru']}
 

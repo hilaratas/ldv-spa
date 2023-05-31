@@ -252,6 +252,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: ':sectionHru/:productHru',
+        component: () => import('../views/product/Product.vue'),
+        name: 'Product',
+        meta: {
+          headerType: 'dynamic'
+        },
+      },
+      {
         path: 'product/add',
         component: () => import('../views/product/ProductAdd.vue'),
         name: 'ProductAdd',
@@ -267,17 +275,9 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           auth: true,
           headerText: 'Редактировать изделие'
-        }
+        },
       },
-      {
-        path: ':myParams*',
-        component: () => import('../views/product/Product.vue'),
-        name: 'Product',
-        meta: {
-          auth: true,
-          headerType: 'dynamic'
-        }
-      }
+
     ]
   },
   {
@@ -300,16 +300,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/Contacts.vue'),
       }
     ]
-  },
-  {
-    path: '/product',
-    name: 'Product',
-    component: () => import('../views/Product.vue'),
-    meta: {
-      ...DEFAULT_META,
-      headerType: 'dynamic',
-      headerText: 'Флорариумы'
-    }
   },
   {
     path: '/cart',
