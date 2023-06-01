@@ -15,8 +15,8 @@
             </div>
           </div>
           <div class="product__label-holder">
-            <div class="product__label is-sale">Sale</div>
-            <div class="product__label is-for-order">Под заказ</div>
+            <div v-if="isSale" class="product__label is-sale">Sale</div>
+            <div v-if="product.forOrder" class="product__label is-for-order">Под заказ</div>
           </div>
         </div>
 
@@ -321,7 +321,7 @@ import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex"
 import { useRoute } from 'vue-router'
 import { PRODUCT_COLOR_TITLES} from '@/config/product-colors'
-import { AppLoading } from '@/components/AppLoading.vue'
+import AppLoading from '@/components/AppLoading'
 
 
 export default {
@@ -332,6 +332,7 @@ export default {
     const isPageLoading = ref(true)
     const prHRU = route.params['productHru']
     const prSec = route.params['sectionHru']
+    const isSale = ref(false)
     let product = ref({})
     const prColorTitles = {...PRODUCT_COLOR_TITLES['ru']}
 
@@ -340,11 +341,13 @@ export default {
       if (res.result) {
         product.value = {...res.data, hru: prHRU}
         isPageLoading.value = false
+        isSale.value = product.value.oldPrice ? ( product.value.price - product.value.oldPrice < 0) : false
       }
     })
 
     return {
       product,
+      isSale,
       isPageLoading,
       prColorTitles
     }
