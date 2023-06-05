@@ -60,7 +60,7 @@
               <the-breadcrumbs></the-breadcrumbs>
             </div>
           </div>
-          <section class="section section--index">
+          <section class="section section--index section--grow">
             <div class="section__main-content">
               <div class="section__inner">
                 <main class="main-content" role="main">

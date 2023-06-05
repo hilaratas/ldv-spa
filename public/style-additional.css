@@ -72,7 +72,7 @@
 
 .loading {
     position: absolute;
-    top: 100px;
+    top: calc( 50% - 20px);
     left: calc( 50% - 20px);
     width: 40px;
     height: 40px;
@@ -236,4 +236,17 @@
     border-top: none;
     border-right: none;
     border-left: none;
+}
+
+.page__middle-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.section--grow {
+    flex-grow: 1;
+}
+
+.main-content {
+    position: static;
 }
