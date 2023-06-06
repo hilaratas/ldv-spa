@@ -1,0 +1,252 @@
+:root {
+    --light-green: #cce4c1;
+    --green: #92C57A;
+    --light-red: #f4a096;
+    --red: #ea4c3a;
+}
+
+.page__middle-inner {
+    position: relative;
+}
+
+.form__table-cell--wide {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.form__table-cell--pr15px {
+    padding-right: 15px;
+}
+
+.form__table-cell--pb10px {
+    padding-bottom: 10px;
+}
+
+.control-error-holder {
+    position: relative
+}
+
+.control-error {
+    font-size: 13px;
+    background: #f4a096;
+    border: 1px solid #ea4c3a;
+    position: absolute;
+    top:calc(100% + 4px);
+    left: 0;
+    z-index: 100;
+    max-width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+    min-height: calc( 13px*1.4 + 2px);
+}
+
+.control-error:before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: -12px;
+    width: 0px;
+    height: 0px;
+    border: 6px solid transparent;
+    border-bottom: 6px solid #ea4c3a;
+}
+
+.control-error:after {
+    content: '';
+    position: absolute;
+    left: 22px;
+    top: -8px;
+    width: 0px;
+    height: 0px;
+    border: 4px solid transparent;
+    border-bottom: 4px solid #f4a096;
+}
+
+.control-description {
+    font-size: 13px;
+}
+
+.control-description.is-error {
+    color: #ea4c3a
+}
+
+.loading {
+    position: absolute;
+    top: calc( 50% - 20px);
+    left: calc( 50% - 20px);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #554A46;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    animation: rotate 1s linear 0s infinite normal forwards;
+}
+
+.figure {
+    margin-bottom: 20px;
+}
+
+.figure__caption {
+    font-size: 13px;
+}
+
+.contact-us {
+    display: flex;
+}
+
+.contact-us__btn {
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-us__text {
+    display: flex;
+    align-items: center;
+}
+
+.contact-us__drop {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 0px;
+    overflow: hidden;
+    transition: all 0.3s;
+    opacity: 0;
+}
+.contact-us:hover .contact-us__drop {
+    height: auto;
+    opacity: 1;
+}
+@media (max-width: 767px) {
+    .contact-us__drop {
+        position: absolute;
+        top: 100%;
+        right: 0;
+    }
+}
+@media (min-width: 768px) {
+    .contact-us__drop {
+        position: absolute;
+        left: 100%;
+        bottom: 0;
+    }
+}
+
+.contact-us__drop-elem {
+    display: block;
+    padding: 0.8em 1em;
+    background: #92C57A;
+    color: #000;
+    font-size: 12px;
+    text-decoration: none;
+    border-top: 1px solid #75b656;
+    transition: all 0.3s;
+}
+.contact-us__drop-elem:hover, .contact-us__drop-elem.is-active {
+    background: #75b656;
+}
+.button {
+    position: relative;
+}
+.button:disabled {
+    background: rgba(85,74,70,0.7);
+}
+.button.is-loading:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    animation: rotate 1s linear 0s infinite normal forwards;
+}
+
+.button--green {
+    background: var(--green);
+    border: 1px solid var(--green);
+}
+
+.button--light-green {
+    background: var(--light-green);
+    border: 1px solid var(--green);
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.label {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #FFF;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cce4c1;
+    text-align: center;
+    line-height: 1;
+}
+
+.about__text-holder {
+    position: relative;
+}
+
+.about__labels-holder {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.article__date-holder {
+    margin-bottom: 17px;
+}
+
+.article__date {
+    font-size: 13px
+}
+
+.check.is-seccess {
+    color: var(--green)
+}
+
+.check.is-error {
+    color: var(--red)
+}
+
+.input--only-bottom {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
+
+.page__middle-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.section--grow {
+    flex-grow: 1;
+}
+
+.main-content {
+    position: static;
+}
