@@ -23,7 +23,8 @@
           <label class="nowrap" for="profile-tel">Телефон</label>
         </td>
         <td class="form__table-cell form__table-cell--wide form__table-cell--pb10px">
-          <input class="input" type="tel" name="profile-tel" id="profile-tel" v-model="tel">
+          <input class="input" type="tel" name="profile-tel" id="profile-tel"
+                 v-model="tel" v-maska data-maska="+7(###)-###-##-##">
         </td>
       </tr>
       <tr>
@@ -53,6 +54,7 @@
 <script lang="ts">
 import {useStore} from "vuex";
 import {ref, computed, defineComponent} from "vue";
+import { vMaska } from "maska"
 
 export default defineComponent({
   name: "Profile",
@@ -129,6 +131,7 @@ export default defineComponent({
       onSubmit,
       onVerifyEmail
     }
-  }
+  },
+  directives: { maska: vMaska }
 })
 </script>
