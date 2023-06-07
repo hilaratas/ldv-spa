@@ -40,12 +40,14 @@ export default {
       return this.$route.meta.tableName
     }
   },
-  async mounted() {
-    const res = await this.fetchNews(this.tableName)
-    if (res.result ) {
-      this.news = res.data
-    }
-    this.pageLoading = false
+  async beforeRouteEnter(to, from, next) {
+    next( async vm => {
+      const res = await vm.fetchNews(vm.tableName)
+      if (res.result ) {
+        vm.news = res.data
+      }
+      vm.pageLoading = false
+    })
   },
   methods: {
     ...mapActions('news', ['fetchNews']),
