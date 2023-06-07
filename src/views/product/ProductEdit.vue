@@ -203,6 +203,7 @@ import Editor from '@tinymce/tinymce-vue'
 import NewsInputRow from "@/components/News/NewsInputRow.vue"
 import App404 from "@/components/App404.vue"
 import AppLoading from "@/components/AppLoading.vue";
+import {dateInputFormat} from "../../filter/dateInputFormat.filter";
 
 export default defineComponent({
   name: "ProductEdit",
@@ -218,15 +219,6 @@ export default defineComponent({
     const isProdExist = ref(false)
     const isAlreadyCreated = ref(false)
     const tinymceKey = process.env.VUE_APP_TINYMCE_API_KEY
-    const productRules = {
-      title: { required },
-      img: { required },
-      oldPrice: { required },
-      price: { required },
-      colors: { required },
-      desc: { required },
-      catalogSection: {required}
-    }
     const productDefault = {
       title: '',
       img: '',
@@ -237,6 +229,14 @@ export default defineComponent({
       forOrder: '',
       catalogSection: '',
       pubDate: ''
+    }
+    const productRules = {
+      title: { required },
+      img: { required },
+      price: { required },
+      colors: { required },
+      desc: { required },
+      catalogSection: {required}
     }
     const product = reactive({...productDefault})
     const v$ = useVuelidate(productRules, product)
@@ -261,6 +261,7 @@ export default defineComponent({
       } else {
         isProdExist.value = true
         Object.keys(product).map(key => product[key] = data[key] ?? product[key])
+        product.pubDate = dateInputFormat(new Date(product.pubDate))
       }
       isPageLoading.value = false
     })

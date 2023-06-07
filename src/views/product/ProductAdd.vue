@@ -44,22 +44,22 @@
       </news-input-row>
       <news-input-row
           :formName="formName"
-          inputName="product-olp-price"
-          inputType="number"
-          label="Старая цена"
-          description="Поле необязательно к заполнению"
-          v-model:controlValue="product.oldPrice"
-          :errors="[]"
-      >
-      </news-input-row>
-      <news-input-row
-          :formName="formName"
           inputName="product-price"
           inputType="number"
           label="Новая цена *"
           description="Поле обязательно к заполнению"
           v-model:controlValue="product.price"
           :errors="v$.price.$errors"
+      >
+      </news-input-row>
+      <news-input-row
+          :formName="formName"
+          inputName="product-olp-price"
+          inputType="number"
+          label="Старая цена"
+          description="Поле необязательно к заполнению"
+          v-model:controlValue="product.oldPrice"
+          :errors="[]"
       >
       </news-input-row>
       <news-input-row
@@ -200,6 +200,7 @@ export default {
     const formName = 'product'
     const pubDate = new Date()
     const pubDateStr = dateInputFormat(pubDate)
+    console.log(pubDateStr)
     const productDefault = {
       title: '',
       img: '',
@@ -215,7 +216,6 @@ export default {
     const productRules = {
       title: { required },
       img: { required },
-      oldPrice: { required },
       price: { required },
       colors: { required },
       desc: { required },
