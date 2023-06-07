@@ -16,7 +16,11 @@
           <div class="article__date">{{articleDate}}</div>
         </div>
         <figure class="figure" v-if="article.img">
-          <img class="figure__img" src="https://i.pinimg.com/originals/db/82/00/db8200a7d1228e85847ed28395be039c.jpg" alt="Картинка">
+          <div class="figure__img-holder">
+            <div class="figure__img-holder2">
+              <img class="figure__img" :src="article.img" :alt="escapeHtmlFilter(article.title)">
+            </div>
+          </div>
           <figcaption class="figure__caption">Подпись для картинки</figcaption>
         </figure>
         <div class="article__text" v-html="article.text">
@@ -64,8 +68,10 @@ import App404 from "@/components/App404.vue";
 import {ArticleFetchInfo} from "@/typings";
 import type { Fancybox as FancyboxType } from "@fancyapps/ui/types";
 import {dateFilter} from "@/filter/date.filter";
+import {escapeHtmlFilter} from "@/filter/escapeHtml.filter";
 import * as Fancyapps from "@fancyapps/ui";
 const Fancybox: typeof FancyboxType = Fancyapps.Fancybox;
+
 
 export default defineComponent({
   name: "Article",
@@ -79,7 +85,8 @@ export default defineComponent({
       date: null
     },
     error: false,
-    pageLoading: true
+    pageLoading: true,
+    escapeHtmlFilter
   }),
   computed: {
     ...mapGetters('auth', ["isAdmin"]),
