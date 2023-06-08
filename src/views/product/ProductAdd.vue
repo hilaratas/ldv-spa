@@ -200,7 +200,6 @@ export default {
     const formName = 'product'
     const pubDate = new Date()
     const pubDateStr = dateInputFormat(pubDate)
-    console.log(pubDateStr)
     const productDefault = {
       title: '',
       img: '',
