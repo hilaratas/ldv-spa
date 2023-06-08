@@ -130,8 +130,14 @@ export default defineComponent({
       }
 
       isFormLoading.value = true
-      const res = await store.dispatch('catalog/editCatalogSection', {...section, oldHru: routeHru, newHru: hru.value })
-      if (res) {
+      const proms = []
+      proms.push(store.dispatch('catalog/editCatalogSection', {...section, oldHru: routeHru, newHru: hru.value }))
+      if ( routeHru !== hru.value ) {// сленился чпу секции, то надо чпу секции обновить у соответсвующих изделий
+        proms.push( store.dispatch('product/changeSectionHru', {oldSectionHru: routeHru, newSectionHru: hru.value}) )
+      }
+      const results = await Promise.all(proms)
+      const allGood = results.every(res => res.result === true)
+      if (allGood) {
         isAlreadyCreated.value = true
         v$.value.$reset()
         await store.dispatch('alerts/alertAdd', {
@@ -142,7 +148,7 @@ export default defineComponent({
           autoClosable: false
         })
         await store.dispatch('catalog/fetchCatalogSections')
-
+        await router.replace(`/catalog/edit/${hru.value}`)
       } else {
         await store.dispatch('alerts/alertAdd', {
           id: Date.now(),

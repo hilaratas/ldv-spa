@@ -12,4 +12,9 @@ export interface ProductsFilter {
   catalogSection?: string
 }
 
+export interface changeSectionHru {
+  oldSectionHru: string
+  newSectionHru: string
+}
+
 

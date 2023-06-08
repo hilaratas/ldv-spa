@@ -4,7 +4,7 @@
     <app-404 v-if="!isProdExist">
       <div class="title title--h1">404</div>
       <div>Такаго изделия не существует</div>
-      <div v-if="isAuth">
+      <div v-if="isAdmin">
         <br>
         <router-link to="/catalog/product/add" class="button">Добавить новое изделие</router-link>
       </div>
@@ -212,7 +212,7 @@ export default defineComponent({
     const route = useRoute()
     const formName = "product-edit"
     const routeProdHru = route.params.prodHru
-    const isAuth = computed(() => store.getters["auth/isAuth"])
+    const isAdmin = computed(() => store.getters["auth/isAdmin"])
     const isHruValid = ref(true)
     const isPageLoading = ref(true)
     const isFormLoading = ref(false)
@@ -305,7 +305,7 @@ export default defineComponent({
       product,
       prodHru,
       v$,
-      isAuth,
+      isAdmin,
       isHruValid,
       isFormLoading,
       isProdExist,

@@ -3,8 +3,9 @@ import {Module} from "vuex";
 import {RootState} from '@/store/types'
 import {AxiosRequestConfig} from "axios";
 import {Product, ProductCrop} from "@/typings";
-import {ProductState, EditProduct, ProductsFilter} from "./types";
+import {ProductState, EditProduct, ProductsFilter, changeSectionHru} from "./types";
 import {cleanAccessToken} from "@/utils/token";
+import {createCommentVNode} from "vue";
 
 export const product: Module<ProductState, RootState> = {
   namespaced: true,
@@ -21,6 +22,19 @@ export const product: Module<ProductState, RootState> = {
         return { result: !!data, data }
       } catch (e) {
         return { result: false, data: e }
+      }
+    },
+    async changeSectionHru( {dispatch}, payload :changeSectionHru ) {
+      const config :AxiosRequestConfig = {params: { auth: null }}
+      const { oldSectionHru, newSectionHru } = payload
+      try {
+        let { data } = await dispatch('getProductsByFilter', {catalogSection: oldSectionHru})
+        const patchParams :any = {}
+        Object.keys(data).map(key => patchParams[`${key}/catalogSection`] = newSectionHru)
+        data = await http.patch(`/products.json`, patchParams, config)
+        return { result: !!data, data }
+      } catch (e) {
+        return { result: false, data: null }
       }
     },
     async isUniqueProduct( _, hru: string) {
