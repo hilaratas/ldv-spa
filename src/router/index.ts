@@ -13,6 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Welcome!'
     }
   },
@@ -22,6 +23,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Main,
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Главная',
       layout: 'main'
     }
@@ -32,6 +34,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/SingIn.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Вход'
     }
   },
@@ -41,6 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/SingUp.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Регистрация'
     }
   },
@@ -50,6 +54,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Articles,
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'О нас',
       tableName: 'about'
     },
@@ -65,7 +70,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'AboutAdd',
         meta: {
           ...DEFAULT_META,
-          auth: true,
           headerText: 'Добавить статью о нас'
         }
       },
@@ -74,6 +78,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/article/Article.vue'),
         name: 'AboutIndexId',
         meta: {
+          auth: false,
           headerType: 'dynamic'
         }
       },
@@ -83,7 +88,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'AboutEdit',
         meta: {
           ...DEFAULT_META,
-          auth: true,
           headerText: 'Редактировать статью о нас'
         }
       }
@@ -95,6 +99,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Articles,
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Новости',
       tableName: 'news'
     },
@@ -110,7 +115,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'article-add',
         meta: {
           ...DEFAULT_META,
-          auth: true,
           headerText: 'Добавить новость'
         }
       },
@@ -119,6 +123,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/article/Article.vue'),
         name: 'article-index-id',
         meta: {
+          auth: false,
           headerType: 'dynamic'
         }
       },
@@ -128,7 +133,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'article-edit',
         meta: {
           ...DEFAULT_META,
-          auth: true,
           headerText: 'Редактировать новость'
         }
       }
@@ -140,6 +144,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Articles,
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Акции и спецпредложения',
       tableName: 'specials_and_actions'
     },
@@ -155,7 +160,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'specials-and-actions-add',
         meta: {
           ...DEFAULT_META,
-          auth: true,
           headerText: 'Добавить акцию или спецпредложение'
         },
       },
@@ -185,6 +189,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Tech.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Технический дизайн'
     }
   },
@@ -212,6 +217,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Base.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Каталог'
     },
     children: [
@@ -248,6 +254,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/product/Products.vue'),
         name: 'Products',
         meta: {
+          auth: false,
           headerType: 'dynamic'
         }
       },
@@ -256,6 +263,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/product/Product.vue'),
         name: 'Product',
         meta: {
+          auth: false,
           headerType: 'dynamic'
         },
       },
@@ -286,6 +294,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Contacts.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Контакты'
     },
     children: [
@@ -307,6 +316,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Cart.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Корзина'
     }
   },
@@ -316,6 +326,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/CartAddress.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Карзина'
     }
   },
@@ -325,6 +336,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/CartDostavka.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Корзина'
     }
   },
@@ -334,7 +346,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Profile.vue'),
     meta: {
       ...DEFAULT_META,
-      auth: true,
       headerText: 'Профиль'
     }
   },
@@ -344,6 +355,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/404.vue'),
     meta: {
       ...DEFAULT_META,
+      auth: false,
       headerText: 'Страница не найдена'
     }
   }

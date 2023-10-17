@@ -1,5 +1,5 @@
 export const DEFAULT_META = {
-  auth: false,
+  auth: true,
   headerType: 'static',
   layout: 'common'
 }
