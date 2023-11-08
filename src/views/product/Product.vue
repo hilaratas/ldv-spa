@@ -117,8 +117,7 @@ export default {
     const store = useStore()
     const route = useRoute()
     const isPageLoading = ref(true)
-    const prHRU = route.params['productHru']
-    const prSec = route.params['sectionHru']
+    const prHRU = route.params['hru']
     const isSale = ref(false)
     let product = ref({})
     const prColorTitles = {...PRODUCT_COLOR_TITLES['ru']}

@@ -10,7 +10,16 @@ import {createCommentVNode} from "vue";
 export const product: Module<ProductState, RootState> = {
   namespaced: true,
   actions: {
-    async getProductsByFilter({commit}, filter :ProductsFilter) {
+    async getProductsAll({commit}) {
+      const config :AxiosRequestConfig = {params: { auth: null }}
+      try {
+        const {data} = await http.get(`/products.json`, config)
+        return { result: !!data, data }
+      } catch (e) {
+        return { result: false, data: e }
+      }
+    },
+    async getProductsByFilter({dispatch}, filter :ProductsFilter) {
       const config :AxiosRequestConfig = {params: { auth: null }}
       const {catalogSection} = filter
       if (catalogSection) {

@@ -2,7 +2,7 @@
   <div class="catalog">
     <div class="row row--mt30px">
       <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" v-for="(pr, key) in products">
-        <router-link class="catalog__item" :to='"/catalog/" + pr.catalogSection + "/" + key' :key="key">
+        <router-link class="catalog__item" :to='"/catalog/" + key' :key="key">
           <div class="catalog__img-holder">
             <div class="catalog__img-inner">
               <div class="pict">

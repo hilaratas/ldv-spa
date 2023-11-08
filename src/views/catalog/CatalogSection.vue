@@ -17,7 +17,7 @@ import { useStore } from "vuex";
 import ServicesList from "@/components/Services/ServiceList.vue";
 
 export default {
-  name: "Catalog",
+  name: "CatalogSection",
   setup() {
     const store = useStore()
     const catalogSections = store.getters['catalog/catalogSections']

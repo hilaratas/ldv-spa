@@ -223,8 +223,8 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        component: () => import('../views/catalog/CatalogIndex.vue'),
-        name: 'CatalogIndex',
+        component: () => import('../views/product/ProductsAll.vue'),
+        name: 'ProductsAll',
         meta: {
           headerText: 'Каталог'
         }
@@ -250,23 +250,23 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: ':sectionHru/',
-        component: () => import('../views/product/Products.vue'),
+        path: ':hru/',
+        component: () => import('../views/ProductOrSection.vue'),
         name: 'Products',
         meta: {
           auth: false,
           headerType: 'dynamic'
         }
       },
-      {
-        path: ':sectionHru/:productHru',
-        component: () => import('../views/product/Product.vue'),
-        name: 'Product',
-        meta: {
-          auth: false,
-          headerType: 'dynamic'
-        },
-      },
+      // {
+      //   path: ':productHru',
+      //   component: () => import('../views/product/Product.vue'),
+      //   name: 'Product',
+      //   meta: {
+      //     auth: false,
+      //     headerType: 'dynamic'
+      //   },
+      // },
       {
         path: 'product/add',
         component: () => import('../views/product/ProductAdd.vue'),

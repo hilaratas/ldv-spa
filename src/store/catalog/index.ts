@@ -9,11 +9,12 @@ import {CatalogSectionPayLoad, CatalogState, EditCatalogSection} from "./types";
 export const catalog: Module<any, RootState> = {
   namespaced: true,
   state: {
+    catalogLoaded: false,
     catalogSections: {}
   },
   getters: {
-    catalogSections: s => s.catalogSections,
-    catalogSection: s => (hru :string) => s.catalogSections[hru]
+    catalogSections: state => state.catalogSections,
+    catalogSection: state => (hru :string) => state.catalogSections[hru]
   },
   mutations: {
     editCatalogSection(state, catalogSection) {
