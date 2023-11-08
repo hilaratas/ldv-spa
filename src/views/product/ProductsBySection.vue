@@ -44,10 +44,8 @@ export default {
     const route = useRoute()
     const store = useStore()
     const sectionHru = route.params.hru
-    console.log(sectionHru)
     const products = ref({})
     const catalogSection = store.getters['catalog/catalogSection'](sectionHru)
-    console.log(catalogSection)
     const isCatSecExist = !!catalogSection
     const isNoProducts = ref(true)
     const isPageLoading = ref(true)
