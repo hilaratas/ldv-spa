@@ -1,27 +1,31 @@
 <template>
-  <component :is="componentName"></component>
+  {{componentName}}
+  <app-loading v-if="pageLoading"></app-loading>
+  <component v-else :is="componentName" ></component>
 </template>
 
-<script lang="ts">
+<script lang="js">
 import {defineComponent} from 'vue'
-import {useStore} from 'vuex'
-import {useRoute} from 'vue-router'
+import {mapGetters} from "vuex"
 import Product from './product/Product.vue'
 import ProductsBySection from './product/ProductsBySection.vue'
+import AppLoading from "@/components/AppLoading.vue";
 
-export default defineComponent({
+export default {
   name: "ProductOrSection",
-  setup() {
-    const store = useStore()
-    const route = useRoute()
-    const routeHru = route.params.hru
-    const section = store.getters['catalog/catalogSection'](`${routeHru}`)
-    const componentName = !section ? 'Product' : 'ProductsBySection'
-
-    return {
-      componentName
-    }
+  data: () => ({
+    componentName: 'ProductsBySection',
+    pageLoading: true
+  }),
+  beforeRouteEnter(to, from, next) {
+    console.log("Я сюда не попадаю")
+    next( vm => {
+      const routeHru = vm.$route.params.hru
+      const section = vm.$store.getters["catalog/catalogSection"](routeHru)
+      vm.componentName = !section ? 'Product' : 'ProductsBySection'
+      vm.pageLoading = false
+    })
   },
-  components: {Product, ProductsBySection}
-})
+  components: {AppLoading, Product, ProductsBySection}
+}
 </script>
